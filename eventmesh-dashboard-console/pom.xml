@@ -92,7 +92,7 @@
         <!-- storage redis client -->
         <dependency>
             <groupId>io.lettuce</groupId>
-            <artifactId>lettuce-core</artifactId>
+            <artifactId>lettuce-core</artifactId>x
         </dependency>
         <!-- rocketmq client -->
         <dependency>

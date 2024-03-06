@@ -40,6 +40,8 @@ public interface TopicService {
 
     TopicEntity selectTopicByUnique(TopicEntity topicEntity);
 
+    List<TopicEntity> selectAll();
+
     void deleteTopic(TopicEntity topicEntity);
 
     List<TopicEntity> selectTopiByCluster(Long clusterId);
