@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.group;
 
-import org.apache.eventmesh.dashboard.console.entity.group.GroupEntity;
+import org.apache.eventmesh.dashboard.console.entity.GroupEntity;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

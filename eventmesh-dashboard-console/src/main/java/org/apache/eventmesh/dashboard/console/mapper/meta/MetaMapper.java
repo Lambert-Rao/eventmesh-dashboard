@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.meta;
 
-import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -33,6 +33,10 @@ import java.util.List;
  */
 @Mapper
 public interface MetaMapper {
+
+    @Select("SELECT * FROM meta")
+    List<MetaEntity> selectAll();
+
     @Select("SELECT * FROM meta WHERE id = #{id}")
     MetaEntity selectById(MetaEntity metaEntity);
 

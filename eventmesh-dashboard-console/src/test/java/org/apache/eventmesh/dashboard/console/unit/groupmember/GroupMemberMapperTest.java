@@ -18,7 +18,7 @@
 package org.apache.eventmesh.dashboard.console.unit.groupmember;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.groupmember.GroupMemberEntity;
+import org.apache.eventmesh.dashboard.console.entity.GroupMemberEntity;
 import org.apache.eventmesh.dashboard.console.mapper.groupmember.OprGroupMemberMapper;
 
 import java.util.ArrayList;

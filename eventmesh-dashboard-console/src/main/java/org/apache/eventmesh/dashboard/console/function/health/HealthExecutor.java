@@ -17,13 +17,13 @@
 
 package org.apache.eventmesh.dashboard.console.function.health;
 
-import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.HealthCheckResultEntity;
 import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckStatus;
 import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckType;
 import org.apache.eventmesh.dashboard.console.function.health.CheckResultCache.CheckResult;
 import org.apache.eventmesh.dashboard.console.function.health.callback.HealthCheckCallback;
 import org.apache.eventmesh.dashboard.console.function.health.check.AbstractHealthCheckService;
-import org.apache.eventmesh.dashboard.console.service.health.HealthDataService;
+import org.apache.eventmesh.dashboard.console.service.database.HealthDataService;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;

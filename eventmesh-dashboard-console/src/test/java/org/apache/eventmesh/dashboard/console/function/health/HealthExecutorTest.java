@@ -23,13 +23,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.HealthCheckResultEntity;
 import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckStatus;
 import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckType;
 import org.apache.eventmesh.dashboard.console.function.health.callback.HealthCheckCallback;
 import org.apache.eventmesh.dashboard.console.function.health.check.AbstractHealthCheckService;
 import org.apache.eventmesh.dashboard.console.function.health.check.config.HealthCheckObjectConfig;
-import org.apache.eventmesh.dashboard.console.service.health.impl.HealthDataServiceDatabaseImpl;
+import org.apache.eventmesh.dashboard.console.service.database.impl.HealthDataServiceImpl;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -57,7 +57,7 @@ class HealthExecutorTest {
     private CheckResultCache memoryCache = new CheckResultCache();
 
     @Autowired
-    HealthDataServiceDatabaseImpl healthDataService;
+    HealthDataServiceImpl healthDataService;
 
     @Mock
     AbstractHealthCheckService successHealthCheckService;

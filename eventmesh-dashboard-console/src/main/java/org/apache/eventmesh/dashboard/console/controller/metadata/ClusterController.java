@@ -1,6 +1,6 @@
 package org.apache.eventmesh.dashboard.console.controller.metadata;
 
-import org.apache.eventmesh.dashboard.console.entity.meta.ClusterEntity;
+import org.apache.eventmesh.dashboard.console.entity.ClusterEntity;
 
 import java.util.List;
 

@@ -1,43 +1,47 @@
 package org.apache.eventmesh.dashboard.console.function.center;
 
-import lombok.Setter;
-import org.apache.eventmesh.dashboard.console.function.SeriverTypeEnums;
-import org.apache.eventmesh.dashboard.console.function.ServierConfig;
-import org.apache.eventmesh.dashboard.console.function.center.meta.EtcdCenterMonitorServie;
-import org.apache.eventmesh.dashboard.console.function.center.meta.NacosCenterMonitorServie;
+import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.center.meta.EtcdCenterMonitorService;
+import org.apache.eventmesh.dashboard.console.function.center.meta.NacosCenterMonitorService;
 import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
 import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMeta;
-import org.apache.eventmesh.dashboard.console.function.metadata.seriver.RuntimeMetaService;
+import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import lombok.Setter;
+
+/**
+ * Center Manager注册了monitor之后，才能从center获取数据
+ */
 public class CenterManager {
 
-    private static final Map<SeriverTypeEnums, Class<?>> SERIVER_TYPE_ENUMS_CLASS_MAP = new ConcurrentHashMap<>();
+    private static final Map<MetaDataServiceTypeEnums, Class<?>> SERIVICE_TYPE_ENUMS_CLASS_MAP = new ConcurrentHashMap<>();
 
-    static{
-        SERIVER_TYPE_ENUMS_CLASS_MAP.put(SeriverTypeEnums.CENTER_ETCD, EtcdCenterMonitorServie.class);
-        SERIVER_TYPE_ENUMS_CLASS_MAP.put(SeriverTypeEnums.CENTER_NACOS, NacosCenterMonitorServie.class);
+    static {
+        SERIVICE_TYPE_ENUMS_CLASS_MAP.put(MetaDataServiceTypeEnums.CENTER_ETCD, EtcdCenterMonitorService.class);
+        SERIVICE_TYPE_ENUMS_CLASS_MAP.put(MetaDataServiceTypeEnums.CENTER_NACOS, NacosCenterMonitorService.class);
     }
 
-    private Map<String, CenterMonitorServie> centerMap = new ConcurrentHashMap<>();
+    private final Map<String, CenterMonitorService> centerMap = new ConcurrentHashMap<>();
 
-    private CenterMetaService centerMetaService = new CenterMetaService();
+    private final CenterMetaService centerMetaService = new CenterMetaService();
 
     @Setter
     private RuntimeMetaService runtimeMetaService;
 
-    public MetaDataHandler<CenterMeta> getCenterMetaService(){
+    public MetaDataHandler<CenterMeta> getCenterMetaService() {
         return centerMetaService;
     }
 
 
-    public void monitor(ServierConfig servierConfig){
-        Class<?> clazz = SERIVER_TYPE_ENUMS_CLASS_MAP.get(servierConfig.getSeriverTypeEnums());
+    public void startMonitor(MetaDataOperationConfig serviceConfig) {
+        Class<?> clazz = SERIVICE_TYPE_ENUMS_CLASS_MAP.get(serviceConfig.getServiceTypeEnums());
         try {
-            CenterMonitorServie centerMonitorServie = (CenterMonitorServie)clazz.newInstance();
-            centerMonitorServie.init(runtimeMetaService, servierConfig);
+            CenterMonitorService centerMonitorService = (CenterMonitorService) clazz.newInstance();
+            centerMonitorService.init(runtimeMetaService, serviceConfig);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -48,12 +52,12 @@ public class CenterManager {
     public class CenterMetaService implements MetaDataHandler<CenterMeta> {
 
         @Override
-        public void addMeta(CenterMeta meta) {
-            CenterManager.this.monitor(null);
+        public void addMetaData(CenterMeta meta) {
+            CenterManager.this.startMonitor(meta);
         }
 
         @Override
-        public void deleteMeta(CenterMeta meta) {
+        public void deleteMetaData(CenterMeta meta) {
 
         }
     }

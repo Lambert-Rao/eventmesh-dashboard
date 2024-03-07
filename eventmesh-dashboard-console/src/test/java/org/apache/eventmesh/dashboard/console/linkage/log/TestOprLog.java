@@ -18,10 +18,10 @@
 package org.apache.eventmesh.dashboard.console.linkage.log;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.group.GroupEntity;
-import org.apache.eventmesh.dashboard.console.entity.log.LogEntity;
-import org.apache.eventmesh.dashboard.console.service.group.GroupService;
-import org.apache.eventmesh.dashboard.console.service.log.LogService;
+import org.apache.eventmesh.dashboard.console.entity.GroupEntity;
+import org.apache.eventmesh.dashboard.console.entity.LogEntity;
+import org.apache.eventmesh.dashboard.console.service.database.GroupDataService;
+import org.apache.eventmesh.dashboard.console.service.database.LogService;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TestOprLog {
 
     @Autowired
-    private GroupService groupService;
+    private GroupDataService groupService;
 
     @Autowired
     private LogService logService;

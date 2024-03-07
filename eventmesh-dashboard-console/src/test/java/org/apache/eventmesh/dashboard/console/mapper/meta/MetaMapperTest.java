@@ -18,7 +18,7 @@
 package org.apache.eventmesh.dashboard.console.mapper.meta;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -19,10 +19,11 @@ package org.apache.eventmesh.dashboard.console.service.connection.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import org.apache.eventmesh.dashboard.console.entity.ConnectionEntity;
 
 import java.util.List;
 
+import org.apache.eventmesh.dashboard.console.service.database.impl.ConnectionDataServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class ConnectionDataServiceDatabaseImplTest {
 
     @Autowired
-    private ConnectionDataServiceDatabaseImpl connectionServiceDatabaseImpl;
+    private ConnectionDataServiceImpl connectionServiceDatabaseImpl;
 
     @Test
     public void testGetAllConnectionsByClusterId() {

@@ -19,11 +19,10 @@ package org.apache.eventmesh.dashboard.console.spring.support;
 
 import org.apache.eventmesh.dashboard.console.function.health.CheckResultCache;
 import org.apache.eventmesh.dashboard.console.function.health.HealthService;
-import org.apache.eventmesh.dashboard.console.service.health.HealthDataService;
+import org.apache.eventmesh.dashboard.console.service.database.HealthDataService;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 /**
  * FunctionManager is in charge of tasks such as scheduled health checks

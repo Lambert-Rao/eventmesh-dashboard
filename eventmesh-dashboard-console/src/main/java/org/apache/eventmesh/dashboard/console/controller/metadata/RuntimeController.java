@@ -1,6 +1,6 @@
 package org.apache.eventmesh.dashboard.console.controller.metadata;
 
-import org.apache.eventmesh.dashboard.console.entity.meta.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.entity.RuntimeEntity;
 
 import java.util.List;
 

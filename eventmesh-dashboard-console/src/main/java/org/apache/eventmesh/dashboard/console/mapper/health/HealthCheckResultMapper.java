@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.health;
 
-import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.HealthCheckResultEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

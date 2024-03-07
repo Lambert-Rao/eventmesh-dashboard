@@ -18,7 +18,7 @@
 package org.apache.eventmesh.dashboard.console.mapper.topic;
 
 
-import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
+import org.apache.eventmesh.dashboard.console.entity.TopicEntity;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -34,6 +34,8 @@ import java.util.List;
  **/
 @Mapper
 public interface TopicMapper {
+    @Select("SELECT * FROM topic WHERE is_delete=0")
+    List<TopicEntity> selectAll();
 
     @Select("SELECT count(*) FROM topic WHERE cluster_id=#{clusterId}")
     Integer selectTopicNumByCluster(TopicEntity topicEntity);

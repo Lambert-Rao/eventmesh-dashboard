@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.connector.ConnectorEntity;
+import org.apache.eventmesh.dashboard.console.entity.ConnectorEntity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.apache.eventmesh.dashboard.console.service.metadata.impl;
 
-import org.apache.eventmesh.dashboard.console.entity.meta.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.entity.RuntimeEntity;
 import org.apache.eventmesh.dashboard.console.service.metadata.RuntimeService;
 
 public class RuntimeServiceImpl implements RuntimeService {

@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.connection;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import org.apache.eventmesh.dashboard.console.entity.ConnectionEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

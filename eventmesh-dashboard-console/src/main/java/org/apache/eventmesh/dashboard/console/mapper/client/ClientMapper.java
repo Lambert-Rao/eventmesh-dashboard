@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.client;
 
-import org.apache.eventmesh.dashboard.console.entity.client.ClientEntity;
+import org.apache.eventmesh.dashboard.console.entity.ClientEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -35,6 +35,9 @@ public interface ClientMapper {
 
     @Select("SELECT * FROM `client` WHERE `id` = #{id}")
     ClientEntity selectById(ClientEntity clientEntity);
+
+    @Select("SELECT * FROM `client` WHERE `status` = 1")
+    List<ClientEntity> selectAll();
 
     @Select("SELECT * FROM `client` WHERE `cluster_id` = #{clusterId}")
     List<ClientEntity> selectByClusterId(ClientEntity clientEntity);

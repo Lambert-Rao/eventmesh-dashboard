@@ -2,15 +2,19 @@ package org.apache.eventmesh.dashboard.console.function.metadata;
 
 import java.util.List;
 
+/**
+ * 获取集群信息
+ *
+ * @param <T>
+ */
 public abstract class ClusterFactorSyncDataService<T> implements SyncDataService<T> {
 
 
     @Override
-    public List<T> syncsData(){
-
+    public List<T> syncData() {
         return null;
     }
 
-    abstract void syncsData(Object clusterFactor);
+    protected abstract void syncData(Object clusterFactor);
 
 }

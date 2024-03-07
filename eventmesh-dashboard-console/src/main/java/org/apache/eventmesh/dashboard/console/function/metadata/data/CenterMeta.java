@@ -1,7 +1,16 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
-import org.apache.eventmesh.dashboard.console.function.ServierConfig;
+import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
 
-public class CenterMeta extends ServierConfig {
+import lombok.Data;
 
+@Data
+public class CenterMeta extends MetaDataOperationConfig {
+
+    private String address;
+
+    {
+        this.setServiceTypeEnums(MetaDataServiceTypeEnums.CENTER_NACOS);
+    }
 }

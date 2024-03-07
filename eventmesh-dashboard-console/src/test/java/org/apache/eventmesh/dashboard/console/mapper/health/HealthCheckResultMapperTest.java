@@ -20,7 +20,7 @@ package org.apache.eventmesh.dashboard.console.mapper.health;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.HealthCheckResultEntity;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

@@ -18,7 +18,7 @@
 package org.apache.eventmesh.dashboard.console.unit.topic;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
+import org.apache.eventmesh.dashboard.console.entity.TopicEntity;
 import org.apache.eventmesh.dashboard.console.mapper.topic.TopicMapper;
 
 import java.util.ArrayList;

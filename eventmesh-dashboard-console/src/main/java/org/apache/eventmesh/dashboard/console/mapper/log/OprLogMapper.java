@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.log;
 
-import org.apache.eventmesh.dashboard.console.entity.log.LogEntity;
+import org.apache.eventmesh.dashboard.console.entity.LogEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

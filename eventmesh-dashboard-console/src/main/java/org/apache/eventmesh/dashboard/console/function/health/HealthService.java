@@ -22,7 +22,7 @@ import org.apache.eventmesh.dashboard.console.function.health.annotation.HealthC
 import org.apache.eventmesh.dashboard.console.function.health.check.AbstractHealthCheckService;
 import org.apache.eventmesh.dashboard.console.function.health.check.config.HealthCheckObjectConfig;
 import org.apache.eventmesh.dashboard.console.function.health.check.impl.storage.RedisCheck;
-import org.apache.eventmesh.dashboard.console.service.health.HealthDataService;
+import org.apache.eventmesh.dashboard.console.service.database.HealthDataService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

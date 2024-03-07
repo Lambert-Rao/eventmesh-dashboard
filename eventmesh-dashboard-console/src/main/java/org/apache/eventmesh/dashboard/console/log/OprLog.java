@@ -18,14 +18,13 @@
 package org.apache.eventmesh.dashboard.console.log;
 
 import org.apache.eventmesh.dashboard.console.annotation.EmLog;
-import org.apache.eventmesh.dashboard.console.entity.log.LogEntity;
-import org.apache.eventmesh.dashboard.console.service.log.LogService;
+import org.apache.eventmesh.dashboard.console.entity.LogEntity;
+import org.apache.eventmesh.dashboard.console.service.database.LogService;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.Objects;
-import java.util.Properties;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -38,7 +37,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
-import org.yaml.snakeyaml.Yaml;
 
 @Aspect
 @Service

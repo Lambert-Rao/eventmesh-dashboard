@@ -1,13 +1,13 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
-import org.apache.eventmesh.dashboard.console.function.SeriverTypeEnums;
-import org.apache.eventmesh.dashboard.console.function.ServierConfig;
+import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
 
-public class RuntimeMeta extends ServierConfig {
+public class RuntimeMeta extends MetaDataOperationConfig {
 
 
     {
-        this.setSeriverTypeEnums(SeriverTypeEnums.RUNTIME);
+        this.setServiceTypeEnums(MetaDataServiceTypeEnums.RUNTIME);
     }
 
 

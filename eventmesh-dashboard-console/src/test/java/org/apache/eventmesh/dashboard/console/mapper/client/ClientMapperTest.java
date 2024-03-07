@@ -18,7 +18,7 @@
 package org.apache.eventmesh.dashboard.console.mapper.client;
 
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
-import org.apache.eventmesh.dashboard.console.entity.client.ClientEntity;
+import org.apache.eventmesh.dashboard.console.entity.ClientEntity;
 import org.apache.eventmesh.dashboard.console.enums.StatusEnum;
 
 import java.util.List;
