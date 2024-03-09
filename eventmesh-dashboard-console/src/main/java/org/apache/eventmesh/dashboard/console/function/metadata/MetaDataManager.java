@@ -55,13 +55,13 @@ public class MetaDataManager {
 
     public void handler(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
         this.handlerDbToService(clazz, metaDataServiceWrapper.getDbToService());
-        //TODO service to DB
+        this.handlerServiceToDb(clazz, metaDataServiceWrapper.getServiceToDb());
     }
 
     public void handlerDbToService(Class<?> clazz, MetaDataServiceWrapper.SingleMetaDataServiceWrapper metaDataServiceWrapper) {
         try {
             // 得到数据 现在的数据
-            List<Object> objectList = metaDataServiceWrapper.getSyncService().syncData();
+            List<Object> objectList = metaDataServiceWrapper.getSyncService().getData();
             if (objectList.isEmpty()) {
                 return;
             }
@@ -79,7 +79,7 @@ public class MetaDataManager {
             for (Entry<String, Object> entry : oldObjectMap.entrySet()) {
 
                 Object inDbObject = newObjectMap.remove(entry.getKey());
-                //如果新数据中没有，则删除
+                //如果新数据中没有，则删除旧数据中的这一项
                 if (inDbObject == null) {
                     metaDataServiceWrapper.getMetaService().deleteMetaData(entry.getValue());
                 } else {
@@ -93,6 +93,7 @@ public class MetaDataManager {
             }
             //新增
             for (Object object : newObjectMap.values()) {
+                //TODO convert object to metadata format
                 metaDataServiceWrapper.getMetaService().addMetaData(object);
             }
             //TODO add service to DB after create new service in db2service
@@ -104,11 +105,66 @@ public class MetaDataManager {
         }
     }
 
-    public void handlerDbToService(Class<?> clazz, MetaDataServiceWrapper.SingleMetaDataServiceWrapper metaDataServiceWrapper)
+    public void handlerServiceToDb(Class<?> clazz, MetaDataServiceWrapper.SingleMetaDataServiceWrapper metaDataServiceWrapper) {
+        try {
+            // Get metadata
+            List<Object> serviceDataList = metaDataServiceWrapper.getMetaService().getAllMetaData();
+            if (serviceDataList.isEmpty()) {
+                return;
+            }
+            Map<String, Object> serviceDataMap = getUniqueKeyMap(serviceDataList, metaDataServiceWrapper.getSyncService()::getUnique);
 
-    private Map<String, Object> getUniqueKeyMap(List<Object> entities, Function<Object, String> getUnique) {
+            List<Object> cacheDataList = cacheData.get(clazz);
+            if (Objects.isNull(cacheDataList)) {
+                return;
+            }
+
+            // the cache should be just updated in the dbToService function
+            Map<String, Object> dbDataMap = getUniqueKeyMap(cacheDataList, metaDataServiceWrapper.getSyncService()::getUnique);
+
+            List<Object> toInsert = new ArrayList<>();
+            List<Object> toUpdate = new ArrayList<>();
+            List<Object> toDelete = new ArrayList<>();
+
+            for (Entry<String, Object> entry : dbDataMap.entrySet()) {
+
+                Object serviceObject = serviceDataMap.remove(entry.getKey());
+                //if service Data don't have a key in dbMap, service removed a piece of data.
+                //we remove this data in db for now, but if db is only readable,
+                //this should be replaced by send a notification to administrator
+                // that a peace of data is removed in cluster service but not operated by dashboard.
+                if (serviceObject == null) {
+                    toDelete.add(entry.getValue());
+                } else {
+                    //see comment above
+                    //primary id, creat time and update time should not be compared
+                    if (!serviceObject.equals(entry.getValue())) {
+                        toUpdate.add(entry.getValue());
+                    }
+                }
+
+            }
+            //see comment above
+            for (Object object : serviceDataMap.values()) {
+                toInsert.add(object);
+            }
+
+            metaDataServiceWrapper.getSyncService().insertData(toInsert);
+
+        } catch (Throwable e) {
+            //TODO Exception
+            log.error("metadata manager handler error", e);
+        }
+    }
+
+    /**
+     * get the unique key which can be used to identify the object then assemble the key and the object into a map
+     *
+     * @param getUnique a function that can process the objects
+     */
+    private Map<String, Object> getUniqueKeyMap(List<Object> objects, Function<Object, String> getUnique) {
         Map<String, Object> map = new HashMap<>();
-        for (Object entity : entities) {
+        for (Object entity : objects) {
             String key = getUnique.apply(entity);
             map.put(key, entity);
         }

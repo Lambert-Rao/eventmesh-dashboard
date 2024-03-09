@@ -15,6 +15,11 @@ public class NacosCenterMonitorService implements CenterMonitorService {
     private NacosClientWrapper nacosClient;
 
     @Override
+    public Object getCenterInfo() {
+        return null;
+    }
+
+    @Override
     public void init(RuntimeMetaService runtimeMetaService, MetaDataOperationConfig serviceConfig) {
         CreateNacosConfig createNacosConfig = new CreateNacosConfig();
         createNacosConfig.setServerAddress(serviceConfig.getAddress());

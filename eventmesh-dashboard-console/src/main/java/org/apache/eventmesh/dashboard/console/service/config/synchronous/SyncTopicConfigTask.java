@@ -17,11 +17,13 @@
 
 package org.apache.eventmesh.dashboard.console.service.config.synchronous;
 
+import org.apache.eventmesh.dashboard.console.entity.TopicEntity;
 import org.apache.eventmesh.dashboard.console.entity.config.ConfigEntity;
-import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
+
 import org.apache.eventmesh.dashboard.console.service.config.ConfigService;
 import org.apache.eventmesh.dashboard.console.service.config.instanceoperation.TopicConfigService;
-import org.apache.eventmesh.dashboard.console.service.topic.TopicService;
+import org.apache.eventmesh.dashboard.console.service.database.TopicDataService;
+
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +39,7 @@ import org.springframework.stereotype.Service;
 public class SyncTopicConfigTask {
 
     @Autowired
-    private TopicService topicService;
+    private TopicDataService topicService;
 
     @Autowired
     private TopicConfigService topicConfigService;

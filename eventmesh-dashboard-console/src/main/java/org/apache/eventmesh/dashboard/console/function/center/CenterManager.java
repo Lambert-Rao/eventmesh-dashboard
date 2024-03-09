@@ -5,12 +5,15 @@ import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
 import org.apache.eventmesh.dashboard.console.function.center.meta.EtcdCenterMonitorService;
 import org.apache.eventmesh.dashboard.console.function.center.meta.NacosCenterMonitorService;
 import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMeta;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
 import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import lombok.Generated;
+import lombok.Getter;
 import lombok.Setter;
 
 /**
@@ -25,6 +28,10 @@ public class CenterManager {
         SERIVICE_TYPE_ENUMS_CLASS_MAP.put(MetaDataServiceTypeEnums.CENTER_NACOS, NacosCenterMonitorService.class);
     }
 
+    /**
+     * key: center address
+     */
+    @Getter
     private final Map<String, CenterMonitorService> centerMap = new ConcurrentHashMap<>();
 
     private final CenterMetaService centerMetaService = new CenterMetaService();
@@ -32,7 +39,7 @@ public class CenterManager {
     @Setter
     private RuntimeMetaService runtimeMetaService;
 
-    public MetaDataHandler<CenterMeta> getCenterMetaService() {
+    public MetaDataHandler<CenterMetaData> getCenterMetaService() {
         return centerMetaService;
     }
 
@@ -42,6 +49,7 @@ public class CenterManager {
         try {
             CenterMonitorService centerMonitorService = (CenterMonitorService) clazz.newInstance();
             centerMonitorService.init(runtimeMetaService, serviceConfig);
+            centerMap.put(serviceConfig.getAddress(), centerMonitorService);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,15 +57,23 @@ public class CenterManager {
     }
 
 
-    public class CenterMetaService implements MetaDataHandler<CenterMeta> {
+    public class CenterMetaService implements MetaDataHandler<CenterMetaData> {
+
+        @Setter
+        private String address;
 
         @Override
-        public void addMetaData(CenterMeta meta) {
+        public List<CenterMetaData> getAllMetaData() {
+            CenterManager.this.getCenterMap().get(address).getCenterInfo();
+        }
+
+        @Override
+        public void addMetaData(CenterMetaData meta) {
             CenterManager.this.startMonitor(meta);
         }
 
         @Override
-        public void deleteMetaData(CenterMeta meta) {
+        public void deleteMetaData(CenterMetaData meta) {
 
         }
     }

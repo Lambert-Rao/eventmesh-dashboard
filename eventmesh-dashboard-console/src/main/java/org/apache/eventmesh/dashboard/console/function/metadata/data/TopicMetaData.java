@@ -23,8 +23,9 @@ import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
 import lombok.Data;
 
 @Data
-public class TopicMeta extends MetaDataOperationConfig {
+public class TopicMetaData extends MetaDataOperationConfig {
 
     private StoreType storeType;
+    private String storeAddress;
     String topic;
 }

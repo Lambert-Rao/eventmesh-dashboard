@@ -19,6 +19,6 @@ package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
 
-public class ClusterMeta {
+public class ClusterMetaData {
     StoreType storeType;
 }

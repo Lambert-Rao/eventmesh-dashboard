@@ -17,8 +17,9 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
+import org.apache.eventmesh.dashboard.console.entity.TopicEntity;
 import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
-import org.apache.eventmesh.dashboard.console.service.database.CenterDataService;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetaData;
 import org.apache.eventmesh.dashboard.console.service.database.TopicDataService;
 
 import java.util.List;
@@ -35,12 +36,25 @@ public class TopicSyncDataService<T> implements SyncDataService<T> {
     private TopicDataService topicDataService;
 
     @Override
-    public List<T> syncData() {
-        return (List<T>) topicDataService.getAll();
+    public List<T> getData() {
+        return (List<T>) topicDataService.selectAll();
+    }
+
+    @Override
+    public List<Long> insertData(List<T> toInsertList) {
+        return topicDataService.batchInsert((List<TopicEntity>) toInsertList);
     }
 
     @Override
     public String getUnique(T t) {
-        return null;
+        if (t instanceof TopicEntity) {
+            TopicEntity topicEntity = (TopicEntity) t;
+            return topicEntity.getTopicName();
+        } else if (t instanceof TopicMetaData) {
+            TopicMetaData topicMeta = (TopicMetaData) t;
+            return topicMeta.getTopic();
+        } else {
+            throw new IllegalArgumentException("unsupported type");
+        }
     }
 }

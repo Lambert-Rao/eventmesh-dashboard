@@ -19,15 +19,35 @@ package org.apache.eventmesh.dashboard.console.function.optration;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
 import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMeta;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetaData;
+
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMeta> {
+public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> {
+
+    //TODO: use topic utils
+    String storeAddress;
+    StoreType storeType;
 
     @Override
-    public void addMetaData(TopicMeta meta) {
+    public List<TopicMetaData> getAllMetaData() {
+        if (storeType == StoreType.ROCKETMQ) {
+            //TODO
+        } else if (storeType == StoreType.KAFKA) {
+            //TODO
+        } else if (storeType == StoreType.RABBITMQ) {
+            //TODO
+        } else {
+            log.warn("Unsupported store type called get all meta data");
+        }
+        return null;
+    }
+
+    @Override
+    public void addMetaData(TopicMetaData meta) {
         if (meta.getStoreType() == StoreType.ROCKETMQ) {
             //TODO
         } else if (meta.getStoreType() == StoreType.KAFKA) {
@@ -40,7 +60,7 @@ public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMeta> {
     }
 
     @Override
-    public void deleteMetaData(TopicMeta meta) {
-
+    public void deleteMetaData(TopicMetaData meta) {
+        //TODO
     }
 }

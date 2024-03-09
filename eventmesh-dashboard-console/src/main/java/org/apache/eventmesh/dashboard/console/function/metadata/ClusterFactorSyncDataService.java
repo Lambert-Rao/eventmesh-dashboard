@@ -1,5 +1,7 @@
 package org.apache.eventmesh.dashboard.console.function.metadata;
 
+import org.apache.eventmesh.dashboard.console.entity.BaseEntity;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ public abstract class ClusterFactorSyncDataService<T> implements SyncDataService
 
 
     @Override
-    public List<T> syncData() {
+    public List<T> getData() {
         return null;
     }
 

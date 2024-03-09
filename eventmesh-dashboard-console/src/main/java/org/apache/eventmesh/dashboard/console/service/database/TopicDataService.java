@@ -26,8 +26,6 @@ import java.util.List;
  */
 public interface TopicDataService {
 
-    List<TopicEntity> getAll();
-
     List<TopicEntity> getTopicList(TopicEntity topicEntity);
 
     void addTopic_plus(TopicEntity topicEntity);

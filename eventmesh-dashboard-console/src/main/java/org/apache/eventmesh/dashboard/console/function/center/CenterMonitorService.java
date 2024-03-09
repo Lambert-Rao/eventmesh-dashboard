@@ -4,7 +4,7 @@ import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
 import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
 
 public interface CenterMonitorService {
-
+    public Object getCenterInfo();
 
     void init(RuntimeMetaService runtimeMetaService, MetaDataOperationConfig serviceConfig);
 

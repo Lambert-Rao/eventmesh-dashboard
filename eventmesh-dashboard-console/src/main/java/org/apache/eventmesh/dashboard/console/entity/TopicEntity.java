@@ -26,7 +26,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicEntity {
+public class TopicEntity extends BaseEntity {
+
     private Long id;
 
     private Long clusterId;

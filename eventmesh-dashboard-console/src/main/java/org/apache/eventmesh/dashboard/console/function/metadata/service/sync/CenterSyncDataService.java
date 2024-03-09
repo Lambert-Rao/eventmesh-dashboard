@@ -19,10 +19,8 @@ package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
 import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
 import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
 import org.apache.eventmesh.dashboard.console.service.database.CenterDataService;
-
-import java.lang.reflect.Field;
-import java.util.Arrays;
 
 import java.util.List;
 
@@ -40,14 +38,23 @@ public class CenterSyncDataService<T> implements SyncDataService<T> {
     private CenterDataService centerDataService;
 
     @Override
-    public List<T> syncData() {
+    public List<T> getData() {
         return (List<T>) centerDataService.getAll();
     }
 
     @Override
     public String getUnique(T t) {
-        MetaEntity centerEntity = (MetaEntity) t;
-        return null;
+        // warning: there two method should return the same String
+        if (t instanceof MetaEntity) {
+            MetaEntity centerEntity = (MetaEntity) t;
+            return centerEntity.getHost() + ":" + centerEntity.getPort();
+        }
+        if (t instanceof CenterMetaData) {
+            CenterMetaData centerMeta = (CenterMetaData) t;
+            return centerMeta.getAddress();
+        } else {
+            throw new IllegalArgumentException("unsupported type");
+        }
     }
 
 

@@ -6,7 +6,7 @@ import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
 import lombok.Data;
 
 @Data
-public class CenterMeta extends MetaDataOperationConfig {
+public class CenterMetaData extends MetaDataOperationConfig {
 
     private String address;
 
