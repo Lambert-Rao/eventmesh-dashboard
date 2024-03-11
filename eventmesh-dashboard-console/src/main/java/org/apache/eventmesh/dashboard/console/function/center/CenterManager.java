@@ -6,14 +6,13 @@ import org.apache.eventmesh.dashboard.console.function.center.meta.EtcdCenterMon
 import org.apache.eventmesh.dashboard.console.function.center.meta.NacosCenterMonitorService;
 import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
 import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
-import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
+import org.apache.eventmesh.dashboard.console.function.metadata.service.meta.RuntimeMetaService;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 

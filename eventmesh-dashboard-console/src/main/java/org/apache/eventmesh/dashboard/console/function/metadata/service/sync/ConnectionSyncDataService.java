@@ -15,22 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
-import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
 
-import lombok.Data;
+import java.util.List;
 
-@Data
-public class TopicMetaData extends MetaDataOperationConfig {
+public class ConnectionSyncDataService<T> implements SyncDataService<T> {
 
-    {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
+    @Override
+    public List<T> getData() {
+        return null;
     }
 
-    private StoreType storeType;
-    private String storeAddress;
-    String topic;
+    @Override
+    public List<Long> insertData(List<T> toInsertList) {
+        return null;
+    }
+
+    @Override
+    public String getUnique(T t) {
+        return null;
+    }
 }

@@ -43,6 +43,15 @@ public class CenterSyncDataService<T> implements SyncDataService<T> {
     }
 
     @Override
+    public List<Long> insertData(List<T> toInsertList) {
+        if (writable()) {
+            return centerDataService.batchInsert((List<CenterMetaData>) toInsertList);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public String getUnique(T t) {
         // warning: there two method should return the same String
         if (t instanceof MetaEntity) {

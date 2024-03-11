@@ -4,15 +4,21 @@ import java.util.List;
 
 public interface SyncDataService<T> {
 
+    /**
+     * Whether the database is writable
+     * @return
+     */
+    public default boolean writable() {
+        return true;
+    }
 
     public List<T> getData();
 
     public List<Long> insertData(List<T> toInsertList);
 
     /**
-     * In design, update data to DB from service(eventmesh runtime and nacos) should not exist, but for now DB data is still writable, so we just let
-     * it call insertData.
-     *
+     * update data into db, this should use different method but insert.
+     * TODO edit this after DAO service add batchUpdate
      * @param toUpdateList
      * @return
      */
@@ -20,11 +26,6 @@ public interface SyncDataService<T> {
         return insertData(toUpdateList);
     }
 
-    /**
-     * For the same reason as updateData, delete data from DB should not exist, this should be removed in the future.
-     *
-     * @param toDeleteList
-     */
     public default void deleteData(List<T> toDeleteList) {
     }
 

@@ -2,7 +2,7 @@ package org.apache.eventmesh.dashboard.console.function.center.meta;
 
 import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
 import org.apache.eventmesh.dashboard.console.function.center.CenterMonitorService;
-import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
+import org.apache.eventmesh.dashboard.console.function.metadata.service.meta.RuntimeMetaService;
 
 public class EtcdCenterMonitorService implements CenterMonitorService {
 

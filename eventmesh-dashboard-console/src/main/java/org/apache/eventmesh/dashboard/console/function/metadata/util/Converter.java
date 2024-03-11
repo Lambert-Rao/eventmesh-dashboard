@@ -15,22 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.function.metadata.util;
 
-import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+public interface Converter<T, R> {
 
-import lombok.Data;
+    R toEntity(T source);
 
-@Data
-public class TopicMetaData extends MetaDataOperationConfig {
-
-    {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
-    }
-
-    private StoreType storeType;
-    private String storeAddress;
-    String topic;
+    T toMetaData(R source);
 }

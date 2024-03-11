@@ -63,26 +63,27 @@ public class MetaDataManager {
     public void handlerDbToService(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
         SingleMetaDataServiceWrapper singleMetaDataServiceWrapper = metaDataServiceWrapper.getDbToService();
         try {
-            // 得到数据 现在的数据
-            List<Object> objectList = singleMetaDataServiceWrapper.getSyncService().getData();
-            if (objectList.isEmpty()) {
+            // 得到数据 现在的数据库数据
+            List<Object> newObjectList = singleMetaDataServiceWrapper.getSyncService().getData();
+            if (newObjectList.isEmpty()) {
                 return;
             }
-            Map<String, Object> newObjectMap = getUniqueKeyMap(objectList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            Map<String, Object> newObjectMap = getUniqueKeyMap(newObjectList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
 
             // 得到之前的数据
             List<Object> cacheDataList = cacheData.get(clazz);
             if (Objects.isNull(cacheDataList)) {
-                //TODO 创建数据
                 cacheDataList = new ArrayList<>();
                 cacheData.put(clazz, cacheDataList);
             }
             Map<String, Object> oldObjectMap = getUniqueKeyMap(cacheDataList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            //update old cache
+            cacheData.replace(clazz, newObjectList);
 
             for (Entry<String, Object> entry : oldObjectMap.entrySet()) {
 
                 Object inDbObject = newObjectMap.remove(entry.getKey());
-                //如果新数据中没有，则删除旧数据中的这一项
+                //如果新数据中没有，则删除service中的这一项
                 if (inDbObject == null) {
                     singleMetaDataServiceWrapper.getMetaService().deleteMetaData(entry.getValue());
                 } else {
@@ -102,8 +103,8 @@ public class MetaDataManager {
             //TODO add service to DB after create new service in db2service
             //如果以DB为主, 那么service2db的时候无法向db写入数据
 
-            //register (service to db)
-            //不同的metadata service 有不同的处理方式 TODO
+            //TODO: register (service to db)
+            //不同的metadata service 有不同的处理方式
             if (metaDataServiceWrapper.getServiceToDb() == null) {
                 metaDataServiceWrapper.setDbToService(new SingleMetaDataServiceWrapper(
                     singleMetaDataServiceWrapper.getSyncService(), singleMetaDataServiceWrapper.getMetaService()));
@@ -156,9 +157,7 @@ public class MetaDataManager {
 
             }
             //see comment above
-            for (Object object : serviceDataMap.values()) {
-                toInsert.add(object);
-            }
+            toInsert.addAll(serviceDataMap.values());
 
             singleMetaDataServiceWrapper.getSyncService().insertData(toInsert);
             singleMetaDataServiceWrapper.getSyncService().updateData(toUpdate);

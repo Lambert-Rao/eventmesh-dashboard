@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface MetaDataHandler<T> {
 
+    default boolean writable() {
+        return false;
+    }
 
     default void handler(List<T> addData, List<T> updateData, List<T> deleteData) {
     }

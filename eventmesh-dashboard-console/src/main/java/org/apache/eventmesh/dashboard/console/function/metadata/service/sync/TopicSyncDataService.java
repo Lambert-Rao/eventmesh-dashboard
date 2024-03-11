@@ -25,7 +25,9 @@ import org.apache.eventmesh.dashboard.console.service.database.TopicDataService;
 import java.util.List;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TopicSyncDataService<T> implements SyncDataService<T> {
 
     public TopicSyncDataService(TopicDataService topicDataService) {
@@ -42,7 +44,12 @@ public class TopicSyncDataService<T> implements SyncDataService<T> {
 
     @Override
     public List<Long> insertData(List<T> toInsertList) {
-        return topicDataService.batchInsert((List<TopicEntity>) toInsertList);
+        if (writable()) {
+            return topicDataService.batchInsert((List<TopicEntity>) toInsertList);
+        } else {
+            log.warn("topic data source is not writable");
+            return null;
+        }
     }
 
     @Override

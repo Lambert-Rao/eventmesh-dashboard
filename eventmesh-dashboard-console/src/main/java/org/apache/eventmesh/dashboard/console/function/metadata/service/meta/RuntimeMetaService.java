@@ -15,22 +15,32 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.function.metadata.service.meta;
 
-import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.RuntimeMetaData;
 
-import lombok.Data;
+import java.util.List;
 
-@Data
-public class TopicMetaData extends MetaDataOperationConfig {
+public class RuntimeMetaService implements MetaDataHandler<RuntimeMetaData> {
 
-    {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
+    @Override
+    public List<RuntimeMetaData> getAllMetaData() {
+        return null;
     }
 
-    private StoreType storeType;
-    private String storeAddress;
-    String topic;
+    @Override
+    public void addMetaData(RuntimeMetaData meta) {
+
+    }
+
+    @Override
+    public void updateMetaData(RuntimeMetaData meta) {
+
+    }
+
+    @Override
+    public void deleteMetaData(RuntimeMetaData meta) {
+
+    }
 }

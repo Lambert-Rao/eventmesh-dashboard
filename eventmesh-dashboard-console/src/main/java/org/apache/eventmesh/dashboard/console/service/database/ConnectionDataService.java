@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * Service providing ConnectionEntity data.
+ *
  */
 public interface ConnectionDataService {
 

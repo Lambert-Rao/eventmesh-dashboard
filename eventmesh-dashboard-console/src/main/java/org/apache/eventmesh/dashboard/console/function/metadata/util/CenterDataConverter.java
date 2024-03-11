@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.function.metadata.util;
 
-import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
 
-import lombok.Data;
+public class CenterDataConverter implements Converter<CenterMetaData, MetaEntity> {
 
-@Data
-public class TopicMetaData extends MetaDataOperationConfig {
-
-    {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
+    @Override
+    public MetaEntity toEntity(CenterMetaData source) {
+        MetaEntity metaEntity = new MetaEntity();
+        metaEntity.setHost(source.getAddress());
+        return metaEntity;
     }
 
-    private StoreType storeType;
-    private String storeAddress;
-    String topic;
+    @Override
+    public CenterMetaData toMetaData(MetaEntity source) {
+        return null;
+    }
 }

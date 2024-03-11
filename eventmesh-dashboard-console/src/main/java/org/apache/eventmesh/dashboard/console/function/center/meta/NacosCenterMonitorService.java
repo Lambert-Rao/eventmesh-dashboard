@@ -6,7 +6,7 @@ import org.apache.eventmesh.dashboard.console.function.client.ClientManager;
 import org.apache.eventmesh.dashboard.console.function.client.ClientTypeEnum;
 import org.apache.eventmesh.dashboard.console.function.client.config.CreateNacosConfig;
 import org.apache.eventmesh.dashboard.console.function.client.wrapper.NacosClientWrapper;
-import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
+import org.apache.eventmesh.dashboard.console.function.metadata.service.meta.RuntimeMetaService;
 
 import javafx.util.Pair;
 
@@ -17,6 +17,7 @@ public class NacosCenterMonitorService implements CenterMonitorService {
     @Override
     public Object getCenterInfo() {
         ClientManager.getInstance().getClient(ClientTypeEnum.CENTER_NACOS, clientKey);
+        return null;
     }
 
     @Override

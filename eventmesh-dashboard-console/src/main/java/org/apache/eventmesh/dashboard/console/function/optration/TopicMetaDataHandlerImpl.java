@@ -28,6 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> {
 
+    @Override
+    public boolean writable() {
+        return true;
+    }
+
     //TODO: use topic utils
     String storeAddress;
     StoreType storeType;
@@ -48,14 +53,18 @@ public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> 
 
     @Override
     public void addMetaData(TopicMetaData meta) {
-        if (meta.getStoreType() == StoreType.ROCKETMQ) {
-            //TODO
-        } else if (meta.getStoreType() == StoreType.KAFKA) {
-            //TODO
-        } else if (meta.getStoreType() == StoreType.RABBITMQ) {
-            //TODO
+        if (writable()) {
+            if (meta.getStoreType() == StoreType.ROCKETMQ) {
+                //TODO
+            } else if (meta.getStoreType() == StoreType.KAFKA) {
+                //TODO
+            } else if (meta.getStoreType() == StoreType.RABBITMQ) {
+                //TODO
+            } else {
+                log.warn("Unsupported store type called add meta data");
+            }
         } else {
-            log.warn("Unsupported store type called add meta data");
+            log.warn("topic storage service is not writable");
         }
     }
 

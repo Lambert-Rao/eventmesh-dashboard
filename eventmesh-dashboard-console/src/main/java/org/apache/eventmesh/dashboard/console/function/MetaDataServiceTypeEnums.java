@@ -10,6 +10,13 @@ public enum MetaDataServiceTypeEnums {
 
     TOPIC,
 
+    CLUSTER,
+
+    CLIENT,
+
+    GROUP,
+
+    CONNECTION,
 
 
 }

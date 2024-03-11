@@ -18,7 +18,13 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
+import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
 
-public class ClusterMetaData {
+public class ClusterMetaData extends MetaDataOperationConfig {
     StoreType storeType;
+
+    {
+        this.setServiceTypeEnums(MetaDataServiceTypeEnums.CLUSTER);
+    }
 }

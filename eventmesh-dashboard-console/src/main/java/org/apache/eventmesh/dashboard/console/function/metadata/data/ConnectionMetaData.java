@@ -17,20 +17,11 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
-import org.apache.eventmesh.dashboard.console.enums.StoreType;
 import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
 import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
 
-import lombok.Data;
-
-@Data
-public class TopicMetaData extends MetaDataOperationConfig {
-
+public class ConnectionMetaData extends MetaDataOperationConfig {
     {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
+        this.setServiceTypeEnums(MetaDataServiceTypeEnums.CONNECTION);
     }
-
-    private StoreType storeType;
-    private String storeAddress;
-    String topic;
 }
