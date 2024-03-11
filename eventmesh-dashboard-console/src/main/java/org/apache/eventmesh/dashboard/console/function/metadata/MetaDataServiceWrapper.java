@@ -1,5 +1,6 @@
 package org.apache.eventmesh.dashboard.console.function.metadata;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -18,14 +19,11 @@ public class MetaDataServiceWrapper {
 
 
     @Data
+    @AllArgsConstructor
     public static class SingleMetaDataServiceWrapper {
 
         private SyncDataService<Object> syncService;
         private MetaDataHandler<Object> metaService;
 
-        public SingleMetaDataServiceWrapper(SyncDataService<Object> syncsService, MetaDataHandler<Object> metaService) {
-            this.syncService = syncsService;
-            this.metaService = metaService;
-        }
     }
 }

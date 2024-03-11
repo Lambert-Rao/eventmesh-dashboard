@@ -8,6 +8,7 @@ import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
 import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
 import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeMetaService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,6 +57,14 @@ public class CenterManager {
 
     }
 
+    public void stopMonitor(MetaDataOperationConfig serviceConfig) {
+        CenterMonitorService centerMonitorService = centerMap.get(serviceConfig.getAddress());
+        if (centerMonitorService != null) {
+            centerMonitorService.close();
+            centerMap.remove(serviceConfig.getAddress());
+        }
+    }
+
 
     public class CenterMetaService implements MetaDataHandler<CenterMetaData> {
 
@@ -64,17 +73,18 @@ public class CenterManager {
 
         @Override
         public List<CenterMetaData> getAllMetaData() {
-            CenterManager.this.getCenterMap().get(address).getCenterInfo();
+            return Arrays.asList((CenterMetaData) CenterManager.this.getCenterMap().get(address).getCenterInfo());
         }
 
         @Override
         public void addMetaData(CenterMetaData meta) {
             CenterManager.this.startMonitor(meta);
+            address = meta.getAddress();
         }
 
         @Override
         public void deleteMetaData(CenterMetaData meta) {
-
+            CenterManager.this.stopMonitor(meta);
         }
     }
 

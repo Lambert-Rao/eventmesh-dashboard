@@ -18,12 +18,18 @@
 package org.apache.eventmesh.dashboard.console.function.client.wrapper;
 
 import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class NacosClientWrapper {
+
+    public void shutdown() throws NacosException {
+        configService.shutDown();
+        namingService.shutDown();
+    }
 
     private ConfigService configService;
     private NamingService namingService;

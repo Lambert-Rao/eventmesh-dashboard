@@ -45,6 +45,10 @@ public class NacosClientCreateOperation implements ClientOperation {
 
     @Override
     public void close(Object client) {
-
+        try {
+            ((NacosClientWrapper) client).shutdown();
+        } catch (Exception e) {
+            throw new RuntimeException("Nacos client close failed", e);
+        }
     }
 }

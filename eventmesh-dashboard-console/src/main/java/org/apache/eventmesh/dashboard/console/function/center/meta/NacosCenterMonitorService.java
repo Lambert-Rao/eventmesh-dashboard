@@ -11,12 +11,12 @@ import org.apache.eventmesh.dashboard.console.function.metadata.service.RuntimeM
 import javafx.util.Pair;
 
 public class NacosCenterMonitorService implements CenterMonitorService {
+
     private String clientKey;
-    private NacosClientWrapper nacosClient;
 
     @Override
     public Object getCenterInfo() {
-        return null;
+        ClientManager.getInstance().getClient(ClientTypeEnum.CENTER_NACOS, clientKey);
     }
 
     @Override
@@ -25,11 +25,10 @@ public class NacosCenterMonitorService implements CenterMonitorService {
         createNacosConfig.setServerAddress(serviceConfig.getAddress());
         Pair<String, NacosClientWrapper> result = ClientManager.getInstance().createClient(ClientTypeEnum.CENTER_NACOS, createNacosConfig);
         clientKey = result.getKey();
-        nacosClient = result.getValue();
     }
 
     @Override
     public void close() {
-
+        ClientManager.getInstance().deleteClient(ClientTypeEnum.CENTER_NACOS, clientKey);
     }
 }
