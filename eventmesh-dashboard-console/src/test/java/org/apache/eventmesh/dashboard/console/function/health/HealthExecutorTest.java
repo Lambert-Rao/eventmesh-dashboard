@@ -29,7 +29,7 @@ import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckType;
 import org.apache.eventmesh.dashboard.console.function.health.callback.HealthCheckCallback;
 import org.apache.eventmesh.dashboard.console.function.health.check.AbstractHealthCheckService;
 import org.apache.eventmesh.dashboard.console.function.health.check.config.HealthCheckObjectConfig;
-import org.apache.eventmesh.dashboard.console.service.database.impl.HealthDataServiceImpl;
+import org.apache.eventmesh.dashboard.console.service2.database.impl.HealthDataServiceImpl;
 
 import java.util.concurrent.CompletableFuture;
 

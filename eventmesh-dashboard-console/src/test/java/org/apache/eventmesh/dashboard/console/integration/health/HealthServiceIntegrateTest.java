@@ -22,7 +22,7 @@ import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckType;
 import org.apache.eventmesh.dashboard.console.function.health.CheckResultCache;
 import org.apache.eventmesh.dashboard.console.function.health.HealthService;
 import org.apache.eventmesh.dashboard.console.function.health.check.config.HealthCheckObjectConfig;
-import org.apache.eventmesh.dashboard.console.service.database.HealthDataService;
+import org.apache.eventmesh.dashboard.console.service2.database.HealthDataService;
 
 import java.util.List;
 

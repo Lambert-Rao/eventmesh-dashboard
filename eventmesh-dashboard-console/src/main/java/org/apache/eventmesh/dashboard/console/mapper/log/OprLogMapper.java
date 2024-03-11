@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.log;
 
-import org.apache.eventmesh.dashboard.console.entity.LogEntity;
+import org.apache.eventmesh.dashboard.console.entity.log.LogEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -56,6 +56,6 @@ public interface OprLogMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     Long addLog(LogEntity logEntity);
 
-    @Update("UPDATE operation_log SET status=#{status} ,result=#{resultContent} WHERE id=#{id}")
+    @Update("UPDATE operation_log SET state=#{state} ,result=#{resultContent} WHERE id=#{id}")
     Integer updateLog(LogEntity logEntity);
 }

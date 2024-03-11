@@ -20,8 +20,8 @@ package org.apache.eventmesh.dashboard.console.linkage.log;
 import org.apache.eventmesh.dashboard.console.EventMeshDashboardApplication;
 import org.apache.eventmesh.dashboard.console.entity.GroupEntity;
 import org.apache.eventmesh.dashboard.console.entity.LogEntity;
-import org.apache.eventmesh.dashboard.console.service.database.GroupDataService;
-import org.apache.eventmesh.dashboard.console.service.database.LogService;
+import org.apache.eventmesh.dashboard.console.service2.database.GroupDataService;
+import org.apache.eventmesh.dashboard.console.service2.database.LogService;
 
 import java.util.List;
 

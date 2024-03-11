@@ -20,7 +20,7 @@ package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
 import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
 import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
-import org.apache.eventmesh.dashboard.console.service.database.CenterDataService;
+import org.apache.eventmesh.dashboard.console.service2.database.CenterDataService;
 
 import java.util.List;
 

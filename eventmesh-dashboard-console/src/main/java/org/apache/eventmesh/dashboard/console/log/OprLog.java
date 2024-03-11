@@ -19,7 +19,7 @@ package org.apache.eventmesh.dashboard.console.log;
 
 import org.apache.eventmesh.dashboard.console.annotation.EmLog;
 import org.apache.eventmesh.dashboard.console.entity.LogEntity;
-import org.apache.eventmesh.dashboard.console.service.database.LogService;
+import org.apache.eventmesh.dashboard.console.service2.database.LogService;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -49,7 +49,7 @@ public class OprLog implements Ordered, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
 
-    @Pointcut("within(org.apache.eventmesh.dashboard.console.service..*)")
+    @Pointcut("within(org.apache.eventmesh.dashboard.console.service2..*)")
     public void pointCut() {
     }
 

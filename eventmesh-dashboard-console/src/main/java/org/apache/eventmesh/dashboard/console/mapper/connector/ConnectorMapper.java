@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.mapper.connector;
 
-import org.apache.eventmesh.dashboard.console.entity.ConnectorEntity;
+import org.apache.eventmesh.dashboard.console.entity.connector.ConnectorEntity;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,6 +32,9 @@ import java.util.List;
  */
 @Mapper
 public interface ConnectorMapper {
+
+    @Select("SELECT * FROM connector WHERE status=1")
+    ConnectorEntity selectAll();
 
     @Select("SELECT * FROM connector WHERE id = #{id}")
     ConnectorEntity selectById(ConnectorEntity connectorEntity);
