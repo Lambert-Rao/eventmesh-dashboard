@@ -26,6 +26,7 @@ import java.util.List;
  * Service providing data of HealthCheckResult.
  */
 public interface HealthDataService {
+
     HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity);
 
     void batchInsertHealthCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList);

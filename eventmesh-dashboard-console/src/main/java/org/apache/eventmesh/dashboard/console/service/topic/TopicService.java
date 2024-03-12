@@ -20,6 +20,7 @@ package org.apache.eventmesh.dashboard.console.service.topic;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service about Topic
@@ -47,4 +48,8 @@ public interface TopicService {
     void deleteTopic(TopicEntity topicEntity);
 
     List<TopicEntity> selectTopiByCluster(Long clusterId);
+
+    Integer getAbnormalTopicNum(Long clusterId);
+
+    List<Map<String, Object>> getTopicFrontList(Long clusterId);
 }

@@ -18,11 +18,16 @@
 package org.apache.eventmesh.dashboard.console.service.topic;
 
 import org.apache.eventmesh.dashboard.console.entity.groupmember.GroupMemberEntity;
+import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
 import org.apache.eventmesh.dashboard.console.mapper.groupmember.OprGroupMemberMapper;
+import org.apache.eventmesh.dashboard.console.mapper.health.HealthCheckResultMapper;
 import org.apache.eventmesh.dashboard.console.mapper.topic.TopicMapper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,8 @@ public class TopicServiceImpl implements TopicService {
     @Autowired
     OprGroupMemberMapper oprGroupMemberMapper;
 
+    @Autowired
+    HealthCheckResultMapper healthCheckResultMapper;
 
     @Override
     public void batchInsert(List<TopicEntity> topicEntities) {
@@ -102,6 +109,35 @@ public class TopicServiceImpl implements TopicService {
         TopicEntity topicEntity = new TopicEntity();
         topicEntity.setClusterId(clusterId);
         return topicMapper.selectTopicByCluster(topicEntity);
+    }
+
+    @Override
+    public Integer getAbnormalTopicNum(Long clusterId) {
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setClusterId(clusterId);
+        healthCheckResultEntity.setType(3);
+        return healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTopicFrontList(Long clusterId) {
+        TopicEntity topicEntity = new TopicEntity();
+        topicEntity.setClusterId(clusterId);
+        List<TopicEntity> topicEntityList = topicMapper.selectAllByClusterId(topicEntity);
+        List<Map<String, Object>> maps = new ArrayList<>();
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setType(3);
+        topicEntityList.forEach(n -> {
+            ConcurrentHashMap<String, Object> stringStringConcurrentHashMap = new ConcurrentHashMap<>();
+            stringStringConcurrentHashMap.put("clusterId", n.getClusterId());
+            stringStringConcurrentHashMap.put("topicName", n.getTopicName());
+            stringStringConcurrentHashMap.put("desc", n.getDescription());
+            healthCheckResultEntity.setTypeId(n.getId());
+            HealthCheckResultEntity latestByTypeANDId = healthCheckResultMapper.getLatestByTypeANDId(healthCheckResultEntity);
+            stringStringConcurrentHashMap.put("healthStatus", latestByTypeANDId.getState());
+            maps.add(stringStringConcurrentHashMap);
+        });
+        return maps;
     }
 
 

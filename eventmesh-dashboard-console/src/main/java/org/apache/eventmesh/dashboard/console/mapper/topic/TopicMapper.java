@@ -48,7 +48,7 @@ public interface TopicMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void batchInsert(List<TopicEntity> topicEntities);
 
-    @Select("SELECT count(*) FROM topic WHERE cluster_id=#{clusterId}")
+    @Select("SELECT count(*) FROM topic WHERE cluster_id=#{clusterId} AND status=1")
     Integer selectTopicNumByCluster(TopicEntity topicEntity);
 
     @Select({
@@ -71,6 +71,9 @@ public interface TopicMapper {
         + "ON DUPLICATE KEY UPDATE status = 1")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addTopic(TopicEntity topicEntity);
+
+    @Select("SELECT * FROM topic WHERE status=1 AND cluster_id=#{clusterId}")
+    List<TopicEntity> selectAllByClusterId(TopicEntity topicEntity);
 
     @Update("UPDATE topic SET type=#{type},description=#{description} WHERE id=#{id}")
     void updateTopic(TopicEntity topicEntity);

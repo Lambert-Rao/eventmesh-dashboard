@@ -33,6 +33,7 @@ public class HealthDataServiceDatabaseImpl implements HealthDataService {
     @Autowired
     private HealthCheckResultMapper healthCheckResultMapper;
 
+
     @Override
     public HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity) {
         healthCheckResultMapper.insert(healthCheckResultEntity);
