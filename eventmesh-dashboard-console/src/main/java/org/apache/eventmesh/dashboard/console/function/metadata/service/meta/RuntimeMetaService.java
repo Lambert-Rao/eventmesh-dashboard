@@ -17,30 +17,29 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.service.meta;
 
-import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.RuntimeMetaData;
+import org.apache.eventmesh.dashboard.console.function.metadata.MetadataHandler;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.RuntimeMetadata;
 
 import java.util.List;
 
-public class RuntimeMetaService implements MetaDataHandler<RuntimeMetaData> {
+public class RuntimeMetaService implements MetadataHandler<RuntimeMetadata> {
 
     @Override
-    public List<RuntimeMetaData> getAllMetaData() {
+    public List<RuntimeMetadata> getAllMetadata() {
         return null;
     }
 
     @Override
-    public void addMetaData(RuntimeMetaData meta) {
-
+    public void addMetadata(RuntimeMetadata meta) {
+        if (writable()) {
+            //TODO
+        }
     }
 
     @Override
-    public void updateMetaData(RuntimeMetaData meta) {
-
-    }
-
-    @Override
-    public void deleteMetaData(RuntimeMetaData meta) {
-
+    public void deleteMetadata(RuntimeMetadata meta) {
+        if (writable()) {
+            //TODO
+        }
     }
 }

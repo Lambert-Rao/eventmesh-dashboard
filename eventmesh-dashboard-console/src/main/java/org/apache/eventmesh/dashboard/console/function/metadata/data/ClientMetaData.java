@@ -17,14 +17,45 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.enums.StatusEnum;
+import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
 
-public class ClientMetaData extends MetaDataOperationConfig {
+import java.sql.Timestamp;
 
-    private String address;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public class ClientMetadata extends MetadataOperationConfig {
+
 
     {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.CLIENT);
+        this.setServiceTypeEnums(MetadataServiceTypeEnums.CLIENT);
     }
+
+    private String name;
+
+    private String platform;
+
+    /**
+     * programing language of client
+     */
+    @Schema(name = "language", example = "java")
+    private String language;
+
+    /**
+     * process id
+     */
+    @Schema(name = "pid", description = "process id")
+    private Long pid;
+
+    private String host;
+
+    private Integer port;
+
+    /**
+     * protocol used to connect to runtime.
+     */
+    @Schema(name = "protocol", example = "http", allowableValues = {"http", "grpc", "tcp"})
+    private String protocol;
+
 }

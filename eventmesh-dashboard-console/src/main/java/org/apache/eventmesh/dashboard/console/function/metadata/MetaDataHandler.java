@@ -2,7 +2,7 @@ package org.apache.eventmesh.dashboard.console.function.metadata;
 
 import java.util.List;
 
-public interface MetaDataHandler<T> {
+public interface MetadataHandler<T> {
 
     default boolean writable() {
         return false;
@@ -12,14 +12,14 @@ public interface MetaDataHandler<T> {
     }
 
     //metaData: topic, center, etc. add meta is to create a topic.
-    List<T> getAllMetaData();
+    List<T> getAllMetadata();
 
-    void addMetaData(T meta);
+    void addMetadata(T meta);
 
-    default void updateMetaData(T meta) {
-        this.addMetaData(meta);
+    default void updateMetadata(T meta) {
+        this.addMetadata(meta);
     }
 
-    void deleteMetaData(T meta);
+    void deleteMetadata(T meta);
 
 }

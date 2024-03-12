@@ -18,15 +18,15 @@
 package org.apache.eventmesh.dashboard.console.function.optration;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataHandler;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetaData;
+import org.apache.eventmesh.dashboard.console.function.metadata.MetadataHandler;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetadata;
 
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> {
+public class TopicMetadataHandlerImpl implements MetadataHandler<TopicMetadata> {
 
     @Override
     public boolean writable() {
@@ -38,7 +38,7 @@ public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> 
     StoreType storeType;
 
     @Override
-    public List<TopicMetaData> getAllMetaData() {
+    public List<TopicMetadata> getAllMetadata() {
         if (storeType == StoreType.ROCKETMQ) {
             //TODO
         } else if (storeType == StoreType.KAFKA) {
@@ -52,7 +52,7 @@ public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> 
     }
 
     @Override
-    public void addMetaData(TopicMetaData meta) {
+    public void addMetadata(TopicMetadata meta) {
         if (writable()) {
             if (meta.getStoreType() == StoreType.ROCKETMQ) {
                 //TODO
@@ -69,7 +69,7 @@ public class TopicMetaDataHandlerImpl implements MetaDataHandler<TopicMetaData> 
     }
 
     @Override
-    public void deleteMetaData(TopicMetaData meta) {
+    public void deleteMetadata(TopicMetadata meta) {
         //TODO
     }
 }

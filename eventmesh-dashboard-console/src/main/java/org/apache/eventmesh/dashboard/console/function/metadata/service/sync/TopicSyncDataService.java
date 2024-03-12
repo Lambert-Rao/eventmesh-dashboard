@@ -19,7 +19,7 @@ package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
 import org.apache.eventmesh.dashboard.console.entity.TopicEntity;
 import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetaData;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.TopicMetadata;
 import org.apache.eventmesh.dashboard.console.service2.database.TopicDataService;
 
 import java.util.List;
@@ -57,8 +57,8 @@ public class TopicSyncDataService<T> implements SyncDataService<T> {
         if (t instanceof TopicEntity) {
             TopicEntity topicEntity = (TopicEntity) t;
             return topicEntity.getTopicName();
-        } else if (t instanceof TopicMetaData) {
-            TopicMetaData topicMeta = (TopicMetaData) t;
+        } else if (t instanceof TopicMetadata) {
+            TopicMetadata topicMeta = (TopicMetadata) t;
             return topicMeta.getTopic();
         } else {
             throw new IllegalArgumentException("unsupported type");

@@ -1,6 +1,6 @@
 package org.apache.eventmesh.dashboard.console.function;
 
-public enum MetaDataTypeEnums {
+public enum MetadataTypeEnums {
 
     CENTER,
 

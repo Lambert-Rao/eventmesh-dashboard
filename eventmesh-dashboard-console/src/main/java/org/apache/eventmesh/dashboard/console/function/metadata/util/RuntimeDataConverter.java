@@ -18,31 +18,30 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.util;
 
 import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
 import org.apache.eventmesh.dashboard.console.enums.StatusEnum;
 import org.apache.eventmesh.dashboard.console.function.cluster.ClusterCache;
 import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetadata;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.RuntimeMetadata;
 
-public class CenterDataConverter implements Converter<CenterMetadata, MetaEntity> {
+public class RuntimeDataConverter implements Converter<RuntimeMetadata, RuntimeEntity> {
 
     @Override
-    public MetaEntity toEntity(CenterMetadata source) {
-        MetaEntity metaEntity = new MetaEntity();
-        metaEntity.setHost(source.getHost());
-        metaEntity.setPort(source.getPort());
-        metaEntity.setClusterId(ClusterCache.getCluster(source.getRegisterAddress()).getId());
-        metaEntity.setName(source.getName());
-        metaEntity.setVersion(source.getVersion());
-        metaEntity.setParams(source.getParams());
-        metaEntity.setRole(source.getRole());
-        metaEntity.setStatusEnum(StatusEnum.ACTIVE);
-        metaEntity.setType(source.getType());
-        metaEntity.setUsername(source.getUsername());
+    public RuntimeEntity toEntity(RuntimeMetadata source) {
+        RuntimeEntity runtimeEntity = new RuntimeEntity();
+        runtimeEntity.setHost(source.getHost());
+        runtimeEntity.setPort(source.getPort());
+        runtimeEntity.setClusterId(ClusterCache.getCluster(source.getRegisterAddress()).getId());
+        runtimeEntity.setStatus(1);
+        runtimeEntity.setEndpointMap(source.getEndpointMap());
+        runtimeEntity.setJmxPort(source.getJmxPort());
+        runtimeEntity.setRack(source.getRack());
 
-        return metaEntity;
+        return runtimeEntity;
     }
 
     @Override
-    public CenterMetadata toMetadata(MetaEntity source) {
+    public RuntimeMetadata toMetadata(RuntimeEntity source) {
         return null;
     }
 }

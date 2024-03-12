@@ -37,14 +37,17 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * not used for now, recommend to use NacosConfigCheck to check health status of nacos
+ */
 
 @Slf4j
 @HealthCheckType(type = HEALTH_CHECK_TYPE_META, subType = HEALTH_CHECK_SUBTYPE_NACOS_REGISTER)
-public class NacosRegisterCheck extends AbstractHealthCheckService {
+public class NacosNamingServiceCheck extends AbstractHealthCheckService {
 
     private NamingService namingService;
 
-    public NacosRegisterCheck(HealthCheckObjectConfig healthCheckObjectConfig) {
+    public NacosNamingServiceCheck(HealthCheckObjectConfig healthCheckObjectConfig) {
         super(healthCheckObjectConfig);
     }
 

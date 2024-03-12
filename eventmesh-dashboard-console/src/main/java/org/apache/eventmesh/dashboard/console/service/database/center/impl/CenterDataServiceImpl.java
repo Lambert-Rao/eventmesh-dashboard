@@ -15,25 +15,30 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.service.database.center.impl;
 
-import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.mapper.meta.MetaMapper;
+import org.apache.eventmesh.dashboard.console.service.database.center.CenterDataService;
 
-import java.sql.Timestamp;
+import java.util.List;
 
-public class GroupMetadata extends MetadataOperationConfig {
-    {
-        this.setServiceTypeEnums(MetadataServiceTypeEnums.GROUP);
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CenterDataServiceImpl implements CenterDataService {
+
+    @Autowired
+    private MetaMapper metaMapper;
+
+    @Override
+    public List<Long> batchInsert(List<MetaEntity> metaEntities) {
+        return metaMapper.batchInsert(metaEntities);
     }
 
-    private String name;
-
-    private Integer memberCount;
-
-    private String members;
-
-    private Integer type;
-
-    private String state;
+    @Override
+    public List<MetaEntity> selectAll() {
+        return metaMapper.selectAll();
+    }
 }

@@ -35,12 +35,6 @@ public class ClientEntity extends BaseEntity {
 
     private static final long serialVersionUID = 8204133370609215856L;
 
-    /**
-     * Primary key
-     */
-    @Schema(name = "id", description = "primary key")
-    private Long id;
-
     private String name;
 
     private String platform;
@@ -75,8 +69,8 @@ public class ClientEntity extends BaseEntity {
     private Integer status;
 
     /**
-     * csv format config id list.<br>
-     * Example value: 1,2,7<br>
+     * csv format config id list.<p>
+     * Example value: 1,2,7<p>
      * This field is updated when the configuration is modified via the web API, but is not used during the configuration retrieval process.
      */
     private String configIds;

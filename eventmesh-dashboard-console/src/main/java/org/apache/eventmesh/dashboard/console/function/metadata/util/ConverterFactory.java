@@ -15,25 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.function.metadata.util;
 
-import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.ClusterMetadata;
 
-import java.sql.Timestamp;
+public class ConverterFactory {
 
-public class GroupMetadata extends MetadataOperationConfig {
-    {
-        this.setServiceTypeEnums(MetadataServiceTypeEnums.GROUP);
+    public static Converter<?, ?> createConverter(Class<?> type) {
+        if (type == MetaEntity.class || type == ClusterMetadata.class) {
+            return new CenterDataConverter();
+        }
+        // Add more conditions here for other types
+        throw new IllegalArgumentException("No converter found for type " + type);
     }
-
-    private String name;
-
-    private Integer memberCount;
-
-    private String members;
-
-    private Integer type;
-
-    private String state;
 }

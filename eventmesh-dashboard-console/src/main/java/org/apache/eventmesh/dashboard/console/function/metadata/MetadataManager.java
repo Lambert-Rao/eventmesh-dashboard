@@ -1,6 +1,6 @@
 package org.apache.eventmesh.dashboard.console.function.metadata;
 
-import org.apache.eventmesh.dashboard.console.function.metadata.MetaDataServiceWrapper.SingleMetaDataServiceWrapper;
+import org.apache.eventmesh.dashboard.console.function.metadata.MetadataServiceWrapper.SingleMetadataServiceWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MetaDataManager {
+public class MetadataManager {
 
 
     private final ScheduledThreadPoolExecutor scheduledExecutorService = new ScheduledThreadPoolExecutor(2);
@@ -24,7 +24,7 @@ public class MetaDataManager {
     /**
      *
      */
-    private final Map<Class<?>, MetaDataServiceWrapper> metaDataServiceWrapperMap = new ConcurrentHashMap<>();
+    private final Map<Class<?>, MetadataServiceWrapper> metaDataServiceWrapperMap = new ConcurrentHashMap<>();
 
     private final Map<Class<?>, List<Object>> cacheData = new ConcurrentHashMap<>();
 
@@ -46,7 +46,7 @@ public class MetaDataManager {
     //@param clazz
     //@param metaDataServiceWrapper
     //
-    public void addMetaDataService(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
+    public void addMetadataService(Class<?> clazz, MetadataServiceWrapper metaDataServiceWrapper) {
         metaDataServiceWrapperMap.put(clazz, metaDataServiceWrapper);
 
     }
@@ -55,20 +55,20 @@ public class MetaDataManager {
         metaDataServiceWrapperMap.forEach(this::handler);
     }
 
-    public void handler(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
+    public void handler(Class<?> clazz, MetadataServiceWrapper metaDataServiceWrapper) {
         this.handlerDbToService(clazz, metaDataServiceWrapper);
         this.handlerServiceToDb(clazz, metaDataServiceWrapper);
     }
 
-    public void handlerDbToService(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
-        SingleMetaDataServiceWrapper singleMetaDataServiceWrapper = metaDataServiceWrapper.getDbToService();
+    public void handlerDbToService(Class<?> clazz, MetadataServiceWrapper metaDataServiceWrapper) {
+        SingleMetadataServiceWrapper singleMetadataServiceWrapper = metaDataServiceWrapper.getDbToService();
         try {
             // 得到数据 现在的数据库数据
-            List<Object> newObjectList = singleMetaDataServiceWrapper.getSyncService().getData();
+            List<Object> newObjectList = singleMetadataServiceWrapper.getSyncService().getData();
             if (newObjectList.isEmpty()) {
                 return;
             }
-            Map<String, Object> newObjectMap = getUniqueKeyMap(newObjectList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            Map<String, Object> newObjectMap = getUniqueKeyMap(newObjectList, singleMetadataServiceWrapper.getSyncService()::getUnique);
 
             // 得到之前的数据
             List<Object> cacheDataList = cacheData.get(clazz);
@@ -76,7 +76,7 @@ public class MetaDataManager {
                 cacheDataList = new ArrayList<>();
                 cacheData.put(clazz, cacheDataList);
             }
-            Map<String, Object> oldObjectMap = getUniqueKeyMap(cacheDataList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            Map<String, Object> oldObjectMap = getUniqueKeyMap(cacheDataList, singleMetadataServiceWrapper.getSyncService()::getUnique);
             //update old cache
             cacheData.replace(clazz, newObjectList);
 
@@ -85,12 +85,12 @@ public class MetaDataManager {
                 Object inDbObject = newObjectMap.remove(entry.getKey());
                 //如果新数据中没有，则删除service中的这一项
                 if (inDbObject == null) {
-                    singleMetaDataServiceWrapper.getMetaService().deleteMetaData(entry.getValue());
+                    singleMetadataServiceWrapper.getMetaService().deleteMetadata(entry.getValue());
                 } else {
                     //如果新数据中有，则更新
                     //primary id, creat time and update time should not be compared
                     if (!inDbObject.equals(entry.getValue())) {
-                        singleMetaDataServiceWrapper.getMetaService().updateMetaData(entry.getValue());
+                        singleMetadataServiceWrapper.getMetaService().updateMetadata(entry.getValue());
                     }
                 }
 
@@ -98,7 +98,7 @@ public class MetaDataManager {
             //新增
             for (Object object : newObjectMap.values()) {
                 //TODO convert object to metadata format
-                singleMetaDataServiceWrapper.getMetaService().addMetaData(object);
+                singleMetadataServiceWrapper.getMetaService().addMetadata(object);
             }
             //TODO add service to DB after create new service in db2service
             //如果以DB为主, 那么service2db的时候无法向db写入数据
@@ -106,8 +106,8 @@ public class MetaDataManager {
             //TODO: register (service to db)
             //不同的metadata service 有不同的处理方式
             if (metaDataServiceWrapper.getServiceToDb() == null) {
-                metaDataServiceWrapper.setDbToService(new SingleMetaDataServiceWrapper(
-                    singleMetaDataServiceWrapper.getSyncService(), singleMetaDataServiceWrapper.getMetaService()));
+                metaDataServiceWrapper.setDbToService(new SingleMetadataServiceWrapper(
+                    singleMetadataServiceWrapper.getSyncService(), singleMetadataServiceWrapper.getMetaService()));
             }
         } catch (Throwable e) {
             //TODO Exception
@@ -115,16 +115,16 @@ public class MetaDataManager {
         }
     }
 
-    public void handlerServiceToDb(Class<?> clazz, MetaDataServiceWrapper metaDataServiceWrapper) {
-        SingleMetaDataServiceWrapper singleMetaDataServiceWrapper = metaDataServiceWrapper.getServiceToDb();
+    public void handlerServiceToDb(Class<?> clazz, MetadataServiceWrapper metaDataServiceWrapper) {
+        SingleMetadataServiceWrapper singleMetadataServiceWrapper = metaDataServiceWrapper.getServiceToDb();
         try {
             // Get metadata
-            List<Object> serviceDataList = singleMetaDataServiceWrapper
-                .getMetaService().getAllMetaData();
+            List<Object> serviceDataList = singleMetadataServiceWrapper
+                .getMetaService().getAllMetadata();
             if (serviceDataList.isEmpty()) {
                 return;
             }
-            Map<String, Object> serviceDataMap = getUniqueKeyMap(serviceDataList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            Map<String, Object> serviceDataMap = getUniqueKeyMap(serviceDataList, singleMetadataServiceWrapper.getSyncService()::getUnique);
 
             List<Object> cacheDataList = cacheData.get(clazz);
             if (Objects.isNull(cacheDataList)) {
@@ -132,7 +132,7 @@ public class MetaDataManager {
             }
 
             // the cache should be just updated in the dbToService function
-            Map<String, Object> dbDataMap = getUniqueKeyMap(cacheDataList, singleMetaDataServiceWrapper.getSyncService()::getUnique);
+            Map<String, Object> dbDataMap = getUniqueKeyMap(cacheDataList, singleMetadataServiceWrapper.getSyncService()::getUnique);
 
             List<Object> toInsert = new ArrayList<>();
             List<Object> toUpdate = new ArrayList<>();
@@ -159,9 +159,9 @@ public class MetaDataManager {
             //see comment above
             toInsert.addAll(serviceDataMap.values());
 
-            singleMetaDataServiceWrapper.getSyncService().insertData(toInsert);
-            singleMetaDataServiceWrapper.getSyncService().updateData(toUpdate);
-            singleMetaDataServiceWrapper.getSyncService().deleteData(toDelete);
+            singleMetadataServiceWrapper.getSyncService().insertData(toInsert);
+            singleMetadataServiceWrapper.getSyncService().updateData(toUpdate);
+            singleMetadataServiceWrapper.getSyncService().deleteData(toDelete);
 
         } catch (Throwable e) {
             //TODO Exception

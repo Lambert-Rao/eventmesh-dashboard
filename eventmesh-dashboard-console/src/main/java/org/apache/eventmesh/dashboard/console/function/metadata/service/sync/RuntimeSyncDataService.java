@@ -17,12 +17,32 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
 import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetadata;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.RuntimeMetadata;
+import org.apache.eventmesh.dashboard.console.function.metadata.util.Converter;
+import org.apache.eventmesh.dashboard.console.function.metadata.util.ConverterFactory;
+import org.apache.eventmesh.dashboard.console.service.database.runtime.RuntimeService;
+import org.apache.eventmesh.dashboard.console.service.database.cluster.ClusterService;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class RuntimeSyncDataService <T> implements SyncDataService<T>
-{
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RuntimeSyncDataService<T> implements SyncDataService<T> {
+
+    @Autowired
+    private RuntimeService runtimeDataService;
+
+    @Autowired
+    private ClusterService clusterService;
 
     @Override
     public List<T> getData() {
@@ -31,7 +51,26 @@ public class RuntimeSyncDataService <T> implements SyncDataService<T>
 
     @Override
     public List<Long> insertData(List<T> toInsertList) {
-        return null;
+        //if (database contains)
+        // status =1
+        //else
+        // if cluster info does not exist, create cluster then create runtime info
+
+        if (writable()) {
+            Converter converter = ConverterFactory.createConverter(RuntimeMetadata.class);
+            List<RuntimeEntity> runtimeEntities = new ArrayList<>();
+            Set<String> clusterNames = new HashSet<>();
+            for (T t : toInsertList) {
+                RuntimeMetadata runtimeMetadata = (RuntimeMetadata) t;
+                RuntimeEntity runtimeEntity = (RuntimeEntity) converter.toEntity(runtimeMetadata);
+                runtimeEntities.add(runtimeEntity);
+                clusterNames.add(runtimeMetadata.getClusterName());
+            }
+
+            //TODO check if cluster exists
+            clusterService.batchInsert(clusterNames);
+            return runtimeDataService.batchInsert(runtimeEntities);
+        }
     }
 
     @Override

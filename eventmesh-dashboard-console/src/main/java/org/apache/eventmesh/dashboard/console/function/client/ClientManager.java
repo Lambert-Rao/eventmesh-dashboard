@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.util.Pair;
 
+//todo rename
 public class ClientManager {
 
     private static final ClientManager INSTANCE = new ClientManager();
@@ -82,6 +83,7 @@ public class ClientManager {
         }
     }
 
+    //todo closable
     public void deleteClient(ClientTypeEnum clientTypeEnum, String uniqueKey) {
         Map<String, Object> clients = this.clientMap.get(clientTypeEnum);
         ClientOperation operation = this.clientCreateOperationMap.get(clientTypeEnum);

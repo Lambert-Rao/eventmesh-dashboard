@@ -17,7 +17,8 @@
 
 package org.apache.eventmesh.dashboard.console.function.cluster;
 
-import org.apache.eventmesh.dashboard.console.entity.ClusterEntity;
+
+import org.apache.eventmesh.dashboard.console.entity.cluster.ClusterEntity;
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
 
 import java.util.HashMap;
@@ -27,22 +28,21 @@ import lombok.Data;
 @Data
 public class ClusterCache {
 
-    private static HashMap<Long, ClusterEntity> clusterMap = new HashMap<>();
+    //registry url
+    private static HashMap<String, ClusterEntity> clusterMap = new HashMap<>();
 
+    public static ClusterEntity getCluster(String bootstrapServers) {
+        return clusterMap.get(bootstrapServers);
+    }
     public static void addCluster(ClusterEntity clusterEntity) {
-        clusterMap.put(clusterEntity.getId(), clusterEntity);
+        clusterMap.put(clusterEntity.getBootstrapServers(), clusterEntity);
     }
 
     public static void updateCluster(ClusterEntity clusterEntity) {
-        clusterMap.put(clusterEntity.getId(), clusterEntity);
+        clusterMap.put(clusterEntity.getBootstrapServers(), clusterEntity);
     }
 
     public static void deleteCluster(Long id) {
         clusterMap.remove(id);
-    }
-
-    public class ClusterCacheInfo extends ClusterEntity {
-
-        private StoreType storeType;
     }
 }

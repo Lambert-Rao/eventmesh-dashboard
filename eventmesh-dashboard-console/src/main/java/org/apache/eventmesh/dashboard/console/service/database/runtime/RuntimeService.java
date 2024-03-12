@@ -26,7 +26,7 @@ import java.util.List;
  */
 public interface RuntimeService {
 
-    void batchInsert(List<RuntimeEntity> runtimeEntities);
+    List<Long> batchInsert(List<RuntimeEntity> runtimeEntities);
 
     List<RuntimeEntity> selectAll();
 

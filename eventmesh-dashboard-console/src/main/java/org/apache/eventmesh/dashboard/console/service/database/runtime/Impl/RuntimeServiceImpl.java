@@ -33,8 +33,8 @@ public class RuntimeServiceImpl implements RuntimeService {
     private RuntimeMapper runtimeMapper;
 
     @Override
-    public void batchInsert(List<RuntimeEntity> runtimeEntities) {
-        runtimeMapper.batchInsert(runtimeEntities);
+    public List<Long> batchInsert(List<RuntimeEntity> runtimeEntities) {
+        return runtimeMapper.batchInsert(runtimeEntities);
     }
 
     @Override

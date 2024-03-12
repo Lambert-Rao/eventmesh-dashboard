@@ -45,7 +45,7 @@ public interface MetaMapper {
         "</foreach>",
         "</script>"})
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    void batchInsert(List<MetaEntity> metaEntities);
+    List<Long> batchInsert(List<MetaEntity> metaEntities);
 
     @Select("SELECT * FROM meta WHERE id = #{id}")
     MetaEntity selectById(MetaEntity metaEntity);

@@ -18,16 +18,16 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
 
 import lombok.Data;
 
 @Data
-public class TopicMetaData extends MetaDataOperationConfig {
+public class TopicMetadata extends MetadataOperationConfig {
 
     {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.TOPIC);
+        this.setServiceTypeEnums(MetadataServiceTypeEnums.TOPIC);
     }
 
     private StoreType storeType;

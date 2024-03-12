@@ -18,13 +18,36 @@
 package org.apache.eventmesh.dashboard.console.function.metadata.data;
 
 import org.apache.eventmesh.dashboard.console.enums.StoreType;
-import org.apache.eventmesh.dashboard.console.function.MetaDataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetaDataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
+import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
 
-public class ClusterMetaData extends MetaDataOperationConfig {
-    StoreType storeType;
+import java.sql.Timestamp;
+
+public class ClusterMetadata extends MetadataOperationConfig {
 
     {
-        this.setServiceTypeEnums(MetaDataServiceTypeEnums.CLUSTER);
+        this.setServiceTypeEnums(MetadataServiceTypeEnums.CLUSTER);
     }
+
+    private String name;
+
+    private String registerNameList;
+
+    private String bootstrapServers;
+
+    private String eventmeshVersion;
+
+    private String clientProperties;
+
+    private String jmxProperties;
+
+    private String regProperties;
+
+    private Integer authType;
+
+    private Integer runState;
+
+    private Integer status;
+
+    private StoreType storeType;
 }

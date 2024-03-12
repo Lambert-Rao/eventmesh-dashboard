@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class NacosRegisterCheckTest {
 
-    private NacosRegisterCheck nacosRegisterCheck;
+    private NacosNamingServiceCheck nacosRegisterCheck;
 
     @BeforeEach
     public void init() {
@@ -41,7 +41,7 @@ class NacosRegisterCheckTest {
         config.setHealthCheckResourceSubType("nacos");
         config.setClusterId(1L);
         config.setConnectUrl("127.0.0.1:8848");
-        nacosRegisterCheck = new NacosRegisterCheck(config);
+        nacosRegisterCheck = new NacosNamingServiceCheck(config);
     }
 
     @Test

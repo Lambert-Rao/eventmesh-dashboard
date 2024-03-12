@@ -15,25 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.function.metadata.data;
+package org.apache.eventmesh.dashboard.console.service.database.center;
 
-import org.apache.eventmesh.dashboard.console.function.MetadataOperationConfig;
-import org.apache.eventmesh.dashboard.console.function.MetadataServiceTypeEnums;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
 
-import java.sql.Timestamp;
+import java.util.List;
 
-public class GroupMetadata extends MetadataOperationConfig {
-    {
-        this.setServiceTypeEnums(MetadataServiceTypeEnums.GROUP);
-    }
+/**
+ * database service
+ */
+public interface CenterDataService {
 
-    private String name;
+    List<Long> batchInsert(List<MetaEntity> metaEntities);
 
-    private Integer memberCount;
-
-    private String members;
-
-    private Integer type;
-
-    private String state;
+    List<MetaEntity> selectAll();
 }

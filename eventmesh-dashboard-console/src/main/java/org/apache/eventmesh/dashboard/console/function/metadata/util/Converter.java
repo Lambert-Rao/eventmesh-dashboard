@@ -21,5 +21,5 @@ public interface Converter<T, R> {
 
     R toEntity(T source);
 
-    T toMetaData(R source);
+    T toMetadata(R source);
 }

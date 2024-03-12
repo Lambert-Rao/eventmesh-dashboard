@@ -17,16 +17,25 @@
 
 package org.apache.eventmesh.dashboard.console.function.metadata.service.sync;
 
-import org.apache.eventmesh.dashboard.console.entity.MetaEntity;
-import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
-import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetaData;
-import org.apache.eventmesh.dashboard.console.service2.database.CenterDataService;
 
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.function.metadata.SyncDataService;
+import org.apache.eventmesh.dashboard.console.function.metadata.data.CenterMetadata;
+import org.apache.eventmesh.dashboard.console.function.metadata.util.Converter;
+import org.apache.eventmesh.dashboard.console.function.metadata.util.ConverterFactory;
+import org.apache.eventmesh.dashboard.console.service.database.center.CenterDataService;
+import org.apache.eventmesh.dashboard.console.service.metadata.CenterService;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Service
 @NoArgsConstructor
 public class CenterSyncDataService<T> implements SyncDataService<T> {
 
@@ -34,18 +43,25 @@ public class CenterSyncDataService<T> implements SyncDataService<T> {
         this.centerDataService = centerDataService;
     }
 
-    @Setter
+    @Autowired
     private CenterDataService centerDataService;
 
     @Override
     public List<T> getData() {
-        return (List<T>) centerDataService.getAll();
+        return (List<T>) centerDataService.selectAll();
     }
 
     @Override
     public List<Long> insertData(List<T> toInsertList) {
         if (writable()) {
-            return centerDataService.batchInsert((List<CenterMetaData>) toInsertList);
+            Converter converter = ConverterFactory.createConverter(CenterMetadata.class);
+            List<MetaEntity> centerEntities = new ArrayList<>();
+            for (T t : toInsertList) {
+                CenterMetadata centerMeta = (CenterMetadata) t;
+                MetaEntity centerEntity = (MetaEntity) converter.toEntity(centerMeta);
+                centerEntities.add(centerEntity);
+            }
+            return centerDataService.batchInsert(centerEntities);
         } else {
             return null;
         }
@@ -58,9 +74,9 @@ public class CenterSyncDataService<T> implements SyncDataService<T> {
             MetaEntity centerEntity = (MetaEntity) t;
             return centerEntity.getHost() + ":" + centerEntity.getPort();
         }
-        if (t instanceof CenterMetaData) {
-            CenterMetaData centerMeta = (CenterMetaData) t;
-            return centerMeta.getAddress();
+        if (t instanceof CenterMetadata) {
+            CenterMetadata centerMeta = (CenterMetadata) t;
+            return centerMeta.getRegisterAddress();
         } else {
             throw new IllegalArgumentException("unsupported type");
         }
