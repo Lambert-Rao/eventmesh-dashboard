@@ -20,7 +20,7 @@ create table cluster
     id                 bigint unsigned auto_increment comment '集群id'
         primary key,
     name               varchar(128)  default ''                not null comment '集群名称',
-    register_name_list varchar(4096) default ''                not null comment '注册中心名字',
+    registry_name_list varchar(4096) default ''                not null comment '注册中心名字',
     bootstrap_servers  varchar(2048) default ''                not null comment 'server地址',
     eventmesh_version  varchar(32)   default ''                not null comment 'eventmesh版本',
     client_properties  text                                    null comment 'EventMesh客户端配置',

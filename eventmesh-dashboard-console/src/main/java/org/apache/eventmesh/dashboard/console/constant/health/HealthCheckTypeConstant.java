@@ -35,5 +35,5 @@ public class HealthCheckTypeConstant {
     public static final String HEALTH_CHECK_SUBTYPE_ROCKETMQ_TOPIC = "rocketmq4-topic";
 
     public static final String HEALTH_CHECK_SUBTYPE_NACOS_CONFIG = "nacos-config";
-    public static final String HEALTH_CHECK_SUBTYPE_NACOS_REGISTER = "nacos-register";
+    public static final String HEALTH_CHECK_SUBTYPE_NACOS_REGISTRY = "nacos-registry";
 }

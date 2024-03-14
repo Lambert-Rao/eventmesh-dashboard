@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * HealthService is the manager of all health check services. It is responsible for creating, deleting and executing health check services.<br> In
+ * HealthService is the manager of all health check services. It is responsible for creating, deleting and executing health check services.<p> In
  * this class there is a {@link HealthExecutor} which is used to execute health check services, and also a map to store all health check services.
  * when the function executeAll is called, health check service will be executed by {@link HealthExecutor}.
  */
@@ -48,7 +48,7 @@ public class HealthService {
     private HealthExecutor healthExecutor;
 
     /**
-     * class cache used to build healthCheckService instance.<br> key: HealthCheckObjectConfig.SimpleClassName value: HealthCheckService
+     * class cache used to build healthCheckService instance.<p> key: HealthCheckObjectConfig.SimpleClassName value: HealthCheckService
      *
      * @see HealthCheckObjectConfig
      */
@@ -63,7 +63,7 @@ public class HealthService {
     }
 
     /**
-     * This map is used to store HealthExecutor.<br> Outside key is Type(runtime, storage etc.), inside key is the id of type instance(runtimeId,
+     * This map is used to store HealthExecutor.<p> Outside key is Type(runtime, storage etc.), inside key is the id of type instance(runtimeId,
      * storageId etc.).
      *
      * @see AbstractHealthCheckService

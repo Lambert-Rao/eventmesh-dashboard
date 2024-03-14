@@ -137,6 +137,7 @@ public class Rocketmq4TopicCheck extends AbstractHealthCheckService {
         remotingClient.start();
 
         //TODO there are many functions that can be reused, they should be collected in a util module
+        //TODO: refactor all health check to use client manager
         //this function that create topics can be reused
         try {
             CreateTopicRequestHeader requestHeader = new CreateTopicRequestHeader();
@@ -163,7 +164,7 @@ public class Rocketmq4TopicCheck extends AbstractHealthCheckService {
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.setNamesrvAddr(getConfig().getRocketmqConfig().getNameServerUrl());
             consumer.subscribe(HealthConstant.ROCKETMQ_CHECK_TOPIC, "*");
-            consumer.registerMessageListener(new MessageListenerConcurrently() {
+            consumer.registryMessageListener(new MessageListenerConcurrently() {
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
                     consumedMessages.addAll(list);

@@ -29,9 +29,9 @@ import org.junit.jupiter.api.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-class NacosRegisterCheckTest {
+class NacosRegistryCheckTest {
 
-    private NacosRegisterCheck nacosRegisterCheck;
+    private NacosNamingServiceCheck nacosRegistryCheck;
 
     @BeforeEach
     public void init() {
@@ -41,13 +41,13 @@ class NacosRegisterCheckTest {
         config.setHealthCheckResourceSubType("nacos");
         config.setClusterId(1L);
         config.setConnectUrl("127.0.0.1:8848");
-        nacosRegisterCheck = new NacosRegisterCheck(config);
+        nacosRegistryCheck = new NacosNamingServiceCheck(config);
     }
 
     @Test
     public void testDoCheck() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
-        nacosRegisterCheck.doCheck(new HealthCheckCallback() {
+        nacosRegistryCheck.doCheck(new HealthCheckCallback() {
             @Override
             public void onSuccess() {
                 latch.countDown();
@@ -65,6 +65,6 @@ class NacosRegisterCheckTest {
 
     @AfterEach
     public void destroy() {
-        nacosRegisterCheck.destroy();
+        nacosRegistryCheck.destroy();
     }
 }

@@ -39,10 +39,10 @@ public interface ClusterMapper {
 
     @Insert({
         "<script>",
-        "   INSERT INTO cluster (name, register_name_list, bootstrap_servers, eventmesh_version, client_properties, jmx_properties,",
+        "   INSERT INTO cluster (name, registry_name_list, bootstrap_servers, eventmesh_version, client_properties, jmx_properties,",
         "reg_properties, description, auth_type,run_state, store_type) VALUES ",
         "   <foreach collection='list' item='c' index='index' separator=','>",
-        "   (#{c.name}, #{c.registerNameList}, #{c.bootstrapServers}, #{c.eventmeshVersion}, #{c.clientProperties}, #{c.jmxProperties}, ",
+        "   (#{c.name}, #{c.registryNameList}, #{c.bootstrapServers}, #{c.eventmeshVersion}, #{c.clientProperties}, #{c.jmxProperties}, ",
         "   #{c.regProperties}, #{c.description}, #{c.authType}, #{c.runState},#{c.storeType})",
         "   </foreach>",
         "</script>"})
@@ -52,8 +52,8 @@ public interface ClusterMapper {
     @Select("SELECT * FROM cluster WHERE id=#{id} AND status=1")
     ClusterEntity selectClusterById(ClusterEntity cluster);
 
-    @Insert("INSERT INTO cluster (name, register_name_list, bootstrap_servers, eventmesh_version, client_properties, "
-        + "jmx_properties, reg_properties, description, auth_type, run_state,store_type) VALUES (#{name},#{registerNameList},"
+    @Insert("INSERT INTO cluster (name, registry_name_list, bootstrap_servers, eventmesh_version, client_properties, "
+        + "jmx_properties, reg_properties, description, auth_type, run_state,store_type) VALUES (#{name},#{registryNameList},"
         + "#{bootstrapServers},#{eventmeshVersion},#{clientProperties},#{jmxProperties},#{regProperties},#{description},#{authType},"
         + "#{runState},#{storeType})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
@@ -62,7 +62,7 @@ public interface ClusterMapper {
     @Update("UPDATE cluster SET name =#{name},reg_properties=#{regProperties},bootstrap_servers=#{bootstrapServers},"
         + "eventmesh_version=#{eventmeshVersion},client_properties=#{clientProperties},jmx_properties=#{jmxProperties},"
         + "reg_properties=#{regProperties},description=#{description},auth_type=#{authType},run_state=#{runState} ,"
-        + "register_name_list=#{registerNameList} WHERE id=#{id}")
+        + "registry_name_list=#{registryNameList} WHERE id=#{id}")
     void updateClusterById(ClusterEntity cluster);
 
     @Delete("UPDATE cluster SET status=0 WHERE id=#{id}")

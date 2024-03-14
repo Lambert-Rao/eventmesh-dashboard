@@ -34,7 +34,7 @@ public class ClusterEntity extends BaseEntity {
 
     private String name;
 
-    private String registerNameList;
+    private String registryNameList;
 
     private String bootstrapServers;
 

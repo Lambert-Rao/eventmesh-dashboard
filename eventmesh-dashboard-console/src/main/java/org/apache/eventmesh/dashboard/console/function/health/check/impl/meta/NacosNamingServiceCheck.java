@@ -17,7 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.function.health.check.impl.meta;
 
-import static org.apache.eventmesh.dashboard.console.constant.health.HealthCheckTypeConstant.HEALTH_CHECK_SUBTYPE_NACOS_REGISTER;
+import static org.apache.eventmesh.dashboard.console.constant.health.HealthCheckTypeConstant.HEALTH_CHECK_SUBTYPE_NACOS_REGISTRY;
 import static org.apache.eventmesh.dashboard.console.constant.health.HealthCheckTypeConstant.HEALTH_CHECK_TYPE_META;
 import static org.apache.eventmesh.dashboard.console.constant.health.HealthConstant.NACOS_CHECK_SERVICE_CLUSTER_NAME;
 import static org.apache.eventmesh.dashboard.console.constant.health.HealthConstant.NACOS_CHECK_SERVICE_NAME;
@@ -37,14 +37,17 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * not used for now, recommend to use NacosConfigCheck to check health status of nacos
+ */
 
 @Slf4j
-@HealthCheckType(type = HEALTH_CHECK_TYPE_META, subType = HEALTH_CHECK_SUBTYPE_NACOS_REGISTER)
-public class NacosRegisterCheck extends AbstractHealthCheckService {
+@HealthCheckType(type = HEALTH_CHECK_TYPE_META, subType = HEALTH_CHECK_SUBTYPE_NACOS_REGISTRY)
+public class NacosNamingServiceCheck extends AbstractHealthCheckService {
 
     private NamingService namingService;
 
-    public NacosRegisterCheck(HealthCheckObjectConfig healthCheckObjectConfig) {
+    public NacosNamingServiceCheck(HealthCheckObjectConfig healthCheckObjectConfig) {
         super(healthCheckObjectConfig);
     }
 
@@ -72,7 +75,7 @@ public class NacosRegisterCheck extends AbstractHealthCheckService {
             namingService = NamingFactory.createNamingService(properties);
             namingService.registerInstance(NACOS_CHECK_SERVICE_NAME, "11.11.11.11", 8888, NACOS_CHECK_SERVICE_CLUSTER_NAME);
         } catch (NacosException e) {
-            log.error("NacosRegisterCheck init failed", e);
+            log.error("NacosRegistryCheck init failed", e);
         }
     }
 
@@ -81,7 +84,7 @@ public class NacosRegisterCheck extends AbstractHealthCheckService {
         try {
             namingService.deregisterInstance(NACOS_CHECK_SERVICE_NAME, "11.11.11.11", 8888, NACOS_CHECK_SERVICE_CLUSTER_NAME);
         } catch (NacosException e) {
-            log.error("NacosRegisterCheck destroy failed", e);
+            log.error("NacosRegistryCheck destroy failed", e);
         }
     }
 }
