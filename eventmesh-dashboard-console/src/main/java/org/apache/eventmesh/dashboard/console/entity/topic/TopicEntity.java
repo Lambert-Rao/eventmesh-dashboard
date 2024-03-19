@@ -36,8 +36,6 @@ public class TopicEntity extends BaseEntity {
 
     private String topicName;
 
-    private String runtimeId;
-
     private String storageId;
 
     private Long retentionMs;

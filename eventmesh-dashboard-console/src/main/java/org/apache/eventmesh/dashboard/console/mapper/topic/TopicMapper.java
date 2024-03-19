@@ -40,9 +40,9 @@ public interface TopicMapper {
 
     @Insert({
         "<script>",
-        "INSERT INTO topic (cluster_id, topic_name, runtime_id, storage_id, retention_ms, type, description) VALUES ",
+        "INSERT INTO topic (cluster_id, topic_name, storage_id, retention_ms, type, description) VALUES ",
         "   <foreach collection='list' item='c' index='index' separator=','>",
-        "       (#{c.clusterId},#{c.topicName},#{c.runtimeId},#{c.storageId},#{c.retentionMs},#{c.type},#{c.description})",
+        "       (#{c.clusterId},#{c.topicName},#{c.storageId},#{c.retentionMs},#{c.type},#{c.description})",
         "   </foreach>",
         "</script>"})
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
@@ -66,8 +66,8 @@ public interface TopicMapper {
         "</script>"})
     List<TopicEntity> getTopicList(TopicEntity topicEntity);
 
-    @Insert("INSERT INTO topic (cluster_id, topic_name, runtime_id, storage_id, retention_ms, type, description) "
-        + "VALUE (#{clusterId},#{topicName},#{runtimeId},#{storageId},#{retentionMs},#{type},#{description})"
+    @Insert("INSERT INTO topic (cluster_id, topic_name, storage_id, retention_ms, type, description) "
+        + "VALUE (#{clusterId},#{topicName},#{storageId},#{retentionMs},#{type},#{description})"
         + "ON DUPLICATE KEY UPDATE status = 1")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addTopic(TopicEntity topicEntity);

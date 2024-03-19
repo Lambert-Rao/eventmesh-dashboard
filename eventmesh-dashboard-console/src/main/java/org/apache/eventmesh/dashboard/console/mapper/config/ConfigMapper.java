@@ -33,9 +33,17 @@ import java.util.List;
 @Mapper
 public interface ConfigMapper {
 
+    @Select("SELECT * FROM config WHERE instance_type=#{instanceType} AND instance_id=#{instanceId}")
+    List<ConfigEntity> selectConfigsByInstance(ConfigEntity configEntity);
+
     @Select("SELECT * FROM config WHERE status=1")
     List<ConfigEntity> selectAll();
 
+    /**
+     * todo 补充版本号值的插入;
+     *
+     * @param configEntityList
+     */
     @Insert({
         "<script>",
         "   INSERT INTO config (cluster_id, business_type, instance_type, instance_id, config_name, config_value, start_version,",
@@ -50,20 +58,22 @@ public interface ConfigMapper {
     void batchInsert(List<ConfigEntity> configEntityList);
 
     @Insert("INSERT INTO config (cluster_id, business_type, instance_type, instance_id, config_name, config_value, start_version, "
-        + "status, is_default, end_version, diff_type, description, edit, is_modify, eventmesh_version) VALUE "
+        + "status, is_default, end_version, diff_type, description, edit, is_modify, eventmesh_version,start_version_value,"
+        + "eventmesh_version_value,end_version_value) VALUE "
         + "(#{clusterId},#{businessType},#{instanceType},#{instanceId},#{configName},"
-        + "#{configValue},#{startVersion},#{status},#{isDefault},#{endVersion},#{diffType},#{description},#{edit},#{isModify},#{eventmeshVersion})")
+        + "#{configValue},#{startVersion},#{status},#{isDefault},#{endVersion},#{diffType},#{description},#{edit},#{isModify},#{eventmeshVersion},"
+        + "#{startVersionValue},#{eventmeshVersionValue},#{endVersionValue})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     Integer addConfig(ConfigEntity configEntity);
 
     @Update("UPDATE config SET status=0 WHERE id=#{id}")
     Integer deleteConfig(ConfigEntity configEntity);
 
-    @Update("UPDATE config SET config_value=#{configValue} WHERE status=1 AND edit=2")
+    @Update("UPDATE config SET config_value=#{configValue} WHERE status=1 AND edit=2 AND instance_type=#{instanceType} AND"
+        + " instance_id=#{instanceId} AND is_modify=0")
     void updateConfig(ConfigEntity configEntity);
 
-    @Select("SELECT * FROM config WHERE business_type=#{businessType} AND instance_type=#{instanceType} "
-        + "AND instance_id=#{instanceId}")
+    @Select("SELECT * FROM config WHERE instance_type=#{instanceType} AND instance_id=#{instanceId}")
     List<ConfigEntity> selectByInstanceId(ConfigEntity configEntity);
 
     @Select("SELECT * FROM config WHERE cluster_id=-1 AND business_type=#{businessType} AND instance_type=#{instanceType}")

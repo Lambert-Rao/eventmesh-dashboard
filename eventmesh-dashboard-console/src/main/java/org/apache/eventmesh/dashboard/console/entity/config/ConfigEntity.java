@@ -65,4 +65,10 @@ public class ConfigEntity extends BaseEntity {
     private Integer isDefault;
 
     private Integer isModify;
+
+    private Long startVersionValue;
+
+    private Long eventmeshVersionValue;
+
+    private Long endVersionValue;
 }

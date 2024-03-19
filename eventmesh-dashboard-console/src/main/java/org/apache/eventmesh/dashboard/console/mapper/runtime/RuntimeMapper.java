@@ -34,6 +34,9 @@ import java.util.List;
 @Mapper
 public interface RuntimeMapper {
 
+    @Select("SELECT COUNT(*) FROM runtime WHERE cluster_id=#{clusterId}")
+    Integer getRuntimeNumByCluster(RuntimeEntity runtimeEntity);
+
     @Select("SELECT * FROM runtime WHERE status=1")
     List<RuntimeEntity> selectAll();
 
@@ -55,10 +58,16 @@ public interface RuntimeMapper {
     @Select("SELECT * FROM runtime WHERE cluster_id=#{clusterId} AND status=1")
     List<RuntimeEntity> selectRuntimeByCluster(RuntimeEntity runtimeEntity);
 
+    @Select("SELECT * FROM runtime WHERE host = #{host} and port = #{port} and status = 1")
+    List<RuntimeEntity> selectByHostPort(RuntimeEntity runtimeEntity);
+
     @Update("UPDATE runtime SET port=#{port} ,jmx_port=#{jmxPort} ,status=#{status} WHERE cluster_id=#{clusterId} AND status=1")
     void updateRuntimeByCluster(RuntimeEntity runtimeEntity);
 
     @Delete("UPDATE runtime SET status=0 WHERE cluster_id=#{clusterId}")
     void deleteRuntimeByCluster(RuntimeEntity runtimeEntity);
+
+    @Update("UPDATE runtime SET status = 0 WHERE id = #{id}")
+    void deActive(RuntimeEntity runtimeEntity);
 
 }

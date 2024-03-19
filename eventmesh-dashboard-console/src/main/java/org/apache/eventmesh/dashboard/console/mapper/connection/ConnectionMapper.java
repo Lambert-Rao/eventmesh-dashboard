@@ -64,7 +64,7 @@ public interface ConnectionMapper {
     @Insert("INSERT INTO connection (cluster_id, source_type, source_id," + " sink_type, sink_id, runtime_id, status, topic, group_id, description)"
         + " VALUES ( #{clusterId}, #{sourceType}, #{sourceId}, "
         + " #{sinkType}, #{sinkId},  #{runtimeId}, #{status}, #{topic}, #{groupId}, #{description})")
-    void insert(ConnectionEntity connectionEntity);
+    Long insert(ConnectionEntity connectionEntity);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert({
