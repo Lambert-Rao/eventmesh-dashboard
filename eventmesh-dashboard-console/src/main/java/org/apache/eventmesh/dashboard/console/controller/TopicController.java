@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.controller.metadata;
+package org.apache.eventmesh.dashboard.console.controller;
 
 
+import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
 import org.apache.eventmesh.dashboard.console.service.topic.TopicService;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,17 +35,30 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    public Map<String, String> getTopicAndAbnormalNum(Long clusterId) {
+    @GetMapping("")
+    public GetInstanceAndAbnormalNumResponse getTopicAndAbnormalNum(Long clusterId) {
         Integer topicCount = topicService.selectTopicNumByCluster(clusterId);
         Integer abnormalTopicNum = topicService.getAbnormalTopicNum(clusterId);
-        ConcurrentHashMap<String, String> stringStringConcurrentHashMap = new ConcurrentHashMap<>();
-        stringStringConcurrentHashMap.put("topicCount", String.valueOf(topicCount));
-        stringStringConcurrentHashMap.put("malfunctionCount", String.valueOf(abnormalTopicNum));
-        return stringStringConcurrentHashMap;
+        GetInstanceAndAbnormalNumResponse getInstanceAndAbnormalNumResponse = new GetInstanceAndAbnormalNumResponse(topicCount, abnormalTopicNum);
+        return getInstanceAndAbnormalNumResponse;
     }
 
-    public List<Map<String, Object>> getTopicList(Long clusterId) {
+    public List<GetTopicListResponse> getTopicList(Long clusterId) {
         return topicService.getTopicFrontList(clusterId);
+    }
+
+    public boolean deleteTopic(Long topicId, String topicName) {
+        try {
+            topicService.deleteTopic(topicId, topicName);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean createTopic(Long clusterId, CreateTopicRequest createTopicRequest) {
+        topicService.createTopic(clusterId, createTopicRequest);
+        return false;
     }
 
 
