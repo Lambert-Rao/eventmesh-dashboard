@@ -72,9 +72,7 @@ public class TopicServiceImpl implements TopicService {
         storeEntity.setClusterId(topicEntity.getClusterId());
         topicEntity.setStorageId(String.valueOf(storeMapper.selectStoreByCluster(storeEntity).getId()));
         topicMapper.addTopic(topicEntity);
-        /**
-         * TODO 更新store中的topicName列表
-         */
+
         StoreEntity storeEntity1 = storeMapper.selectStoreByCluster(storeEntity);
         storeEntity1.setTopicList(storeEntity1.getTopicList() + topicEntity.getTopicName() + ",");
         storeMapper.updateTopicListByCluster(storeEntity1);
