@@ -19,7 +19,6 @@ package org.apache.eventmesh.dashboard.console.service.topic;
 
 import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
 import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
-import org.apache.eventmesh.dashboard.console.dto.health.LastHealthCheckResponse;
 import org.apache.eventmesh.dashboard.console.entity.config.ConfigEntity;
 import org.apache.eventmesh.dashboard.console.entity.groupmember.GroupMemberEntity;
 import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
@@ -60,12 +59,6 @@ public class TopicServiceImpl implements TopicService {
     @Autowired
     StoreMapper storeMapper;
 
-    /**
-     * topic分配到全部store里面？
-     *
-     * @param clusterId
-     * @param topicRequest
-     */
 
     @Override
     public void createTopic(Long clusterId, CreateTopicRequest topicRequest) {

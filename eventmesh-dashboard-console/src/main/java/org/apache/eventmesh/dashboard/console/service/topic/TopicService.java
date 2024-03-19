@@ -19,7 +19,6 @@ package org.apache.eventmesh.dashboard.console.service.topic;
 
 import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
 import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
-import org.apache.eventmesh.dashboard.console.dto.health.LastHealthCheckResponse;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
 
 import java.util.List;
