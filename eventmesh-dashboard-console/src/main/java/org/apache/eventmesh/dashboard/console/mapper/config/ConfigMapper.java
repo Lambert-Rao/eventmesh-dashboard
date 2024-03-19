@@ -40,7 +40,7 @@ public interface ConfigMapper {
     List<ConfigEntity> selectAll();
 
     /**
-     * todo 补充版本号值的插入;
+     * todo Insertion of supplemental version number values;
      *
      * @param configEntityList
      */
