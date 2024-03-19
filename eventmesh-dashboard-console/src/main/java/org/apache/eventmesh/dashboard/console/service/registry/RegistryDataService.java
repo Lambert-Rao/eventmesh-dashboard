@@ -15,40 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
+package org.apache.eventmesh.dashboard.console.service.registry;
 
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.function.metadata.handler.MetadataHandler;
 
-import java.sql.Timestamp;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+/**
+ * Database service of registry(meta) such as nacos
+ */
+public interface RegistryDataService {
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+    public List<MetaEntity> selectAll();
 
-    private Long id;
+    public List<Long> batchInsert(List<MetaEntity> metaEntities);
 
-    private Long clusterId;
+    public Long insert(MetaEntity metaEntity);
 
-    private String topicName;
-
-    private Long runtimeId;
-
-    private Long storageId;
-
-    private Long retentionMs;
-
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
+    public void deActive(MetaEntity metaEntity);
 }

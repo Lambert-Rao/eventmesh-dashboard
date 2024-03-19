@@ -15,40 +15,25 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
+package org.apache.eventmesh.dashboard.console.enums.metadata;
 
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+public enum MetadataServiceTypeEnum {
 
-import java.sql.Timestamp;
+    RUNTIME,
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+    CENTER_ETCD,
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+    META_NACOS,
 
-    private Long id;
+    TOPIC,
 
-    private Long clusterId;
+    CLUSTER,
 
-    private String topicName;
+    CLIENT,
 
-    private Long runtimeId;
+    GROUP,
 
-    private Long storageId;
+    CONNECTION,
 
-    private Long retentionMs;
 
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
 }

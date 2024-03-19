@@ -29,9 +29,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RuntimeEntity extends BaseEntity {
-
-    private Long id;
-
     private Long clusterId;
 
     private String host;

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connector.Impl;
+package org.apache.eventmesh.dashboard.console.service.registry.impl;
 
-import org.apache.eventmesh.dashboard.console.entity.connector.ConnectorEntity;
-import org.apache.eventmesh.dashboard.console.mapper.connector.ConnectorMapper;
-import org.apache.eventmesh.dashboard.console.service.connector.ConnectorDataService;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.mapper.meta.MetaMapper;
+import org.apache.eventmesh.dashboard.console.service.registry.RegistryDataService;
 
 import java.util.List;
 
@@ -27,20 +27,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConnectorDataServiceImpl implements ConnectorDataService {
+public class RegistryDataServiceImpl implements RegistryDataService {
 
     @Autowired
-    private ConnectorMapper connectorMapper;
+    MetaMapper metaMapper;
 
-    @Override
-    public List<ConnectorEntity> selectConnectorByCluster(Long clusterId) {
-        ConnectorEntity connectorEntity = new ConnectorEntity();
-        connectorEntity.setClusterId(clusterId);
-        return connectorMapper.selectByClusterId(connectorEntity);
+    public List<MetaEntity> selectAll() {
+        return metaMapper.selectAll();
     }
 
     @Override
-    public List<ConnectorEntity> selectByHostPort(ConnectorEntity connectorEntity) {
-        return null;
+    public List<Long> batchInsert(List<MetaEntity> metaEntities) {
+        return metaMapper.batchInsert(metaEntities);
+    }
+
+    @Override
+    public Long insert(MetaEntity metaEntity) {
+        return metaMapper.insert(metaEntity);
+    }
+
+    @Override
+    public void deActive(MetaEntity metaEntity) {
+        metaMapper.deActive(metaEntity);
     }
 }

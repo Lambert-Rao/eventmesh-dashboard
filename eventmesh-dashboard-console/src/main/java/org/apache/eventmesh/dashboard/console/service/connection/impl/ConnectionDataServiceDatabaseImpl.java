@@ -44,6 +44,11 @@ public class ConnectionDataServiceDatabaseImpl implements ConnectionDataService 
         return connectionMapper.selectByClusterId(connectionEntity);
     }
 
+    @Override
+    public Long insert(ConnectionEntity connectionEntity) {
+        return connectionMapper.insert(connectionEntity);
+    }
+
 
     @Override
     public Integer selectConnectionNumByCluster(Long clusterId) {
@@ -55,40 +60,6 @@ public class ConnectionDataServiceDatabaseImpl implements ConnectionDataService 
     @Override
     public List<ConnectionEntity> getAllConnections() {
         return connectionMapper.selectAll();
-    }
-
-
-    @Override
-    @Transactional
-    public void replaceAllConnections(List<ConnectionEntity> connectionEntityList) {
-        Map<Long, List<ConnectionEntity>> connectionsGroupedByClusterId = connectionEntityList.stream()
-            .collect(Collectors.groupingBy(ConnectionEntity::getClusterId));
-
-        connectionsGroupedByClusterId.forEach((clusterId, newConnections) -> {
-            ConnectionEntity connectionEntity = new ConnectionEntity();
-            connectionEntity.setClusterId(clusterId);
-            List<ConnectionEntity> existingConnections = connectionMapper.selectByClusterId(connectionEntity);
-
-            // Collect connections that are not in the new list
-            List<ConnectionEntity> connectionsToInactive = existingConnections.stream()
-                .filter(existingConnection -> !newConnections.contains(existingConnection))
-                .collect(Collectors.toList());
-
-            // Collect new connections that are not in the existing list
-            List<ConnectionEntity> connectionsToInsert = newConnections.stream()
-                .filter(connection -> !existingConnections.contains(connection))
-                .collect(Collectors.toList());
-
-            // Delete connections in batch
-            if (!connectionsToInactive.isEmpty()) {
-                connectionMapper.batchEndConnectionById(connectionsToInactive);
-            }
-
-            // Insert new connections in batch
-            if (!connectionsToInsert.isEmpty()) {
-                connectionMapper.batchInsert(connectionsToInsert);
-            }
-        });
     }
 }
 

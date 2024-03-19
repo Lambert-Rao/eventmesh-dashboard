@@ -32,5 +32,5 @@ public interface ConnectionDataService {
 
     List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
 
-    void replaceAllConnections(List<ConnectionEntity> connectionEntityList);
+    Long insert(ConnectionEntity connectionEntity);
 }

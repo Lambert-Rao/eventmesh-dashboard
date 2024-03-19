@@ -48,17 +48,24 @@ public interface RuntimeMapper {
     void batchInsert(List<RuntimeEntity> runtimeEntities);
 
     @Insert("INSERT INTO runtime (cluster_id, host, storage_cluster_id, port, jmx_port, start_timestamp, rack, status, "
-        + "endpoint_map) VALUES(#{clusterId},#{host},#{storageClusterId},#{port},#{jmxPort},#{startTimestamp},#{rack},#{status},#{endpointMap})")
+        + "endpoint_map) VALUES(#{clusterId},#{host},#{storageClusterId},#{port},#{jmxPort},#{startTimestamp},#{rack},#{status},#{endpointMap})"
+        + " ON DUPLICATE KEY UPDATE status=1,start_timestamp = now()")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addRuntime(RuntimeEntity runtimeEntity);
 
     @Select("SELECT * FROM runtime WHERE cluster_id=#{clusterId} AND status=1")
     List<RuntimeEntity> selectRuntimeByCluster(RuntimeEntity runtimeEntity);
 
+    @Select("SELECT * FROM runtime WHERE host = #{host} and port = #{port} and status = 1")
+    List<RuntimeEntity> selectByHostPort(RuntimeEntity runtimeEntity);
+
     @Update("UPDATE runtime SET port=#{port} ,jmx_port=#{jmxPort} ,status=#{status} WHERE cluster_id=#{clusterId} AND status=1")
     void updateRuntimeByCluster(RuntimeEntity runtimeEntity);
 
     @Delete("UPDATE runtime SET status=0 WHERE cluster_id=#{clusterId}")
     void deleteRuntimeByCluster(RuntimeEntity runtimeEntity);
+
+    @Update("UPDATE runtime SET status = 0 WHERE id = #{id}")
+    void deActive(RuntimeEntity runtimeEntity);
 
 }

@@ -27,6 +27,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class TopicServiceImpl implements TopicService {
 
@@ -35,7 +37,6 @@ public class TopicServiceImpl implements TopicService {
 
     @Autowired
     OprGroupMemberMapper oprGroupMemberMapper;
-
 
     @Override
     public void batchInsert(List<TopicEntity> topicEntities) {

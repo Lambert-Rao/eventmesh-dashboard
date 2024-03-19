@@ -30,11 +30,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClusterEntity extends BaseEntity {
 
-    private Long id;
-
     private String name;
 
-    private String registerNameList;
+    private String registryNameList;
 
     private String bootstrapServers;
 
@@ -58,5 +56,8 @@ public class ClusterEntity extends BaseEntity {
 
     private Timestamp updateTime;
 
+    /**
+     * @See StoreType
+     */
     private Integer storeType;
 }

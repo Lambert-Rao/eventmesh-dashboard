@@ -38,6 +38,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public StoreEntity selectById(Long storeId) {
+        StoreEntity query = new StoreEntity();
+        query.setId(storeId);
+        return storeMapper.selectById(query);
+    }
+
+    @Override
     public void batchInsert(List<StoreEntity> storeEntities) {
         storeMapper.batchInsert(storeEntities);
     }

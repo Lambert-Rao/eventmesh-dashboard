@@ -36,6 +36,9 @@ public interface StoreMapper {
     @Select("SELECT * FROM store WHERE status=1")
     List<StoreEntity> selectAll();
 
+    @Select("SELECT * FROM store WHERE id=#{id} AND status=1")
+    StoreEntity selectById(StoreEntity storeEntity);
+
     @Insert({
         "<script>",
         "INSERT INTO store (cluster_id, store_id, store_type, host, runtime_id, topic_list, diff_type, port, jmx_port,start_timestamp, rack,",

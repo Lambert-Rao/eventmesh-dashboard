@@ -32,9 +32,13 @@ public interface RuntimeService {
 
     List<RuntimeEntity> getRuntimeByClusterId(Long cluster);
 
+    List<RuntimeEntity> selectByHostPort(RuntimeEntity runtimeEntity);
+
     void addRuntime(RuntimeEntity runtimeEntity);
 
     void updateRuntimeByCluster(RuntimeEntity runtimeEntity);
 
     void deleteRuntimeByCluster(RuntimeEntity runtimeEntity);
+
+    void deActive(RuntimeEntity runtimeEntity);
 }
