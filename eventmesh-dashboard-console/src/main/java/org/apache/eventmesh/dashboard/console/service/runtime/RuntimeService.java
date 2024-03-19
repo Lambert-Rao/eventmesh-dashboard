@@ -17,6 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.service.runtime;
 
+import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
 import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
 
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.List;
  * Runtime data service
  */
 public interface RuntimeService {
+
+    GetInstanceAndAbnormalNumResponse getRuntimeBaseMessage(Long clusterId);
 
     void batchInsert(List<RuntimeEntity> runtimeEntities);
 

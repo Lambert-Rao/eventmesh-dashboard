@@ -17,13 +17,16 @@
 
 package org.apache.eventmesh.dashboard.console.service.config.Impl;
 
+import org.apache.eventmesh.dashboard.console.dto.config.UpdateConfigsLog;
 import org.apache.eventmesh.dashboard.console.entity.config.ConfigEntity;
 import org.apache.eventmesh.dashboard.console.mapper.config.ConfigMapper;
 import org.apache.eventmesh.dashboard.console.service.config.ConfigService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,55 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Autowired
     ConfigMapper configMapper;
+
+
+    @Override
+    public void logUpdateRuntimeConfigs(UpdateConfigsLog updateConfigsLog) {
+
+    }
+
+    @Override
+    public void logUpdateStoreConfigs(UpdateConfigsLog updateConfigsLog) {
+
+    }
+
+    @Override
+    public void logUpdateConnectorConfigs(UpdateConfigsLog updateConfigsLog) {
+
+    }
+
+    @Override
+    public void logUpdateTopicConfigs(UpdateConfigsLog updateConfigsLog) {
+
+    }
+
+    @Override
+    public void updateConfigsByInstanceId(String name, List<ConfigEntity> configEntityList) {
+        ConcurrentHashMap<String, String> stringStringConcurrentHashMap = new ConcurrentHashMap<>();
+        configEntityList.forEach(n -> {
+            stringStringConcurrentHashMap.put(n.getConfigName(), n.getConfigValue());
+            this.updateConfig(n);
+        });
+        UpdateConfigsLog updateConfigsLog =
+            new UpdateConfigsLog(name, this.mapToProperties(stringStringConcurrentHashMap), configEntityList.get(0).getClusterId());
+        switch (configEntityList.get(0).getInstanceType()) {
+            case 0:
+                this.logUpdateRuntimeConfigs(updateConfigsLog);
+                break;
+            case 1:
+                this.logUpdateRuntimeConfigs(updateConfigsLog);
+                break;
+            case 2:
+                this.logUpdateRuntimeConfigs(updateConfigsLog);
+                break;
+            case 3:
+                this.logUpdateRuntimeConfigs(updateConfigsLog);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     @Override
     public List<ConfigEntity> selectAll() {
@@ -62,6 +114,19 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
+    public Map<String, String> propertiesToMap(String configProperties) {
+        ConcurrentHashMap<String, String> stringStringConcurrentHashMap = new ConcurrentHashMap<>();
+        String replace = configProperties.replace("{", "");
+        String replace1 = replace.replace("}", "");
+        String[] split = replace1.split(",");
+        Arrays.stream(split).forEach(n -> {
+            String[] split1 = n.split("=");
+            stringStringConcurrentHashMap.put(split1[0].replace("\n ", ""), split1[1]);
+        });
+        return stringStringConcurrentHashMap;
+    }
+
+    @Override
     public Integer addConfig(ConfigEntity configEntity) {
         return configMapper.addConfig(configEntity);
     }
@@ -72,8 +137,11 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public List<ConfigEntity> selectByInstanceId(ConfigEntity configEntity) {
-        return configMapper.selectByInstanceId(configEntity);
+    public List<ConfigEntity> selectByInstanceId(Long instanceId, Integer type) {
+        ConfigEntity config = new ConfigEntity();
+        config.setInstanceId(instanceId);
+        config.setInstanceType(type);
+        return configMapper.selectByInstanceId(config);
     }
 
     @Override
@@ -84,6 +152,19 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public void updateConfig(ConfigEntity configEntity) {
         configMapper.updateConfig(configEntity);
+    }
+
+    @Override
+    public List<ConfigEntity> batchAddVersionValue(List<ConfigEntity> configEntityList) {
+        configEntityList.forEach(n -> {
+            String[] startSplit = n.getStartVersion().split(".");
+            String[] nowSplit = n.getStartVersion().split(".");
+            String[] endSplit = n.getStartVersion().split(".");
+            n.setStartVersionValue(Long.parseLong(startSplit[0]) * 10000L + Long.parseLong(startSplit[1]) * 100L + Long.parseLong(startSplit[2]));
+            n.setEventmeshVersionValue(Long.parseLong(nowSplit[0]) * 10000L + Long.parseLong(nowSplit[1]) * 100L + Long.parseLong(nowSplit[2]));
+            n.setEndVersionValue(Long.parseLong(endSplit[0]) * 10000L + Long.parseLong(endSplit[1]) * 100L + Long.parseLong(endSplit[2]));
+        });
+        return configEntityList;
     }
 
 

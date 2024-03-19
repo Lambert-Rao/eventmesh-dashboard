@@ -17,6 +17,9 @@
 
 package org.apache.eventmesh.dashboard.console.service.cluster;
 
+import org.apache.eventmesh.dashboard.console.dto.cluster.GetClusterBaseMessageResponse;
+import org.apache.eventmesh.dashboard.console.dto.cluster.GetClusterListResponse;
+import org.apache.eventmesh.dashboard.console.dto.cluster.GetResourceNumResponse;
 import org.apache.eventmesh.dashboard.console.entity.cluster.ClusterEntity;
 
 import java.util.List;
@@ -26,6 +29,12 @@ import java.util.List;
  */
 public interface ClusterService {
 
+    GetClusterBaseMessageResponse getClusterBaseMessage(Long clusterId);
+
+    GetResourceNumResponse getResourceNumByCluster(Long clusterId);
+
+    List<GetClusterListResponse> getClusterList();
+
     void batchInsert(List<ClusterEntity> clusterEntities);
 
     List<ClusterEntity> selectAll();
@@ -34,7 +43,7 @@ public interface ClusterService {
 
     List<ClusterEntity> selectAllCluster();
 
-    ClusterEntity selectClusterById(ClusterEntity cluster);
+    ClusterEntity selectClusterById(Long cluster);
 
     void updateClusterById(ClusterEntity cluster);
 

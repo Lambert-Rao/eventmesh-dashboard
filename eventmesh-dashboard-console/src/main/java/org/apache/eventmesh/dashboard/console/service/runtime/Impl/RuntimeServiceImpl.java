@@ -17,7 +17,10 @@
 
 package org.apache.eventmesh.dashboard.console.service.runtime.Impl;
 
+import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
+import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
 import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.mapper.health.HealthCheckResultMapper;
 import org.apache.eventmesh.dashboard.console.mapper.runtime.RuntimeMapper;
 import org.apache.eventmesh.dashboard.console.service.runtime.RuntimeService;
 
@@ -31,6 +34,21 @@ public class RuntimeServiceImpl implements RuntimeService {
 
     @Autowired
     private RuntimeMapper runtimeMapper;
+
+    @Autowired
+    private HealthCheckResultMapper healthCheckResultMapper;
+
+    @Override
+    public GetInstanceAndAbnormalNumResponse getRuntimeBaseMessage(Long clusterId) {
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setClusterId(clusterId);
+        healthCheckResultEntity.setType(2);
+        Integer abnormalNumByClusterIdAndType = healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+        RuntimeEntity runtimeEntity = new RuntimeEntity();
+        runtimeEntity.setClusterId(clusterId);
+        Integer runtimeNumByCluster = runtimeMapper.getRuntimeNumByCluster(runtimeEntity);
+        return new GetInstanceAndAbnormalNumResponse(runtimeNumByCluster, abnormalNumByClusterIdAndType);
+    }
 
     @Override
     public void batchInsert(List<RuntimeEntity> runtimeEntities) {

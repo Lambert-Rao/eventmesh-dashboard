@@ -17,11 +17,21 @@
 
 package org.apache.eventmesh.dashboard.console.service.health.impl;
 
+import org.apache.eventmesh.dashboard.console.dto.health.LastHealthCheckResponse;
+import org.apache.eventmesh.dashboard.console.entity.cluster.ClusterEntity;
 import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.entity.storage.StoreEntity;
+import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
+import org.apache.eventmesh.dashboard.console.mapper.cluster.ClusterMapper;
 import org.apache.eventmesh.dashboard.console.mapper.health.HealthCheckResultMapper;
+import org.apache.eventmesh.dashboard.console.mapper.runtime.RuntimeMapper;
+import org.apache.eventmesh.dashboard.console.mapper.storage.StoreMapper;
+import org.apache.eventmesh.dashboard.console.mapper.topic.TopicMapper;
 import org.apache.eventmesh.dashboard.console.service.health.HealthDataService;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +43,100 @@ public class HealthDataServiceDatabaseImpl implements HealthDataService {
     @Autowired
     private HealthCheckResultMapper healthCheckResultMapper;
 
+    @Autowired
+    private TopicMapper topicMapper;
+
+    @Autowired
+    private ClusterMapper clusterMapper;
+
+    @Autowired
+    private RuntimeMapper runtimeMapper;
+
+    @Autowired
+    private StoreMapper storeMapper;
+
+    @Override
+    public List<LastHealthCheckResponse> getRuntimeLastHealthCheckList(Long clusterId) {
+        RuntimeEntity runtimeEntity = new RuntimeEntity();
+        runtimeEntity.setClusterId(clusterId);
+        List<RuntimeEntity> runtimeEntities = runtimeMapper.selectRuntimeByCluster(runtimeEntity);
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        ArrayList<LastHealthCheckResponse> lastHealthCheckResponds = new ArrayList<>();
+        runtimeEntities.forEach(n -> {
+            healthCheckResultEntity.setType(2);
+            healthCheckResultEntity.setTypeId(n.getId());
+            HealthCheckResultEntity latestByTypeAndId = healthCheckResultMapper.getLatestByTypeAndId(healthCheckResultEntity);
+            LastHealthCheckResponse lastHealthCheckResponse = new LastHealthCheckResponse();
+            lastHealthCheckResponse.setHealthState(latestByTypeAndId.getState());
+            lastHealthCheckResponse.setInstanceName(n.getHost() + ":" + n.getPort());
+            lastHealthCheckResponse.setResultDesc(latestByTypeAndId.getResultDesc());
+            lastHealthCheckResponse.setUpdateTime(latestByTypeAndId.getCreateTime());
+            lastHealthCheckResponds.add(lastHealthCheckResponse);
+        });
+
+        return lastHealthCheckResponds;
+    }
+
+    @Override
+    public LastHealthCheckResponse getStoreLastHealthCheckList(Long clusterId) {
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setClusterId(clusterId);
+        StoreEntity storeEntities = storeMapper.selectStoreByCluster(storeEntity);
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setType(4);
+        healthCheckResultEntity.setTypeId(storeEntities.getId());
+        HealthCheckResultEntity latestByTypeAndId = healthCheckResultMapper.getLatestByTypeAndId(healthCheckResultEntity);
+        LastHealthCheckResponse lastHealthCheckResponse = new LastHealthCheckResponse();
+        lastHealthCheckResponse.setHealthState(latestByTypeAndId.getState());
+        lastHealthCheckResponse.setInstanceName(storeEntities.getHost() + ":" + storeEntities.getPort());
+        lastHealthCheckResponse.setResultDesc(latestByTypeAndId.getResultDesc());
+        lastHealthCheckResponse.setUpdateTime(latestByTypeAndId.getCreateTime());
+
+        return lastHealthCheckResponse;
+    }
+
+    @Override
+    public List<LastHealthCheckResponse> getClusterLastHealthCheckList() {
+
+        List<ClusterEntity> clusterEntities = clusterMapper.selectAllCluster();
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        ArrayList<LastHealthCheckResponse> lastHealthCheckResponses = new ArrayList<>();
+        clusterEntities.forEach(n -> {
+            healthCheckResultEntity.setType(1);
+            healthCheckResultEntity.setTypeId(n.getId());
+            HealthCheckResultEntity latestByTypeAndId = healthCheckResultMapper.getLatestByTypeAndId(healthCheckResultEntity);
+            LastHealthCheckResponse lastHealthCheckResponse = new LastHealthCheckResponse();
+            lastHealthCheckResponse.setHealthState(latestByTypeAndId.getState());
+            lastHealthCheckResponse.setInstanceName(n.getName());
+            lastHealthCheckResponse.setResultDesc(latestByTypeAndId.getResultDesc());
+            lastHealthCheckResponse.setUpdateTime(latestByTypeAndId.getCreateTime());
+            lastHealthCheckResponses.add(lastHealthCheckResponse);
+        });
+
+        return lastHealthCheckResponses;
+    }
+
+    @Override
+    public List<LastHealthCheckResponse> getTopicLastHealthCheckList(Long clusterId) {
+        TopicEntity topicEntity = new TopicEntity();
+        topicEntity.setClusterId(clusterId);
+        List<TopicEntity> topicList = topicMapper.getTopicList(topicEntity);
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        ArrayList<LastHealthCheckResponse> lastHealthCheckRespons = new ArrayList<>();
+        topicList.forEach(n -> {
+            healthCheckResultEntity.setType(3);
+            healthCheckResultEntity.setTypeId(n.getId());
+            HealthCheckResultEntity latestByTypeAndId = healthCheckResultMapper.getLatestByTypeAndId(healthCheckResultEntity);
+            LastHealthCheckResponse lastHealthCheckResponse = new LastHealthCheckResponse();
+            lastHealthCheckResponse.setHealthState(latestByTypeAndId.getState());
+            lastHealthCheckResponse.setInstanceName(n.getTopicName());
+            lastHealthCheckResponse.setResultDesc(latestByTypeAndId.getResultDesc());
+            lastHealthCheckResponse.setUpdateTime(latestByTypeAndId.getCreateTime());
+            lastHealthCheckRespons.add(lastHealthCheckResponse);
+        });
+
+        return lastHealthCheckRespons;
+    }
 
     @Override
     public HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity) {

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto;
+package org.apache.eventmesh.dashboard.console.dto.topic;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.sql.Timestamp;
+
 
 import lombok.Data;
 
@@ -31,9 +31,13 @@ public class CreateTopicRequest {
 
     private String name;
 
-    @JsonCreator
-    public CreateTopicRequest(@JsonProperty("name") String name) {
-        super();
-        this.name = name;
-    }
+    private String description;
+
+    private Integer partitionsNums;
+
+    private Integer replicasNums;
+
+    private Timestamp saveTime;
+
+    private Integer cleanupStrategy;
 }
