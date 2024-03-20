@@ -15,38 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
+package org.apache.eventmesh.dashboard.console.dto.cluster;
 
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
-
-import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class TopicEntity extends BaseEntity {
-
-    private Long id;
+public class GetClusterListResponse {
 
     private Long clusterId;
 
-    private String topicName;
+    private String name;
 
-    private String storageId;
+    private String eventmeshVersion;
 
-    private Long retentionMs;
-
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
 }

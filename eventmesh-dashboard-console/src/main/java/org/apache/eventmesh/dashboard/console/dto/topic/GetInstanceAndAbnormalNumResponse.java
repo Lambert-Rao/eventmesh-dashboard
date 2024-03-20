@@ -15,38 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
-
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
-
-import java.sql.Timestamp;
+package org.apache.eventmesh.dashboard.console.dto.topic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+@Data
+public class GetInstanceAndAbnormalNumResponse {
 
-    private Long id;
+    private Integer instanceCount;
 
-    private Long clusterId;
-
-    private String topicName;
-
-    private String storageId;
-
-    private Long retentionMs;
-
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
+    private Integer malfunctionCount;
 }

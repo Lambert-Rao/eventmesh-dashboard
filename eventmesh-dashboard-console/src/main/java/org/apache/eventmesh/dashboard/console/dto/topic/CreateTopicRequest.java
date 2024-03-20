@@ -15,38 +15,29 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
-
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+package org.apache.eventmesh.dashboard.console.dto.topic;
 
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+/**
+ * TODO this class is copied from storage plugin, needs update
+ */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+public class CreateTopicRequest {
 
-    private Long id;
-
-    private Long clusterId;
-
-    private String topicName;
-
-    private String storageId;
-
-    private Long retentionMs;
-
-    private Integer type;
+    private String name;
 
     private String description;
 
-    private Timestamp createTime;
+    private Integer partitionsNums;
 
-    private Timestamp updateTime;
+    private Integer replicasNums;
 
-    private Integer status;
+    private Timestamp saveTime;
+
+    private Integer cleanupStrategy;
 }

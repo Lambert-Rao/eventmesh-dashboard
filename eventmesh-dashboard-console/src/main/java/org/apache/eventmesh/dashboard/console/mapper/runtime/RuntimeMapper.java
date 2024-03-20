@@ -34,6 +34,9 @@ import java.util.List;
 @Mapper
 public interface RuntimeMapper {
 
+    @Select("SELECT COUNT(*) FROM runtime WHERE cluster_id=#{clusterId}")
+    Integer getRuntimeNumByCluster(RuntimeEntity runtimeEntity);
+
     @Select("SELECT * FROM runtime WHERE status=1")
     List<RuntimeEntity> selectAll();
 

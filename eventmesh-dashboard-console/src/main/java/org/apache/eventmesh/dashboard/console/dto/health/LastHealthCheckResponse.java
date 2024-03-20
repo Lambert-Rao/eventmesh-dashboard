@@ -15,38 +15,27 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
-
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+package org.apache.eventmesh.dashboard.console.dto.health;
 
 import java.sql.Timestamp;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+@Data
+public class LastHealthCheckResponse {
 
-    private Long id;
+    private String instanceName;
 
-    private Long clusterId;
+    @Schema(description = "state of a health check, 0: failed, 1: passed, 2: doing check, 3: out of time")
+    private Integer healthState;
 
-    private String topicName;
-
-    private String storageId;
-
-    private Long retentionMs;
-
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
+    private String resultDesc;
 
     private Timestamp updateTime;
-
-    private Integer status;
 }

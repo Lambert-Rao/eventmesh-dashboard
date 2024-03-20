@@ -17,67 +17,49 @@
 
 package org.apache.eventmesh.dashboard.console.controller;
 
-import org.apache.eventmesh.dashboard.common.dto.Result;
-import org.apache.eventmesh.dashboard.common.model.TopicProperties;
-import org.apache.eventmesh.dashboard.console.dto.CreateTopicRequest;
-import org.apache.eventmesh.dashboard.console.dto.DeleteTopicRequest;
-import org.apache.eventmesh.dashboard.service.store.TopicCore;
+
+import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
+import org.apache.eventmesh.dashboard.console.service.topic.TopicService;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/topic")
 public class TopicController {
 
-    /**
-     * TODO expose implement by FunctionManager
-     */
-    TopicCore topicCore;
+    @Autowired
+    private TopicService topicService;
 
-    /**
-     * TODO Is OPTIONS method and @CrossOrigin necessary?
-     */
-    @CrossOrigin
-    @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<Object> preflight() {
-        return ResponseEntity.ok()
-            .header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Methods", "*")
-            .header("Access-Control-Allow-Headers", "*")
-            .header("Access-Control-Max-Age", "86400")
-            .build();
+    @GetMapping("")
+    public GetInstanceAndAbnormalNumResponse getTopicAndAbnormalNum(Long clusterId) {
+        Integer topicCount = topicService.selectTopicNumByCluster(clusterId);
+        Integer abnormalTopicNum = topicService.getAbnormalTopicNum(clusterId);
+        GetInstanceAndAbnormalNumResponse getInstanceAndAbnormalNumResponse = new GetInstanceAndAbnormalNumResponse(topicCount, abnormalTopicNum);
+        return getInstanceAndAbnormalNumResponse;
     }
 
-    @CrossOrigin
-    @GetMapping
-    public Result<List<TopicProperties>> getList() {
-        List<TopicProperties> topicList = topicCore.getTopic();
-        return Result.success(topicList);
+    public List<GetTopicListResponse> getTopicList(Long clusterId) {
+        return topicService.getTopicFrontList(clusterId);
     }
 
-    @CrossOrigin
-    @PostMapping
-    public Result<Object> create(@RequestBody CreateTopicRequest createTopicRequest) {
-        String topicName = createTopicRequest.getName();
-        topicCore.createTopic(topicName);
-        return Result.success();
+    public boolean deleteTopic(Long topicId, String topicName) {
+        try {
+            topicService.deleteTopic(topicId, topicName);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
-    @CrossOrigin
-    @DeleteMapping
-    public Result<Object> delete(@RequestBody DeleteTopicRequest deleteTopicRequest) {
-        String topicName = deleteTopicRequest.getName();
-        topicCore.deleteTopic(topicName);
-        return Result.success();
+    public boolean createTopic(Long clusterId, CreateTopicRequest createTopicRequest) {
+        topicService.createTopic(clusterId, createTopicRequest);
+        return false;
     }
+
+
 }

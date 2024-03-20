@@ -154,7 +154,6 @@ create table store
     store_id        int           default -1                not null comment 'storeId',
     store_type      varchar(32)   default ''                not null comment 'Store类型,如rocketmq,redis,...',
     host            varchar(128)  default ''                not null comment 'store主机名',
-    runtime_id      bigint        default -1                not null comment 'runtimeId',
     topic_list      varchar(4096) default ''                not null comment 'topicName列表',
     diff_type       int           default -1                not null comment '差异类型',
     port            int           default -1                not null comment 'store端口',
@@ -171,7 +170,7 @@ create table store
     comment 'Store信息表';
 
 create index idx_store_id_runtime_id
-    on store (store_id, cluster_id, runtime_id);
+    on store (store_id, cluster_id);
 
 
 
@@ -248,7 +247,6 @@ CREATE TABLE `topic`
     `cluster_id`   bigint          NOT NULL DEFAULT '-1' COMMENT '集群ID',
     `topic_name`   varchar(192) CHARACTER SET utf8mb4
         COLLATE utf8mb4_bin        NOT NULL DEFAULT '' COMMENT 'Topic名称',
-    `runtime_id`   varchar(2048)   NOT NULL DEFAULT '' COMMENT 'RuntimeId',
     `storage_id`   varchar(2048)   NOT NULL DEFAULT '' COMMENT 'StorageId',
     `retention_ms` bigint          NOT NULL DEFAULT '-2' COMMENT '保存时间，-2：未知，-1：无限制，>=0对应时间，单位ms',
     `type`         tinyint         NOT NULL DEFAULT '0' COMMENT 'Topic类型，默认0，0:普通，1:EventMesh内部',

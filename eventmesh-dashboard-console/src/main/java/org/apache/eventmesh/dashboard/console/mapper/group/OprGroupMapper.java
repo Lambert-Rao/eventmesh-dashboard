@@ -40,6 +40,9 @@ public interface OprGroupMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addGroup(GroupEntity groupEntity);
 
+    @Select("SELECT COUNT(*) FROM `group` WHERE cluster_id=#{clusterId}")
+    Integer getConsumerNumByCluster(GroupEntity groupEntity);
+
     @Insert({
         "<script>",
         "   INSERT INTO `group` (cluster_id, name, member_count, members, type, state) VALUES ",

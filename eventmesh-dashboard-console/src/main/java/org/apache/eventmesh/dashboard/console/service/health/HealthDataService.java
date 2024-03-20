@@ -17,6 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.service.health;
 
+import org.apache.eventmesh.dashboard.console.dto.health.LastHealthCheckResponse;
 import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
 
 import java.sql.Timestamp;
@@ -26,6 +27,15 @@ import java.util.List;
  * Service providing data of HealthCheckResult.
  */
 public interface HealthDataService {
+
+    public List<LastHealthCheckResponse> getRuntimeLastHealthCheckList(Long clusterId);
+
+    public LastHealthCheckResponse getStoreLastHealthCheckList(Long clusterId);
+
+    public List<LastHealthCheckResponse> getClusterLastHealthCheckList();
+
+    public List<LastHealthCheckResponse> getTopicLastHealthCheckList(Long clusterId);
+
     HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity);
 
     void batchInsertHealthCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList);

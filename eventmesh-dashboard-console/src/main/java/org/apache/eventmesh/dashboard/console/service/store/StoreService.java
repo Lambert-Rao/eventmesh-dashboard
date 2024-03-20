@@ -26,6 +26,10 @@ import java.util.List;
  */
 public interface StoreService {
 
+    void updateConfigById(Long storeId);
+
+    StoreEntity getStoreList(Long clusterId);
+
     List<StoreEntity> selectAll();
 
     StoreEntity selectById(Long storeId);
@@ -36,7 +40,7 @@ public interface StoreService {
 
     void deleteStoreByUnique(StoreEntity storeEntity);
 
-    List<StoreEntity> selectStoreByCluster(Long clusterId);
+    StoreEntity selectStoreByCluster(Long clusterId);
 
     void updateStoreByUnique(StoreEntity storeEntity);
 }

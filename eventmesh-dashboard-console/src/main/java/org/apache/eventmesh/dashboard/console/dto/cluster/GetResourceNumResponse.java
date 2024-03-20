@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.controller;
+package org.apache.eventmesh.dashboard.console.dto.cluster;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import com.alibaba.druid.stat.DruidStatManagerFacade;
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class GetResourceNumResponse {
 
-@RestController
-public class MetricsController {
+    private Integer topics;
 
-    @GetMapping("/druid/stat")
-    public Object druidStat() {
-        return DruidStatManagerFacade.getInstance().getDataSourceStatDataList();
-    }
+    private Integer connections;
+
 
 }

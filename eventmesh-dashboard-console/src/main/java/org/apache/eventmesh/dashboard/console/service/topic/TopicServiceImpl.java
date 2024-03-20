@@ -17,11 +17,22 @@
 
 package org.apache.eventmesh.dashboard.console.service.topic;
 
+import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
+import org.apache.eventmesh.dashboard.console.entity.config.ConfigEntity;
 import org.apache.eventmesh.dashboard.console.entity.groupmember.GroupMemberEntity;
+import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.entity.storage.StoreEntity;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
+import org.apache.eventmesh.dashboard.console.mapper.config.ConfigMapper;
 import org.apache.eventmesh.dashboard.console.mapper.groupmember.OprGroupMemberMapper;
+import org.apache.eventmesh.dashboard.console.mapper.health.HealthCheckResultMapper;
+import org.apache.eventmesh.dashboard.console.mapper.runtime.RuntimeMapper;
+import org.apache.eventmesh.dashboard.console.mapper.storage.StoreMapper;
 import org.apache.eventmesh.dashboard.console.mapper.topic.TopicMapper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +48,52 @@ public class TopicServiceImpl implements TopicService {
 
     @Autowired
     OprGroupMemberMapper oprGroupMemberMapper;
+
+    @Autowired
+    HealthCheckResultMapper healthCheckResultMapper;
+
+    @Autowired
+    ConfigMapper configMapper;
+
+    @Autowired
+    RuntimeMapper runtimeMapper;
+
+    @Autowired
+    StoreMapper storeMapper;
+
+
+    @Override
+    public void createTopic(Long clusterId, CreateTopicRequest topicRequest) {
+        TopicEntity topicEntity = new TopicEntity();
+        topicEntity.setType(0);
+        topicEntity.setClusterId(clusterId);
+        topicEntity.setTopicName(topicRequest.getName());
+        topicEntity.setDescription(topicRequest.getDescription());
+        topicEntity.setRetentionMs(topicRequest.getSaveTime().getTime());
+        StoreEntity storeEntity = new StoreEntity();
+        storeEntity.setClusterId(topicEntity.getClusterId());
+        topicEntity.setStorageId(String.valueOf(storeMapper.selectStoreByCluster(storeEntity).getId()));
+        topicMapper.addTopic(topicEntity);
+
+        StoreEntity storeEntity1 = storeMapper.selectStoreByCluster(storeEntity);
+        storeEntity1.setTopicList(storeEntity1.getTopicList() + topicEntity.getTopicName() + ",");
+        storeMapper.updateTopicListByCluster(storeEntity1);
+
+        ConfigEntity config = new ConfigEntity();
+        config.setClusterId(clusterId);
+        config.setInstanceType(3);
+
+        Arrays.stream(CreateTopicRequest.class.getDeclaredFields()).forEach(n -> {
+            n.setAccessible(true);
+            config.setConfigName(n.getName());
+            try {
+                config.setConfigValue(String.valueOf(n.get(topicRequest)));
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            configMapper.addConfig(config);
+        });
+    }
 
     @Override
     public void batchInsert(List<TopicEntity> topicEntities) {
@@ -90,7 +147,10 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public void deleteTopic(TopicEntity topicEntity) {
+    public void deleteTopic(Long topicId, String topicName) {
+        TopicEntity topicEntity = new TopicEntity();
+        topicEntity.setId(topicId);
+        topicEntity.setTopicName(topicName);
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setTopicName(topicEntity.getTopicName());
         groupMemberEntity.setState("empty");
@@ -103,6 +163,31 @@ public class TopicServiceImpl implements TopicService {
         TopicEntity topicEntity = new TopicEntity();
         topicEntity.setClusterId(clusterId);
         return topicMapper.selectTopicByCluster(topicEntity);
+    }
+
+    @Override
+    public Integer getAbnormalTopicNum(Long clusterId) {
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setClusterId(clusterId);
+        healthCheckResultEntity.setType(3);
+        return healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+    }
+
+    @Override
+    public List<GetTopicListResponse> getTopicFrontList(Long clusterId) {
+        TopicEntity topicEntity = new TopicEntity();
+        topicEntity.setClusterId(clusterId);
+        List<TopicEntity> topicEntityList = topicMapper.selectAllByClusterId(topicEntity);
+        List<GetTopicListResponse> topicListResponses = new ArrayList<>();
+        HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+        healthCheckResultEntity.setType(3);
+        topicEntityList.forEach(n -> {
+            healthCheckResultEntity.setTypeId(n.getId());
+            GetTopicListResponse getTopicListResponse = new GetTopicListResponse(n.getId(), n.getTopicName(),
+                healthCheckResultMapper.getLatestByTypeAndId(healthCheckResultEntity).getState(), n.getDescription());
+            topicListResponses.add(getTopicListResponse);
+        });
+        return topicListResponses;
     }
 
 

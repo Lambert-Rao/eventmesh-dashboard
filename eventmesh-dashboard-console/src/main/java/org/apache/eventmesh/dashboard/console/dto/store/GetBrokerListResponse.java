@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
-
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+package org.apache.eventmesh.dashboard.console.dto.store;
 
 import java.sql.Timestamp;
 
@@ -25,28 +23,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+@Data
+public class GetBrokerListResponse {
 
-    private Long id;
+    private Integer storeId;
 
-    private Long clusterId;
+    private Integer storeType;
 
-    private String topicName;
+    private String host;
 
-    private String storageId;
+    private Integer port;
 
-    private Long retentionMs;
+    private Integer jmxPort;
 
-    private Integer type;
-
-    private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
+    private Timestamp startTimestamp;
 }

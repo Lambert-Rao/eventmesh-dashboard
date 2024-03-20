@@ -83,7 +83,7 @@ public class TestClusterMapper {
         clusterEntity.setClientProperties("nothing");
         clusterEntity.setEventmeshVersion("1.10.0");
         clusterEntity.setJmxProperties("nothing");
-        clusterEntity.setRegisterNameList("1.23.18");
+        clusterEntity.setRegistryNameList("1.23.18");
         clusterEntity.setRunState(1);
         clusterEntity.setRegProperties("nothing");
         clusterMapper.updateClusterById(clusterEntity);
@@ -98,7 +98,7 @@ public class TestClusterMapper {
         ClusterEntity clusterEntity =
             new ClusterEntity(null, "cl1", "registerList", "server", "1.7.0", "null", "null", "null", "no", 0, 0, 0, null, null, 0);
         clusterMapper.addCluster(clusterEntity);
-        clusterMapper.deleteClusterById(clusterEntity);
+        clusterMapper.deActive(clusterEntity);
         ClusterEntity clusterEntity1 = clusterMapper.selectClusterById(clusterEntity);
         Assert.assertEquals(clusterEntity1, null);
     }

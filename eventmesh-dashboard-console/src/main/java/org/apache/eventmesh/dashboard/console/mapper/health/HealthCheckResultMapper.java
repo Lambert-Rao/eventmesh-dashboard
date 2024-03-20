@@ -35,6 +35,13 @@ import java.util.List;
 @Mapper
 public interface HealthCheckResultMapper {
 
+    @Select("SELECT COUNT(DISTINCT type_id) FROM health_check_result WHERE cluster_id=#{clusterId} AND type=#{type} AND state=0")
+    Integer getAbnormalNumByClusterIdAndType(HealthCheckResultEntity healthCheckResultEntity);
+
+    @Select("SELECT * FROM health_check_result WHERE type_id =#{typeId} AND type=#{type} AND create_time= (SELECT MAX(create_time) "
+        + "FROM health_check_result WHERE type_id=#{typeId} AND type=#{type})")
+    HealthCheckResultEntity getLatestByTypeAndId(HealthCheckResultEntity healthCheckResultEntity);
+
     @Select("SELECT * FROM health_check_result")
     List<HealthCheckResultEntity> selectAll();
 

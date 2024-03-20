@@ -17,6 +17,8 @@
 
 package org.apache.eventmesh.dashboard.console.service.topic;
 
+import org.apache.eventmesh.dashboard.console.dto.topic.CreateTopicRequest;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetTopicListResponse;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
 
 import java.util.List;
@@ -25,6 +27,8 @@ import java.util.List;
  * Service about Topic
  */
 public interface TopicService {
+
+    void createTopic(Long clusterId, CreateTopicRequest topicRequest);
 
     void batchInsert(List<TopicEntity> topicEntities);
 
@@ -44,7 +48,11 @@ public interface TopicService {
 
     TopicEntity selectTopicByUnique(TopicEntity topicEntity);
 
-    void deleteTopic(TopicEntity topicEntity);
+    void deleteTopic(Long topicId, String topicName);
 
     List<TopicEntity> selectTopiByCluster(Long clusterId);
+
+    Integer getAbnormalTopicNum(Long clusterId);
+
+    List<GetTopicListResponse> getTopicFrontList(Long clusterId);
 }

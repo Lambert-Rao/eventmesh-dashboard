@@ -15,38 +15,30 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.topic;
-
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
-
-import java.sql.Timestamp;
+package org.apache.eventmesh.dashboard.console.dto.cluster;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicEntity extends BaseEntity {
+@Data
+public class CreateClusterRequest {
 
-    private Long id;
+    private String name;
 
-    private Long clusterId;
+    private String registerNameList;
 
-    private String topicName;
+    private String bootstrapServers;
 
-    private String storageId;
+    private String eventmeshVersion;
 
-    private Long retentionMs;
+    private String clientProperties;
 
-    private Integer type;
+    private String jmxProperties;
+
+    private String regProperties;
 
     private String description;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private Integer status;
 }

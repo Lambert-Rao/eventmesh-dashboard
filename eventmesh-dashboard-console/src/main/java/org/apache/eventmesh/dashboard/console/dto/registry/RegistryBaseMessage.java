@@ -15,25 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto;
+package org.apache.eventmesh.dashboard.console.dto.registry;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * TODO this class is copied from storage plugin, needs update
- */
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class CreateTopicRequest {
+public class RegistryBaseMessage {
 
     private String name;
 
-    @JsonCreator
-    public CreateTopicRequest(@JsonProperty("name") String name) {
-        super();
-        this.name = name;
-    }
+    private String type;
+
+    private String host;
+
+    private Integer followerNum;
+
+    private Integer followerLiveNum;
+
+
 }

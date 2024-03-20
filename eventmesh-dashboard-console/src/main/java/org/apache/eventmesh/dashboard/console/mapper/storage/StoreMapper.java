@@ -62,8 +62,11 @@ public interface StoreMapper {
     void deleteStoreByUnique(StoreEntity storeEntity);
 
     @Select("SELECT * FROM store WHERE cluster_id=#{clusterId} AND status=1")
-    List<StoreEntity> selectStoreByCluster(StoreEntity storeEntity);
+    StoreEntity selectStoreByCluster(StoreEntity storeEntity);
 
     @Update("UPDATE store SET status=#{status} WHERE cluster_id=#{clusterId} AND store_id=#{storeId}")
     void updateStoreByUnique(StoreEntity storeEntity);
+
+    @Update("UPDATE store SET topic_list=#{topicList} WHERE cluster_id=#{clusterId}")
+    void updateTopicListByCluster(StoreEntity storeEntity);
 }
