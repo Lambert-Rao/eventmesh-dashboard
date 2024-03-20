@@ -51,7 +51,8 @@ public interface RuntimeMapper {
     void batchInsert(List<RuntimeEntity> runtimeEntities);
 
     @Insert("INSERT INTO runtime (cluster_id, host, storage_cluster_id, port, jmx_port, start_timestamp, rack, status, "
-        + "endpoint_map) VALUES(#{clusterId},#{host},#{storageClusterId},#{port},#{jmxPort},#{startTimestamp},#{rack},#{status},#{endpointMap})")
+        + "endpoint_map) VALUES(#{clusterId},#{host},#{storageClusterId},#{port},#{jmxPort},#{startTimestamp},#{rack},#{status},#{endpointMap})"
+        + " ON DUPLICATE KEY UPDATE status=1,start_timestamp = now()")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addRuntime(RuntimeEntity runtimeEntity);
 

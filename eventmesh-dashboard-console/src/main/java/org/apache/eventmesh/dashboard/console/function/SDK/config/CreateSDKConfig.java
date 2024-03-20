@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
-
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
-
-import java.util.List;
+package org.apache.eventmesh.dashboard.console.function.SDK.config;
 
 /**
- * Service providing ConnectionEntity data.
+ * Config to create an SDK client, usually contains an address url.
  */
-public interface ConnectionDataService {
+public interface CreateSDKConfig {
 
-    Integer selectConnectionNumByCluster(Long clusterId);
-
-    List<ConnectionEntity> getAllConnections();
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    Long insert(ConnectionEntity connectionEntity);
+    String getUniqueKey();
 }

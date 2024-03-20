@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.function.SDK.wrapper;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.exception.NacosException;
+import com.alibaba.nacos.api.naming.NamingService;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+@AllArgsConstructor
+public class NacosSDKWrapper {
 
-    Integer selectConnectionNumByCluster(Long clusterId);
+    public void shutdown() throws NacosException {
+        configService.shutDown();
+        namingService.shutDown();
+    }
 
-    List<ConnectionEntity> getAllConnections();
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    Long insert(ConnectionEntity connectionEntity);
+    private ConfigService configService;
+    private NamingService namingService;
 }

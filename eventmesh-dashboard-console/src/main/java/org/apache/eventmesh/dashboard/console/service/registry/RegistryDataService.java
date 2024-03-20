@@ -15,33 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.runtime;
+package org.apache.eventmesh.dashboard.console.service.registry;
 
-import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
-import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.entity.meta.MetaEntity;
+import org.apache.eventmesh.dashboard.console.function.metadata.handler.MetadataHandler;
 
 import java.util.List;
 
 /**
- * Runtime data service
+ * Database service of registry(meta) such as nacos
  */
-public interface RuntimeService {
+public interface RegistryDataService {
 
-    GetInstanceAndAbnormalNumResponse getRuntimeBaseMessage(Long clusterId);
+    public List<MetaEntity> selectAll();
 
-    void batchInsert(List<RuntimeEntity> runtimeEntities);
+    public List<Long> batchInsert(List<MetaEntity> metaEntities);
 
-    List<RuntimeEntity> selectAll();
+    public Long insert(MetaEntity metaEntity);
 
-    List<RuntimeEntity> getRuntimeByClusterId(Long cluster);
-
-    List<RuntimeEntity> selectByHostPort(RuntimeEntity runtimeEntity);
-
-    void addRuntime(RuntimeEntity runtimeEntity);
-
-    void updateRuntimeByCluster(RuntimeEntity runtimeEntity);
-
-    void deleteRuntimeByCluster(RuntimeEntity runtimeEntity);
-
-    void deActive(RuntimeEntity runtimeEntity);
+    public void deActive(MetaEntity metaEntity);
 }

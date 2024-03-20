@@ -15,22 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.function.SDK.config;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import lombok.Data;
 
-import java.util.List;
+@Data
+public class CreateRedisConfig implements CreateSDKConfig {
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+    private String redisUrl;
 
-    Integer selectConnectionNumByCluster(Long clusterId);
-
-    List<ConnectionEntity> getAllConnections();
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    Long insert(ConnectionEntity connectionEntity);
+    @Override
+    public String getUniqueKey() {
+        return redisUrl;
+    }
 }

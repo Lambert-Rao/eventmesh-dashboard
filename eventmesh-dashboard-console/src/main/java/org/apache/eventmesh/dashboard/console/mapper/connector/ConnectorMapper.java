@@ -36,10 +36,10 @@ public interface ConnectorMapper {
     @Select("SELECT * FROM connector WHERE status=1")
     ConnectorEntity selectAll();
 
-    @Select("SELECT * FROM connector WHERE id = #{id}")
+    @Select("SELECT * FROM connector WHERE id = #{id} AND status=1")
     ConnectorEntity selectById(ConnectorEntity connectorEntity);
 
-    @Select("SELECT * FROM connector WHERE cluster_id = #{clusterId}")
+    @Select("SELECT * FROM connector WHERE cluster_id = #{clusterId} AND status=1")
     List<ConnectorEntity> selectByClusterId(ConnectorEntity connectorEntity);
 
     @Select("SELECT * FROM connector WHERE host = #{host} AND port = #{port} AND status=1")

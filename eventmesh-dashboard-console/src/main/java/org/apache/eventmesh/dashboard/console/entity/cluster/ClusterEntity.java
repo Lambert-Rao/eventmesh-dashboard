@@ -30,8 +30,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClusterEntity extends BaseEntity {
 
-    private Long id;
-
     private String name;
 
     private String registryNameList;

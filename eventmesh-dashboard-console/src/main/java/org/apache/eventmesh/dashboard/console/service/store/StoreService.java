@@ -32,6 +32,8 @@ public interface StoreService {
 
     List<StoreEntity> selectAll();
 
+    StoreEntity selectById(Long storeId);
+
     void batchInsert(List<StoreEntity> storeEntities);
 
     void addStore(StoreEntity storeEntity);

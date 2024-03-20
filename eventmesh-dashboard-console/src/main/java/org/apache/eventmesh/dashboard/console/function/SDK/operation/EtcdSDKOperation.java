@@ -15,22 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.function.SDK.operation;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import org.apache.eventmesh.dashboard.console.function.SDK.AbstractSDKOperation;
+import org.apache.eventmesh.dashboard.console.function.SDK.config.CreateSDKConfig;
 
-import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+public class EtcdSDKOperation extends AbstractSDKOperation {
+    @Override
+    public SimpleEntry createClient(CreateSDKConfig clientConfig) {
+        return null;
+    }
 
-    Integer selectConnectionNumByCluster(Long clusterId);
+    @Override
+    public void close(Object client) {
 
-    List<ConnectionEntity> getAllConnections();
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    Long insert(ConnectionEntity connectionEntity);
+    }
 }

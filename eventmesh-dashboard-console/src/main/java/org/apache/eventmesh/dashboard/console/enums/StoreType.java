@@ -17,12 +17,21 @@
 
 package org.apache.eventmesh.dashboard.console.enums;
 
-public enum StoreType {
-    ROCKETMQ,
-    KAFKA,
-    STANDALONE,
-    PULSAR,
-    RABBITMQ,
-    REDIS,
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
+public enum StoreType {
+
+    STANDALONE(0, "Standalone"),
+    ROCKETMQ(1, "RocketMQ"),
+    KAFKA(2, "Kafka"),
+    PULSAR(3, "Pulsar"),
+    RABBITMQ(4, "RabbitMQ"),
+    REDIS(5, "Redis");
+
+    @Getter
+    private final Integer number;
+    @Getter
+    private final String name;
 }

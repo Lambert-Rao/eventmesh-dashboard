@@ -15,22 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.function.SDK;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+public abstract class AbstractSDKOperation<T> implements SDKOperation<T> {
 
-import java.util.List;
-
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
-
-    Integer selectConnectionNumByCluster(Long clusterId);
-
-    List<ConnectionEntity> getAllConnections();
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    Long insert(ConnectionEntity connectionEntity);
+    protected T castClient(Object client) {
+        try {
+            return (T) client;
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Client is not of the expected type", e);
+        }
+    }
 }

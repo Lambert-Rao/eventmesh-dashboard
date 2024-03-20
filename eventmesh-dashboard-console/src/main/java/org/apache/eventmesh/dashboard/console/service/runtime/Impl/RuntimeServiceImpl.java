@@ -68,6 +68,11 @@ public class RuntimeServiceImpl implements RuntimeService {
     }
 
     @Override
+    public List<RuntimeEntity> selectByHostPort(RuntimeEntity runtimeEntity) {
+        return runtimeMapper.selectByHostPort(runtimeEntity);
+    }
+
+    @Override
     public void addRuntime(RuntimeEntity runtimeEntity) {
         runtimeMapper.addRuntime(runtimeEntity);
     }
@@ -80,5 +85,10 @@ public class RuntimeServiceImpl implements RuntimeService {
     @Override
     public void deleteRuntimeByCluster(RuntimeEntity runtimeEntity) {
         runtimeMapper.deleteRuntimeByCluster(runtimeEntity);
+    }
+
+    @Override
+    public void deActive(RuntimeEntity runtimeEntity) {
+        runtimeMapper.deActive(runtimeEntity);
     }
 }

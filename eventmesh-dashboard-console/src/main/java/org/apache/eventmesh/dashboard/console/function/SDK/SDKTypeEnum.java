@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.function.SDK;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+public enum SDKTypeEnum {
 
-import java.util.List;
+    RUNTIME,
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+    STORAGE_ROCKETMQ_REMOTING,
 
-    Integer selectConnectionNumByCluster(Long clusterId);
+    STORAGE_ROCKETMQ_PRODUCER,
 
-    List<ConnectionEntity> getAllConnections();
+    STORAGE_ROCKETMQ_CONSUMER,
 
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
+    STORAGE_REDIS,
 
-    Long insert(ConnectionEntity connectionEntity);
+    META_NACOS,
+    META_NACOS_CONFIG,
+
+    META_NACOS_NAMING,
+
+
 }

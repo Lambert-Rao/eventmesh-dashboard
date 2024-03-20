@@ -15,22 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.enums.metadata;
 
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+public enum MetadataTypeEnum {
 
-import java.util.List;
+    CENTER,
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+    CLUSTER,
 
-    Integer selectConnectionNumByCluster(Long clusterId);
+    RUNTIME,
 
-    List<ConnectionEntity> getAllConnections();
+    TOPIC,
 
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
+    GROUP,
 
-    Long insert(ConnectionEntity connectionEntity);
+    SUBSCRIPTION,
+
+    STORE
+    ;
+
 }
