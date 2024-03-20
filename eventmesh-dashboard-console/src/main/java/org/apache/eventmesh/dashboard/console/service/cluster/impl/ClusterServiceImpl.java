@@ -17,6 +17,7 @@
 
 package org.apache.eventmesh.dashboard.console.service.cluster.impl;
 
+import org.apache.eventmesh.dashboard.console.cache.ClusterCache;
 import org.apache.eventmesh.dashboard.console.dto.cluster.GetClusterBaseMessageResponse;
 import org.apache.eventmesh.dashboard.console.dto.cluster.GetClusterListResponse;
 import org.apache.eventmesh.dashboard.console.dto.cluster.GetResourceNumResponse;

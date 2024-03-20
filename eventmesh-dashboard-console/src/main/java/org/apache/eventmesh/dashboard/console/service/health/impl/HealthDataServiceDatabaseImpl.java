@@ -43,6 +43,42 @@ public class HealthDataServiceDatabaseImpl implements HealthDataService {
     @Autowired
     private HealthCheckResultMapper healthCheckResultMapper;
 
+    @Override
+    public HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity) {
+        healthCheckResultMapper.insert(healthCheckResultEntity);
+        return healthCheckResultEntity;
+    }
+
+    @Override
+    public void batchInsertHealthCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList) {
+        healthCheckResultMapper.batchInsert(healthCheckResultEntityList);
+    }
+
+    @Override
+    public List<HealthCheckResultEntity> queryHealthCheckResultByClusterIdAndTypeAndTypeId(HealthCheckResultEntity entity) {
+        return healthCheckResultMapper.selectByClusterIdAndTypeAndTypeId(entity);
+    }
+
+    @Override
+    public void batchUpdateCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList) {
+        healthCheckResultMapper.batchUpdate(healthCheckResultEntityList);
+    }
+
+    @Override
+    public void batchUpdateCheckResultByClusterIdAndTypeAndTypeId(List<HealthCheckResultEntity> healthCheckResultEntityList) {
+        List<HealthCheckResultEntity> idsNeedToBeUpdate = healthCheckResultMapper.getIdsNeedToBeUpdateByClusterIdAndTypeAndTypeId(
+            healthCheckResultEntityList);
+        idsNeedToBeUpdate.forEach(entity -> {
+            healthCheckResultEntityList.forEach(updateEntity -> {
+                if (entity.getClusterId().equals(updateEntity.getClusterId()) && entity.getType().equals(updateEntity.getType())
+                    && entity.getTypeId().equals(updateEntity.getTypeId())) {
+                    updateEntity.setId(entity.getId());
+                }
+            });
+        });
+        healthCheckResultMapper.batchUpdate(healthCheckResultEntityList);
+    }
+
     @Autowired
     private TopicMapper topicMapper;
 
@@ -137,43 +173,6 @@ public class HealthDataServiceDatabaseImpl implements HealthDataService {
 
         return lastHealthCheckRespons;
     }
-
-    @Override
-    public HealthCheckResultEntity insertHealthCheckResult(HealthCheckResultEntity healthCheckResultEntity) {
-        healthCheckResultMapper.insert(healthCheckResultEntity);
-        return healthCheckResultEntity;
-    }
-
-    @Override
-    public void batchInsertHealthCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList) {
-        healthCheckResultMapper.batchInsert(healthCheckResultEntityList);
-    }
-
-    @Override
-    public List<HealthCheckResultEntity> queryHealthCheckResultByClusterIdAndTypeAndTypeId(HealthCheckResultEntity entity) {
-        return healthCheckResultMapper.selectByClusterIdAndTypeAndTypeId(entity);
-    }
-
-    @Override
-    public void batchUpdateCheckResult(List<HealthCheckResultEntity> healthCheckResultEntityList) {
-        healthCheckResultMapper.batchUpdate(healthCheckResultEntityList);
-    }
-
-    @Override
-    public void batchUpdateCheckResultByClusterIdAndTypeAndTypeId(List<HealthCheckResultEntity> healthCheckResultEntityList) {
-        List<HealthCheckResultEntity> idsNeedToBeUpdate = healthCheckResultMapper.getIdsNeedToBeUpdateByClusterIdAndTypeAndTypeId(
-            healthCheckResultEntityList);
-        idsNeedToBeUpdate.forEach(entity -> {
-            healthCheckResultEntityList.forEach(updateEntity -> {
-                if (entity.getClusterId().equals(updateEntity.getClusterId()) && entity.getType().equals(updateEntity.getType())
-                    && entity.getTypeId().equals(updateEntity.getTypeId())) {
-                    updateEntity.setId(entity.getId());
-                }
-            });
-        });
-        healthCheckResultMapper.batchUpdate(healthCheckResultEntityList);
-    }
-
 
     @Override
     public List<HealthCheckResultEntity> queryHealthCheckResultByClusterIdAndTimeRange(Long clusterId, Timestamp startTime, Timestamp endTime) {

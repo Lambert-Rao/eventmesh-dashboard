@@ -15,47 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.entity.storage;
+package org.apache.eventmesh.dashboard.console.cache;
 
+import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
 
-import org.apache.eventmesh.dashboard.console.entity.base.BaseEntity;
+import java.util.List;
 
-import java.sql.Timestamp;
+public class RuntimeCache {
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+    private static final RuntimeCache INSTANCE = new RuntimeCache();
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class StoreEntity extends BaseEntity {
+    private List<RuntimeEntity> runtimeList;
 
-    private Long clusterId;
+    public static void replaceAll(List<RuntimeEntity> runtimeList) {
+        INSTANCE.runtimeList = runtimeList;
+    }
 
-    private Integer storeId;
-
-    private String storeType;
-
-    private String host;
-
-    private String topicList;
-
-    private Short diffType;
-
-    private Integer port;
-
-    private Integer jmxPort;
-
-    private String rack;
-
-    private Short status;
-
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
-
-    private String endpointMap;
-
-    private Long startTimestamp;
+    public static List<RuntimeEntity> getRuntimeList() {
+        return INSTANCE.runtimeList;
+    }
 }

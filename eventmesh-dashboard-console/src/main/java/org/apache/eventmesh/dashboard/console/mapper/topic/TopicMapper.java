@@ -38,6 +38,8 @@ public interface TopicMapper {
     @Select("SELECT * FROM topic WHERE status=1")
     List<TopicEntity> selectAll();
 
+    @Select("SELECT * FROM topic WHERE cluster_id=#{clusterId} AND status=1")
+    List<TopicEntity> selectAllByClusterId(TopicEntity topicEntity);
     @Insert({
         "<script>",
         "INSERT INTO topic (cluster_id, topic_name, storage_id, retention_ms, type, description) VALUES ",
@@ -48,7 +50,7 @@ public interface TopicMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void batchInsert(List<TopicEntity> topicEntities);
 
-    @Select("SELECT count(*) FROM topic WHERE cluster_id=#{clusterId} AND status=1")
+    @Select("SELECT count(*) FROM topic WHERE cluster_id=#{clusterId}")
     Integer selectTopicNumByCluster(TopicEntity topicEntity);
 
     @Select({
@@ -72,13 +74,10 @@ public interface TopicMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addTopic(TopicEntity topicEntity);
 
-    @Select("SELECT * FROM topic WHERE status=1 AND cluster_id=#{clusterId}")
-    List<TopicEntity> selectAllByClusterId(TopicEntity topicEntity);
-
     @Update("UPDATE topic SET type=#{type},description=#{description} WHERE id=#{id}")
     void updateTopic(TopicEntity topicEntity);
 
-    @Delete("UPDATE `topic` SET status=0 WHERE id=#{id}")
+    @Delete("UPDATE `topic` SET status=0 WHERE id=#{id} OR topic_name=#{topicName}")
     void deleteTopic(TopicEntity topicEntity);
 
     @Select("SELECT * FROM topic WHERE cluster_id=#{clusterId} AND topic_name=#{topicName}")

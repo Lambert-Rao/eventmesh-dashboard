@@ -72,7 +72,7 @@ public class TopicServiceImpl implements TopicService {
         topicEntity.setRetentionMs(topicRequest.getSaveTime().getTime());
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setClusterId(topicEntity.getClusterId());
-        topicEntity.setStorageId(String.valueOf(storeMapper.selectStoreByCluster(storeEntity).getId()));
+        topicEntity.setStorageId(storeMapper.selectStoreByCluster(storeEntity).getId());
         topicMapper.addTopic(topicEntity);
 
         StoreEntity storeEntity1 = storeMapper.selectStoreByCluster(storeEntity);
