@@ -33,6 +33,12 @@ import java.util.List;
 @Mapper
 public interface ConfigMapper {
 
+    @Select("SELECT * FROM config WHERE business_type=#{businessType} AND is_default=1")
+    List<ConfigEntity> selectConnectorConfigsByBusinessType(ConfigEntity configEntity);
+
+    @Select("SELECT DISTINCT business_type FROM config WHERE business_type LIKE '%#{businessType}%'")
+    List<String> selectConnectorBusinessType(ConfigEntity configEntity);
+
     @Select("SELECT * FROM config WHERE instance_type=#{instanceType} AND instance_id=#{instanceId}")
     List<ConfigEntity> selectConfigsByInstance(ConfigEntity configEntity);
 

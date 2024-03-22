@@ -15,29 +15,29 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.service.connection;
+package org.apache.eventmesh.dashboard.console.controller;
 
-import org.apache.eventmesh.dashboard.console.dto.connection.ConnectionListResponse;
-import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import org.apache.eventmesh.dashboard.console.dto.topic.GetInstanceAndAbnormalNumResponse;
+import org.apache.eventmesh.dashboard.console.entity.runtime.RuntimeEntity;
+import org.apache.eventmesh.dashboard.console.service.runtime.RuntimeService;
 
 import java.util.List;
 
-/**
- * Service providing ConnectionEntity data.
- */
-public interface ConnectionDataService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
-    List<String> getSinkConnectorClasses();
+@RestController
+public class RuntimeController {
 
-    List<String> getSourceConnectorClasses();
+    @Autowired
+    private RuntimeService runtimeService;
 
-    Integer selectConnectionNumByCluster(Long clusterId);
+    public List<RuntimeEntity> getRuntimeList(Long clusterId) {
+        return runtimeService.getRuntimeToFrontByClusterId(clusterId);
+    }
 
-    List<ConnectionEntity> getAllConnections();
+    public GetInstanceAndAbnormalNumResponse getRuntimeAndAbnormalNum(Long clusterId) {
+        return runtimeService.getRuntimeBaseMessage(clusterId);
+    }
 
-    List<ConnectionListResponse> getConnectionToFrontByCluster(Long clusterId);
-
-    List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId);
-
-    void replaceAllConnections(List<ConnectionEntity> connectionEntityList);
 }

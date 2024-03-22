@@ -165,14 +165,19 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Integer getAbnormalTopicNum(Long clusterId) {
+        List<TopicEntity> topicEntityList = this.selectAll();
         HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
-        healthCheckResultEntity.setClusterId(clusterId);
-        healthCheckResultEntity.setType(3);
-        return healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+        int abnormalNum = 0;
+        for (TopicEntity n : topicEntityList) {
+            healthCheckResultEntity.setTypeId(n.getId());
+            healthCheckResultEntity.setType(3);
+            abnormalNum += healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+        }
+        return abnormalNum;
     }
 
     @Override
-    public List<GetTopicListResponse> getTopicFrontList(Long clusterId) {
+    public List<GetTopicListResponse> getTopicListToFront(Long clusterId) {
         TopicEntity topicEntity = new TopicEntity();
         topicEntity.setClusterId(clusterId);
         List<TopicEntity> topicEntityList = topicMapper.selectAllByClusterId(topicEntity);

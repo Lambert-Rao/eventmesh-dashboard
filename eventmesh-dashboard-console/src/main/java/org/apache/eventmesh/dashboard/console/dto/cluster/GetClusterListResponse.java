@@ -29,6 +29,8 @@ public class GetClusterListResponse {
 
     private Long clusterId;
 
+    private Integer status;
+
     private String name;
 
     private String eventmeshVersion;

@@ -15,23 +15,31 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto.topic;
-
+package org.apache.eventmesh.dashboard.console.dto.connection;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class GetTopicListResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ConnectionListResponse {
 
-    private Long topicId;
+    private Long sinkConnectorId;
+
+    private String sinkConnectorName;
+
+    private Long sourceConnectorId;
+
+    private String sourceConnectorName;
+
+    private String sinkClass;
+
+    private String sourceClass;
+
+    private Integer status;
 
     private String topicName;
 
-    private Integer healthStatus;
-
-    private String desc;
 }

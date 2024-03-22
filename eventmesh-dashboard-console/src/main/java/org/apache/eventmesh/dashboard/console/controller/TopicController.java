@@ -44,7 +44,7 @@ public class TopicController {
     }
 
     public List<GetTopicListResponse> getTopicList(Long clusterId) {
-        return topicService.getTopicFrontList(clusterId);
+        return topicService.getTopicListToFront(clusterId);
     }
 
     public boolean deleteTopic(Long topicId, String topicName) {

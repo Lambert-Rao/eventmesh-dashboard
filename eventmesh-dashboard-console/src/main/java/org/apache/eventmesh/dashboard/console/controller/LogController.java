@@ -15,23 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto.topic;
+package org.apache.eventmesh.dashboard.console.controller;
+
+public class LogController {
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-public class GetTopicListResponse {
-
-    private Long topicId;
-
-    private String topicName;
-
-    private Integer healthStatus;
-
-    private String desc;
 }

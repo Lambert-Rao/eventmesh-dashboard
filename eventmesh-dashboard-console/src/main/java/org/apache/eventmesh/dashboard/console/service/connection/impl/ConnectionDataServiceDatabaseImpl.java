@@ -17,10 +17,14 @@
 
 package org.apache.eventmesh.dashboard.console.service.connection.impl;
 
+import org.apache.eventmesh.dashboard.console.dto.connection.ConnectionListResponse;
 import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
+import org.apache.eventmesh.dashboard.console.entity.connector.ConnectorEntity;
 import org.apache.eventmesh.dashboard.console.mapper.connection.ConnectionMapper;
+import org.apache.eventmesh.dashboard.console.mapper.connector.ConnectorMapper;
 import org.apache.eventmesh.dashboard.console.service.connection.ConnectionDataService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +40,9 @@ public class ConnectionDataServiceDatabaseImpl implements ConnectionDataService 
     @Autowired
     private ConnectionMapper connectionMapper;
 
+    @Autowired
+    private ConnectorMapper connectorMapper;
+
 
     @Override
     public List<ConnectionEntity> getAllConnectionsByClusterId(Long clusterId) {
@@ -44,6 +51,16 @@ public class ConnectionDataServiceDatabaseImpl implements ConnectionDataService 
         return connectionMapper.selectByClusterId(connectionEntity);
     }
 
+
+    @Override
+    public List<String> getSinkConnectorClasses() {
+        return null;
+    }
+
+    @Override
+    public List<String> getSourceConnectorClasses() {
+        return null;
+    }
 
     @Override
     public Integer selectConnectionNumByCluster(Long clusterId) {
@@ -55,6 +72,31 @@ public class ConnectionDataServiceDatabaseImpl implements ConnectionDataService 
     @Override
     public List<ConnectionEntity> getAllConnections() {
         return connectionMapper.selectAll();
+    }
+
+    @Override
+    public List<ConnectionListResponse> getConnectionToFrontByCluster(Long clusterId) {
+        List<ConnectionEntity> allConnectionsByClusterId = this.getAllConnectionsByClusterId(clusterId);
+        List<ConnectionListResponse> connectionListResponses = new ArrayList<>();
+        allConnectionsByClusterId.forEach(n -> {
+            ConnectionListResponse connectionListResponse = new ConnectionListResponse();
+            ConnectorEntity connectorEntity = new ConnectorEntity();
+            connectorEntity.setId(n.getSinkId());
+            ConnectorEntity sinkConnector = connectorMapper.selectById(connectorEntity);
+            connectorEntity.setId(n.getSourceId());
+            ConnectorEntity sourceConnector = connectorMapper.selectById(connectorEntity);
+            connectionListResponse.setSinkClass(sinkConnector.getClassName());
+            connectionListResponse.setSourceClass(sourceConnector.getClassName());
+            connectionListResponse.setSinkConnectorId(sinkConnector.getId());
+            connectionListResponse.setSourceConnectorId(sourceConnector.getId());
+            connectionListResponse.setSinkConnectorName(sinkConnector.getName());
+            connectionListResponse.setSourceConnectorName(sourceConnector.getName());
+            connectionListResponse.setTopicName(n.getTopic());
+            connectionListResponse.setStatus(n.getStatus());
+            connectionListResponses.add(connectionListResponse);
+
+        });
+        return connectionListResponses;
     }
 
 

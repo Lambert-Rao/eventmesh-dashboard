@@ -28,7 +28,7 @@ public interface StoreService {
 
     void updateConfigById(Long storeId);
 
-    StoreEntity getStoreList(Long clusterId);
+    StoreEntity getStoreToFrontListByCluster(Long clusterId);
 
     List<StoreEntity> selectAll();
 

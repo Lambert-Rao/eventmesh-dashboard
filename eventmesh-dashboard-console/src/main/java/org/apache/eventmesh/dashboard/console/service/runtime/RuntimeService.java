@@ -27,6 +27,8 @@ import java.util.List;
  */
 public interface RuntimeService {
 
+    public List<RuntimeEntity> getRuntimeToFrontByClusterId(Long clusterId);
+
     GetInstanceAndAbnormalNumResponse getRuntimeBaseMessage(Long clusterId);
 
     void batchInsert(List<RuntimeEntity> runtimeEntities);

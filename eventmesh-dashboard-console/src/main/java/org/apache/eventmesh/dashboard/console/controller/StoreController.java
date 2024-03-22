@@ -15,25 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto;
+package org.apache.eventmesh.dashboard.console.controller;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.eventmesh.dashboard.console.entity.storage.StoreEntity;
+import org.apache.eventmesh.dashboard.console.service.store.StoreService;
 
-import lombok.Data;
 
-/**
- * TODO this class is copied from storage plugin, needs update
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
-@Data
-public class DeleteTopicRequest {
+@RestController
+public class StoreController {
 
-    private String name;
+    @Autowired
+    private StoreService storeService;
 
-    @JsonCreator
-    public DeleteTopicRequest(@JsonProperty("name") String name) {
-        super();
-        this.name = name;
+    public StoreEntity getStoreList(Long clusterId) {
+        return storeService.getStoreToFrontListByCluster(clusterId);
     }
+
+
 }

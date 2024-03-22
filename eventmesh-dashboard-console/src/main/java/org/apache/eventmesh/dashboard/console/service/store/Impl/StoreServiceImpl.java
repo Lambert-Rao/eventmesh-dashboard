@@ -39,7 +39,7 @@ public class StoreServiceImpl implements StoreService {
 
 
     @Override
-    public StoreEntity getStoreList(Long clusterId) {
+    public StoreEntity getStoreToFrontListByCluster(Long clusterId) {
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setClusterId(clusterId);
         return storeMapper.selectStoreByCluster(storeEntity);

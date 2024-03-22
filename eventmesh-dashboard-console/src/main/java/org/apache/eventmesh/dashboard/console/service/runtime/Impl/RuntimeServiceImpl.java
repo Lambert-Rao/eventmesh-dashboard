@@ -39,11 +39,27 @@ public class RuntimeServiceImpl implements RuntimeService {
     private HealthCheckResultMapper healthCheckResultMapper;
 
     @Override
+    public List<RuntimeEntity> getRuntimeToFrontByClusterId(Long clusterId) {
+        List<RuntimeEntity> runtimeByClusterId = this.getRuntimeByClusterId(clusterId);
+        runtimeByClusterId.forEach(n -> {
+            HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+            healthCheckResultEntity.setType(2);
+            healthCheckResultEntity.setTypeId(n.getId());
+            n.setStatus(healthCheckResultMapper.selectStateByTypeAndId(healthCheckResultEntity));
+        });
+        return runtimeByClusterId;
+    }
+
+    @Override
     public GetInstanceAndAbnormalNumResponse getRuntimeBaseMessage(Long clusterId) {
+        List<RuntimeEntity> runtimeEntities = this.selectAll();
         HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
-        healthCheckResultEntity.setClusterId(clusterId);
-        healthCheckResultEntity.setType(2);
-        Integer abnormalNumByClusterIdAndType = healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+        int abnormalNumByClusterIdAndType = 0;
+        for (RuntimeEntity n : runtimeEntities) {
+            healthCheckResultEntity.setType(2);
+            healthCheckResultEntity.setTypeId(n.getId());
+            abnormalNumByClusterIdAndType += healthCheckResultMapper.getAbnormalNumByClusterIdAndType(healthCheckResultEntity);
+        }
         RuntimeEntity runtimeEntity = new RuntimeEntity();
         runtimeEntity.setClusterId(clusterId);
         Integer runtimeNumByCluster = runtimeMapper.getRuntimeNumByCluster(runtimeEntity);
@@ -64,6 +80,7 @@ public class RuntimeServiceImpl implements RuntimeService {
     public List<RuntimeEntity> getRuntimeByClusterId(Long clusterId) {
         RuntimeEntity runtimeEntity = new RuntimeEntity();
         runtimeEntity.setClusterId(clusterId);
+
         return runtimeMapper.selectRuntimeByCluster(runtimeEntity);
     }
 

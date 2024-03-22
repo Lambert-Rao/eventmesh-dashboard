@@ -41,6 +41,26 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
+    public List<ConfigEntity> getConnectorConfigsByClassAndVersion(String classType, String version) {
+        ConfigEntity config = new ConfigEntity();
+        config.setBusinessType(classType);
+        List<ConfigEntity> configEntityList = configMapper.selectConnectorConfigsByBusinessType(config);
+        configEntityList.forEach(n -> {
+            if (!n.matchVersion(version)) {
+                configEntityList.remove(n);
+            }
+        });
+        return configEntityList;
+    }
+
+    @Override
+    public List<String> getConnectorClasses(String type) {
+        ConfigEntity config = new ConfigEntity();
+        config.setBusinessType(type);
+        return configMapper.selectConnectorBusinessType(config);
+    }
+
+    @Override
     public void logUpdateRuntimeConfigs(UpdateConfigsLog updateConfigsLog) {
 
     }
@@ -152,19 +172,6 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public void updateConfig(ConfigEntity configEntity) {
         configMapper.updateConfig(configEntity);
-    }
-
-    @Override
-    public List<ConfigEntity> batchAddVersionValue(List<ConfigEntity> configEntityList) {
-        configEntityList.forEach(n -> {
-            String[] startSplit = n.getStartVersion().split(".");
-            String[] nowSplit = n.getStartVersion().split(".");
-            String[] endSplit = n.getStartVersion().split(".");
-            n.setStartVersionValue(Long.parseLong(startSplit[0]) * 10000L + Long.parseLong(startSplit[1]) * 100L + Long.parseLong(startSplit[2]));
-            n.setEventmeshVersionValue(Long.parseLong(nowSplit[0]) * 10000L + Long.parseLong(nowSplit[1]) * 100L + Long.parseLong(nowSplit[2]));
-            n.setEndVersionValue(Long.parseLong(endSplit[0]) * 10000L + Long.parseLong(endSplit[1]) * 100L + Long.parseLong(endSplit[2]));
-        });
-        return configEntityList;
     }
 
 

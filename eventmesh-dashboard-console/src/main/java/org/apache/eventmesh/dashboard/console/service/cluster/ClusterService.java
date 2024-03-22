@@ -33,7 +33,7 @@ public interface ClusterService {
 
     GetResourceNumResponse getResourceNumByCluster(Long clusterId);
 
-    List<GetClusterListResponse> getClusterList();
+    List<GetClusterListResponse> getClusterListToFornt();
 
     void batchInsert(List<ClusterEntity> clusterEntities);
 

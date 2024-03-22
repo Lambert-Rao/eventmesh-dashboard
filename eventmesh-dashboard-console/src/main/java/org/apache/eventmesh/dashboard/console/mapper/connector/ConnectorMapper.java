@@ -33,6 +33,7 @@ import java.util.List;
 @Mapper
 public interface ConnectorMapper {
 
+
     @Select("SELECT * FROM connector WHERE status=1")
     ConnectorEntity selectAll();
 

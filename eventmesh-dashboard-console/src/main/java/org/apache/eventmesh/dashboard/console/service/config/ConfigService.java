@@ -30,6 +30,10 @@ import java.util.Map;
  */
 public interface ConfigService {
 
+    List<ConfigEntity> getConnectorConfigsByClassAndVersion(String classType, String version);
+
+    List<String> getConnectorClasses(String type);
+
     void logUpdateRuntimeConfigs(UpdateConfigsLog updateConfigsLog);
 
     void logUpdateStoreConfigs(UpdateConfigsLog updateConfigsLog);
@@ -59,7 +63,5 @@ public interface ConfigService {
     List<ConfigEntity> selectDefaultConfig(ConfigEntity configEntity);
 
     void updateConfig(ConfigEntity configEntity);
-
-    List<ConfigEntity> batchAddVersionValue(List<ConfigEntity> configEntityList);
 
 }

@@ -23,11 +23,13 @@ import org.apache.eventmesh.dashboard.console.dto.cluster.GetResourceNumResponse
 import org.apache.eventmesh.dashboard.console.entity.cluster.ClusterEntity;
 import org.apache.eventmesh.dashboard.console.entity.connection.ConnectionEntity;
 import org.apache.eventmesh.dashboard.console.entity.group.GroupEntity;
+import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
 import org.apache.eventmesh.dashboard.console.entity.storage.StoreEntity;
 import org.apache.eventmesh.dashboard.console.entity.topic.TopicEntity;
 import org.apache.eventmesh.dashboard.console.mapper.cluster.ClusterMapper;
 import org.apache.eventmesh.dashboard.console.mapper.connection.ConnectionMapper;
 import org.apache.eventmesh.dashboard.console.mapper.group.OprGroupMapper;
+import org.apache.eventmesh.dashboard.console.mapper.health.HealthCheckResultMapper;
 import org.apache.eventmesh.dashboard.console.mapper.storage.StoreMapper;
 import org.apache.eventmesh.dashboard.console.mapper.topic.TopicMapper;
 import org.apache.eventmesh.dashboard.console.service.cluster.ClusterService;
@@ -57,6 +59,9 @@ public class ClusterServiceImpl implements ClusterService {
     @Autowired
     private TopicMapper topicMapper;
 
+    @Autowired
+    private HealthCheckResultMapper healthCheckResultMapper;
+
     @Override
     public GetClusterBaseMessageResponse getClusterBaseMessage(Long clusterId) {
         TopicEntity topicEntity = new TopicEntity();
@@ -84,7 +89,7 @@ public class ClusterServiceImpl implements ClusterService {
     }
 
     @Override
-    public List<GetClusterListResponse> getClusterList() {
+    public List<GetClusterListResponse> getClusterListToFornt() {
         List<ClusterEntity> clusterEntities = this.selectAll();
         ArrayList<GetClusterListResponse> getClusterListResponses = new ArrayList<>();
         clusterEntities.forEach(n -> {
@@ -92,8 +97,10 @@ public class ClusterServiceImpl implements ClusterService {
             getClusterListResponse.setClusterId(n.getId());
             getClusterListResponse.setEventmeshVersion(n.getEventmeshVersion());
             getClusterListResponse.setName(n.getName());
-            StoreEntity storeEntity = new StoreEntity();
-            storeEntity.setClusterId(n.getId());
+            HealthCheckResultEntity healthCheckResultEntity = new HealthCheckResultEntity();
+            healthCheckResultEntity.setTypeId(n.getId());
+            healthCheckResultEntity.setType(1);
+            getClusterListResponse.setStatus(healthCheckResultMapper.selectStateByTypeAndId(healthCheckResultEntity));
             getClusterListResponses.add(getClusterListResponse);
         });
         return getClusterListResponses;

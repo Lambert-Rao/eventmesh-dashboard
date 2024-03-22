@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.eventmesh.dashboard.console.dto.topic;
+package org.apache.eventmesh.dashboard.console.controller;
 
+import org.apache.eventmesh.dashboard.console.dto.connection.ConnectionListResponse;
+import org.apache.eventmesh.dashboard.console.service.connection.ConnectionDataService;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-public class GetTopicListResponse {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
-    private Long topicId;
+@RestController
+public class ConnectionController {
 
-    private String topicName;
+    @Autowired
+    private ConnectionDataService connectionDataService;
 
-    private Integer healthStatus;
+    public List<ConnectionListResponse> getConnectionList(Long clusterId) {
+        return connectionDataService.getConnectionToFrontByCluster(clusterId);
+    }
 
-    private String desc;
 }

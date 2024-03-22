@@ -54,5 +54,5 @@ public interface TopicService {
 
     Integer getAbnormalTopicNum(Long clusterId);
 
-    List<GetTopicListResponse> getTopicFrontList(Long clusterId);
+    List<GetTopicListResponse> getTopicListToFront(Long clusterId);
 }
