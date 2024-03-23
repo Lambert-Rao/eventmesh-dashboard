@@ -17,6 +17,9 @@
 
 package org.apache.eventmesh.dashboard.console.dto.health;
 
+import org.apache.eventmesh.dashboard.console.entity.health.HealthCheckResultEntity;
+import org.apache.eventmesh.dashboard.console.enums.health.HealthCheckType;
+
 import java.sql.Timestamp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,4 +41,9 @@ public class LastHealthCheckResponse {
     private String resultDesc;
 
     private Timestamp updateTime;
+
+    //这里能不能直接包含一个health entity
+    HealthCheckResultEntity result;
+
+    private HealthCheckType type;
 }

@@ -40,4 +40,5 @@ public class RuntimeController {
         return runtimeService.getRuntimeBaseMessage(clusterId);
     }
 
+    //todo: 一个概念的提示，只有topic和config(以及user和acl 但是现在还没有涉及)，其他的数据是只读的，提供读的接口就可以
 }

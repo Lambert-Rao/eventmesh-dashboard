@@ -20,6 +20,7 @@ package org.apache.eventmesh.dashboard.console.controller;
 import org.apache.eventmesh.dashboard.console.dto.health.LastHealthCheckResponse;
 import org.apache.eventmesh.dashboard.console.service.health.HealthDataService;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class HealthController {
 
     public List<LastHealthCheckResponse> runtimeLastHealthCheckList(Long clusterId) {
         return healthDataService.getRuntimeLastHealthCheckList(clusterId);
+    }
+
+    //TODO
+    public List<Object> runtimeHistoryLastHealthCheckList(Long clusterId, Timestamp startTime, Timestamp endTime) {
+        return null;
     }
 }

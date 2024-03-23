@@ -47,4 +47,6 @@ public class ConfigController {
     public List<ConfigEntity> getConnectorConfigsByClassAndVersion(String classType, String version) {
         return configService.getConnectorConfigsByClassAndVersion(classType, version);
     }
+
+    //TODO 是否需要一个提供默认配置查询的接口，比如前端页面上一个灰色的提示
 }

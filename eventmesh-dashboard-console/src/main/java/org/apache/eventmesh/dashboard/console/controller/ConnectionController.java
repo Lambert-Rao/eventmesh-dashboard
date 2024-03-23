@@ -34,5 +34,12 @@ public class ConnectionController {
     public List<ConnectionListResponse> getConnectionList(Long clusterId) {
         return connectionDataService.getConnectionToFrontByCluster(clusterId);
     }
+    //TODO 问一下获取list的时候是只获取基本信息(id,然后通过id再次查询)，还是获取全部详细信息
+    //TODO 需要做一下分页查询，所有列表都需要
 
+    //TODO create connection
+    public Response createConnection(Request) {
+//        request 包含 runtime ip port
+//            connector新建，runtime由ip指定
+    }
 }

@@ -17,7 +17,6 @@
 
 package org.apache.eventmesh.dashboard.console.controller;
 
-public class LogController {
-    // TODO 查询 clusterid 时间范围
-
+public class MessageController {
+    //todo knowstream里面有一个 创建message，这个是测试topic啊之类用的，以后要有这个controller
 }
