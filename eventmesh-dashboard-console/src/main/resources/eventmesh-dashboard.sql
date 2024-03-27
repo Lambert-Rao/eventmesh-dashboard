@@ -17,22 +17,22 @@
 DROP TABLE IF EXISTS `cluster`;
 create table cluster
 (
-    id                 bigint unsigned auto_increment comment '集群id'
+    id                bigint unsigned auto_increment comment '集群id'
         primary key,
-    name               varchar(128)  default ''                not null comment '集群名称',
-    registry_name_list varchar(4096) default ''                not null comment '注册中心名字',
-    bootstrap_servers  varchar(2048) default ''                not null comment 'server地址',
-    eventmesh_version  varchar(32)   default ''                not null comment 'eventmesh版本',
-    client_properties  text                                    null comment 'EventMesh客户端配置',
-    jmx_properties     text                                    null comment 'JMX配置',
-    reg_properties     text                                    null comment '注册中心配置',
-    description        text                                    null comment '备注',
-    auth_type          int           default 0                 not null comment '认证类型，-1未知，0:无认证，',
-    run_state          tinyint       default 1                 not null comment '运行状态, 0表示未监控, 1监控中，有注册中心，2:监控中，无注册中心',
-    create_time        timestamp     default CURRENT_TIMESTAMP not null comment '接入时间',
-    update_time        timestamp     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
-    status             int           default 1                 not null comment '0',
-    store_type         int           default 0                 not null,
+    name              varchar(128)  default ''                not null comment '集群名称',
+    registry_address  varchar(4096) default ''                not null comment '注册中心名字',
+    bootstrap_servers varchar(2048) default ''                not null comment 'server地址',
+    eventmesh_version varchar(32)   default ''                not null comment 'eventmesh版本',
+    client_properties text                                    null comment 'EventMesh客户端配置',
+    jmx_properties    text                                    null comment 'JMX配置',
+    reg_properties    text                                    null comment '注册中心配置',
+    description       text                                    null comment '备注',
+    auth_type         int           default 0                 not null comment '认证类型，-1未知，0:无认证，',
+    run_state         tinyint       default 1                 not null comment '运行状态, 0表示未监控, 1监控中，有注册中心，2:监控中，无注册中心',
+    create_time       timestamp     default CURRENT_TIMESTAMP not null comment '接入时间',
+    update_time       timestamp     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
+    status            int           default 1                 not null comment '0',
+    store_type        int           default 0                 not null,
     constraint uniq_name
         unique (name)
 )
@@ -154,6 +154,7 @@ create table store
     store_id        int           default -1                not null comment 'storeId',
     store_type      varchar(32)   default ''                not null comment 'Store类型,如rocketmq,redis,...',
     host            varchar(128)  default ''                not null comment 'store主机名',
+    runtime_id      bigint        default -1                not null comment 'runtimeId',
     topic_list      varchar(4096) default ''                not null comment 'topicName列表',
     diff_type       int           default -1                not null comment '差异类型',
     port            int           default -1                not null comment 'store端口',
@@ -170,7 +171,7 @@ create table store
     comment 'Store信息表';
 
 create index idx_store_id_runtime_id
-    on store (store_id, cluster_id);
+    on store (store_id, cluster_id, runtime_id);
 
 
 
@@ -247,6 +248,7 @@ CREATE TABLE `topic`
     `cluster_id`   bigint          NOT NULL DEFAULT '-1' COMMENT '集群ID',
     `topic_name`   varchar(192) CHARACTER SET utf8mb4
         COLLATE utf8mb4_bin        NOT NULL DEFAULT '' COMMENT 'Topic名称',
+    `runtime_id`   varchar(2048)   NOT NULL DEFAULT '' COMMENT 'RuntimeId',
     `storage_id`   varchar(2048)   NOT NULL DEFAULT '' COMMENT 'StorageId',
     `retention_ms` bigint          NOT NULL DEFAULT '-2' COMMENT '保存时间，-2：未知，-1：无限制，>=0对应时间，单位ms',
     `type`         tinyint         NOT NULL DEFAULT '0' COMMENT 'Topic类型，默认0，0:普通，1:EventMesh内部',
@@ -381,3 +383,23 @@ CREATE TABLE `meta`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4,
   DEFAULT COLLATE = utf8mb4_bin COMMENT ='注册中心信息表';
+
+DROP TABLE IF EXISTS `acl`;
+CREATE TABLE `acl`
+(
+    `id`              bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+    `cluster_id`      bigint(20)          NOT NULL DEFAULT '0' COMMENT '集群id',
+    `principal`       varchar(192)        NOT NULL DEFAULT '' COMMENT 'Service User Pattern',
+    `operation`       int(11)             NOT NULL DEFAULT '0' COMMENT '操作,',
+    `permission_type` int(11)             NOT NULL DEFAULT '0' COMMENT '权限类型(0:未知，1:任意，2:拒绝，3:允许)',
+    `host`            varchar(192)        NOT NULL DEFAULT '' COMMENT '',
+    `resource_type`   int(11)             NOT NULL DEFAULT '0' COMMENT '资源类型(0:未知，1:任意，10:Kafka Topic,11:Kafka Group;21:Rocketmq topic)',
+    `resource_name`   varchar(192)        NOT NULL DEFAULT '' COMMENT '资源名称',
+    `pattern_type`    tinyint(4)          NOT NULL COMMENT '匹配类型(0:未知，1:任意，2:Match，3:Literal，4:prefixed)',
+    `create_time`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    INDEX `idx_cluster_phy_id_principal_res_name` (`cluster_id`, `principal`, `resource_name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4,
+  DEFAULT COLLATE = utf8mb4_bin COMMENT ='ACL信息表';
